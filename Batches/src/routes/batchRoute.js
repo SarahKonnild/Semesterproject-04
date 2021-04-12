@@ -67,9 +67,17 @@ router.get(
  */
 router.post(
   '/add',
-  /*verify,*/ (req, res) => {
+  /*verify,*/ async (req, res) => {
+    const batchIdExists = await Batches.findOne({
+      batchId: req.body.batchId,
+    });
+    if (batchIdExists) {
+      return res.status(400).send('batchId already exists');
+    }
+
     const newBatch = new Batches({
       //Basic Batch
+      batchId: req.body.batchId,
       beerType: req.body.beerType,
       batchSize: req.body.batchSize,
       productionSpeed: req.body.productionSpeed,
@@ -82,10 +90,12 @@ router.post(
       defects: req.body.defects,
     });
 
-    newBatch
-      .save()
-      .then(() => res.json('Batch added'))
-      .catch(err => res.status(400).json('Error: ' + err));
+    try {
+      const savedBatch = await newBatch.save();
+      res.send('The batch was added');
+    } catch (error) {
+      res.status(404).send(error);
+    }
   }
 );
 

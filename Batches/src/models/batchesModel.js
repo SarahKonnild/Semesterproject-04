@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const batchesSchema = new Schema(
   {
     //Basic Batch
-    beerType: { type: String, required: true },
+    batchId: { type: Number, required: true },
+    beerType: { type: Number, required: true },
     batchSize: { type: Number, required: true },
     productionSpeed: { type: Number, required: true },
     dateProduced: { type: Date, default: Date.now },
