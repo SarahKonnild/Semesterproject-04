@@ -129,9 +129,10 @@ exports.calculateAmountOfBeers = function (req, res) {
  * @param res this parameter will send back a JSON formatted object: {"time":value} which is noted in minutes
  */
 exports.calculateEstimatedProductionTime = function (req, res) {
+  let batch = req.body.batch;
+  let speed = req.body.speed;
+
   if (batch > 0 && speed > 0) {
-    let batch = req.body.batch;
-    let speed = req.body.speed;
     let time = batch / speed;
     res.send({ time: time });
   } else {
