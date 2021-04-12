@@ -7,12 +7,20 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
+import {NavLink} from 'react-router-dom';
 
 import logo from '../../assets/img/Logo.png';
 
 const useStyles = makeStyles(theme => ({
+    active:{
+        backgroundColor:'#D5ECC2 !important'
+    },
     button: {
+        borderRadius:5,
+        textDecoration: 'none', 
+        color:'#8a8a8a',
         textTransform: 'uppercase',
+        padding:theme.spacing(3),
         marginLeft: theme.spacing(3),
         marginRight: theme.spacing(3),
         border:"none",
@@ -62,14 +70,6 @@ const useStyles = makeStyles(theme => ({
 export default function Navbar(props) {
     const classes = useStyles();
 
-    const [view, setView] = React.useState('list');
-
-    const handleChange= (event, nextView) => {
-        if(nextView !== null){
-            setView(nextView);
-        }
-    };
-
     return (
         <React.Fragment>
             <Box className={classes.motherbox}>
@@ -79,11 +79,9 @@ export default function Navbar(props) {
                         src={logo}
                         alt='Refslevbæk Bryghus A/S'
                     />
-                    <ToggleButtonGroup className={classes.buttons} orientation="horizontal" value={view} exclusive onChange={handleChange}>
-                        <ToggleButton value="production" aria-label="Production Page" className={classes.button}>Production</ToggleButton>
-                        <ToggleButton value="simulation" aria-label="Simulation Page" className={classes.button}>Simulation</ToggleButton>
-                        <ToggleButton value="Batches" aria-label="Batch Overview Page" className={classes.button}>Batches</ToggleButton>
-                    </ToggleButtonGroup>
+                        <NavLink to="/production" className={classes.button} activeClassName={classes.active}>Production</NavLink>
+                        <NavLink to="/simulation" className={classes.button} activeClassName={classes.active}>Simulation</NavLink>
+                        <NavLink to="/batches" className={classes.button} activeClassName={classes.active}>batches</NavLink>
                 </Box>
                 <ToggleButton value="notification" aria-label="Notification Menu" className={classes.notification}>
                     <NotificationIcon/>

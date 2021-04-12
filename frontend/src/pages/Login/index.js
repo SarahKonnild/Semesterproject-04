@@ -6,11 +6,11 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function Batches(props){
+export default function Login(props){
     const classes = useStyles();
-
+    
     return(
-        <p>Batches works!</p>
+        <p>Login works!</p>
     )
     
 }

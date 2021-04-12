@@ -3,16 +3,22 @@ import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import Navbar from '../src/components/Navigation/navbar';
 import Footer from '../src/components/Footer/footer';
 
-import Production from './pages/Production/index.js'
+import Production from './pages/Production/index.js';
+import Simulation from './pages/Simulation/index.js';
+import Batches from './pages/Batches/index.js';
+import Login from './pages/Login/index.js';
 
 function App() {
   return (
     <BrowserRouter style={{margin:0}}>
       <Navbar/>
-      {/* <Switch>
-        <Route path="/production" component={Production}/>
-        <Redirect from="/" to="/production"/>
-      </Switch> */}
+        <Switch>
+          <Route path="/production" component={Production}/>
+          <Route path="/simulation" component={Simulation}/>
+          <Route path="/batches" component={Batches}/>
+          <Route path="/login" component={Login}/>
+          <Redirect from="/" to="/production"/>
+        </Switch>
       <Footer/>
     </BrowserRouter>
   );
