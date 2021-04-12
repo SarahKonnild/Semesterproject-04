@@ -1,0 +1,10 @@
+{
+	"type": "module",
+	"main": "./src/opcua/controller.js",
+	"dependencies": {
+		"node-opcua": "^2.30.0"
+	},
+	"scripts": {
+		"start": "node ."
+	}
+}
