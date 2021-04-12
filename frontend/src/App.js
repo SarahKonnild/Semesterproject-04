@@ -3,7 +3,7 @@ import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import Navbar from '../src/components/Navigation/navbar';
 import Footer from '../src/components/Footer/footer';
 
-import Production from '../src/containers/Production/index.js'
+import Production from './pages/Production/index.js'
 
 function App() {
   return (
