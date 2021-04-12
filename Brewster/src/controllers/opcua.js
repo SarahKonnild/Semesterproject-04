@@ -1,4 +1,4 @@
-const nodeOPCUA = require("../../nodeopcua.ts");
+import * as nodeOPCUA from ("../opcua/controller.js");
 
 /**
  * @author Simon Quvang
@@ -9,7 +9,7 @@ const nodeOPCUA = require("../../nodeopcua.ts");
  */
 exports.startProduction = async function (req, res) {
 	//beers, productionSpeed, batchnumber, beerType
-	let someValue = await nodeOPCUA.startProduction(
+	let someValue = await nodeOPCUA.startProductionController(
 		req.body.beers,
 		req.body.speed,
 		req.body.batchNumber,
@@ -26,7 +26,7 @@ exports.startProduction = async function (req, res) {
  * @param res this parameter will send back a JSON formatted object: {"statusCode":int, "measage":string}
  */
 exports.stopProduction = async function (req, res) {
-	returnValue = await nodeOPCUA.stopProduction();
+	returnValue = await nodeOPCUA.stopProductionController();
 	res.send(returnValue);
 	res.end;
 };
@@ -38,22 +38,11 @@ exports.stopProduction = async function (req, res) {
  * @param res this parameter will send back a JSON formatted object: {"statusCode":int, "measage":string}
  */
 exports.resetProduction = async function (req, res) {
-	returnValue = await nodeOPCUA.resetProduction();
+	returnValue = await nodeOPCUA.resetProductionController();
 	res.send(returnValue);
 	res.end;
 };
-/**
- * @author Simon Quvang
- *
- *
- * @param req this function do not need anything passed along with the get request
- * @param res this parameter will send back a JSON formatted object: {"statusCode":int, "measage":string, "maintenacneStatus": value}
- */
-exports.detectMaintenanceStatus = async function (req, res) {
-	returnValue = await nodeOPCUA.getMaintenanceStatus();
-	res.send(returnValue);
-	res.end;
-};
+
 /**
  * @author Simon Quvang
  *
@@ -62,32 +51,7 @@ exports.detectMaintenanceStatus = async function (req, res) {
  * @param res this parameter will send back a JSON formatted object: {"statusCode":int, "measage":string}
  */
 exports.getProductionCount = async function (req, res) {
-	returnValue = await nodeOPCUA.getProducedAmount();
-	res.send(returnValue);
-	res.end;
-};
-
-/**
- * @author Simon Quvang
- *
- * @param res this parameter will send back a JSON formatted object of the current machine state
- */
-exports.getCurrentStatePublic = async function (req, res) {
-	returnValue = await nodeOPCUA.getCurrentStatePublic();
-	res.send(returnValue);
-	res.end;
-};
-
-/**
- * @author Simon Quvang
- *
- *
- * @param req this parameter must include a JSON formatted object:
- * {"producedNodeID":int, "currentStateNodeID":int, "batchNumberNodeID":int, "batchSizeNodeID":int
- * beerTypeNodeID":int, maintenanceStatusNodeID":int, getCurrentProductionSpeedNodeID":int, defectiveProductsNodeId":int, acceptableProductsNodeId":int}
- */
-exports.getSubValues = async function (req, res) {
-	returnValue = await nodeOPCUA.getSubValues();
+	returnValue = await nodeOPCUA.getProductionResultsController();
 	res.send(returnValue);
 	res.end;
 };

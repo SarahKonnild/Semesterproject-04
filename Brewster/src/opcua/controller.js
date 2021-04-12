@@ -32,4 +32,5 @@ export function resetProductionController() {
 	return production.resetProduction();
 }
 export function getProductionResultsController() {
+	return production.getProductionResults();
 }

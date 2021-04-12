@@ -1,5 +1,4 @@
 import * as CONSTANTS from "./constants.js";
-//Importing dependencies for Node OPC UA
 import pkg from "node-opcua";
 const {
 	OPCUAClient,
