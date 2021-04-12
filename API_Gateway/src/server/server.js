@@ -19,12 +19,12 @@ app.use(
 app.use(express.json());
 
 //API Connection
-// const authenticationRouter = require('../../../Services/Authentication/src/routes/auth');
+const authenticationRouter = require('../../../Authentication/src/routes/authRoute');
 // const batchesRouter = require('../../../Services/Batches/src/routes/batchesRoute');
 // const brewsterRouter = require('../../../Services/Brewster/src/routes/brewsterRoute');
 // const optimizationRouter = require('../../../Services/Optimization/src/routes/optimizationRoute');
 
-// app.use('/auth', authenticationRouter);
+app.use('/auth', authenticationRouter);
 // app.use('/batches', batchesRouter);
 // app.use('/brewster', brewsterRouter);
 // app.use('/optimization', optimizationRouter);
