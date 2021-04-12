@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 require('typescript-require');
+require('dotenv').config();
 
 const middlewares = require('../middleware/notFoundRoute');
 
@@ -20,12 +21,12 @@ app.use(express.json());
 
 //API Connection
 // const authenticationRouter = require('../../../Services/Authentication/src/routes/auth');
-// const batchesRouter = require('../../../Services/Batches/src/routes/batchesRoute');
+const batchesRouter = require('../../../Batches/src/routes/batchRoute');
 // const brewsterRouter = require('../../../Services/Brewster/src/routes/brewsterRoute');
 // const optimizationRouter = require('../../../Services/Optimization/src/routes/optimizationRoute');
 
 // app.use('/auth', authenticationRouter);
-// app.use('/batches', batchesRouter);
+app.use('/batches', batchesRouter);
 // app.use('/brewster', brewsterRouter);
 // app.use('/optimization', optimizationRouter);
 
