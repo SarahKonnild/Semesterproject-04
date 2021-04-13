@@ -1,6 +1,6 @@
-const router = require("express").Router();
-const opcua = require("../controllers/opcua.js");
-const optimization = require("../controllers/optimizationController");
+const router = require('express').Router();
+const opcua = require('../controllers/opcua');
+const verify = require('../middleware/verifyToken');
 
 //OPC UA Controller
 /**
@@ -11,7 +11,7 @@ const optimization = require("../controllers/optimizationController");
  * The route "/startProduction" defines the path for starting a production
  * See "controllers/opcuaController.js" under "startProduction" for a further description
  */
-router.route("/startProduction").post(opcua.startProduction);
+router.post('/startProduction', /*verify,*/ opcua.startProduction);
 
 /**
  * @author Simon Quvang
@@ -21,7 +21,7 @@ router.route("/startProduction").post(opcua.startProduction);
  * The route "/stopProduction" defines the path for stopping a production
  * See "controllers/opcuaController.js" under "stopProduction" for a further description
  */
-router.route("/stopProduction").get(opcua.stopProduction);
+router.get('/stopProduction', /*verify,*/ opcua.stopProduction);
 
 /**
  * @author Simon Quvang
@@ -31,7 +31,7 @@ router.route("/stopProduction").get(opcua.stopProduction);
  * The route "/resetProduction" defines the path for resetting the machine state
  * See "controllers/opcuaController.js" under "resetProduction" for a further description
  */
-router.route("/resetProduction").get(opcua.resetProduction);
+router.get('/resetProduction', /*verify,*/ opcua.resetProduction);
 
 /**
  * @author Simon Quvang
@@ -42,7 +42,7 @@ router.route("/resetProduction").get(opcua.resetProduction);
  * The route "/machineStatus" defines the path for seeing the current state of the Machine
  * See "controllers/opcuaController.js" under "machineStatus" for a further description
  */
-router.route("/machineStatus").get(opcua.getCurrentStatePublic);
+router.get('/machineStatus', /*verify,*/ opcua.getCurrentStatePublic);
 
 /**
  * @author Simon Quvang
@@ -53,7 +53,10 @@ router.route("/machineStatus").get(opcua.getCurrentStatePublic);
  * The route "/detectMaintenanceStatus" defines the path to view the current Maintenance status in the machine
  * See "controllers/opcuaController.js" under "detectMaintenanceStatus" for a further description
  */
-router.route("/detectMaintenanceStatus").get(opcua.detectMaintenanceStatus);
+router.get(
+  '/detectMaintenanceStatus',
+  /*verify,*/ opcua.detectMaintenanceStatus
+);
 
 /**
  * @author Simon Quvang
@@ -64,7 +67,7 @@ router.route("/detectMaintenanceStatus").get(opcua.detectMaintenanceStatus);
  * The route "/getProductionCount" defines the path to get the count of the produced products, if the production is done, and the machine hasnt been reset
  * See "controllers/opcuaController.js" under "getProductionCount" for a further description
  */
-router.route("/getProductionCount").get(opcua.getProductionCount);
+router.get('/getProductionCount', /*verify,*/ opcua.getProductionCount);
 
 /**
  * @author Simon Quvang
@@ -75,4 +78,6 @@ router.route("/getProductionCount").get(opcua.getProductionCount);
  * The route "/getSubValues" defines the path for seeing the actual values for the production (same data as UaExpert)
  * See "controllers/opcuaController.js" under "getSubValues" for a further description
  */
-router.route("/getSubValues").get(opcua.getSubValues);
+router.get('/getSubValues', /*verify,*/ opcua.getSubValues);
+
+module.exports = router;

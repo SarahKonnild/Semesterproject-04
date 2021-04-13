@@ -23,12 +23,12 @@ app.use(express.json());
 
 const authenticationRouter = require('../../../Authentication/src/routes/authRoute');
 const batchesRouter = require('../../../Batches/src/routes/batchRoute');
-// const brewsterRouter = require('../../../Services/Brewster/src/routes/brewsterRoute');
+const brewsterRouter = require('../../../Brewster/src/routes/brewster');
 const optimizationRouter = require('../../../Optimization/src/routes/optimizationRoute');
 
 app.use('/auth', authenticationRouter);
 app.use('/batches', batchesRouter);
-// app.use('/brewster', brewsterRouter);
+app.use('/brewster', brewsterRouter);
 app.use('/optimization', optimizationRouter);
 
 app.get('/', (req, res) => {
