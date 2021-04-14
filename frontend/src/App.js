@@ -5,8 +5,9 @@ import Footer from '../src/components/Footer/footer';
 
 import Production from './pages/Production/index.js';
 import Simulation from './pages/Simulation/index.js';
-import Batches from './pages/Batches/index.js';
+import Batches from './pages/Batches_Overview/index.js';
 import Login from './pages/Login/index.js';
+import Details from './pages/Batches_Detailed/index';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/production" component={Production}/>
           <Route path="/simulation" component={Simulation}/>
           <Route path="/batches" component={Batches}/>
+          <Route path="/details" component={Details}/>
           <Route path="/login" component={Login}/>
           <Redirect from="/" to="/production"/>
         </Switch>

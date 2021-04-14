@@ -3,7 +3,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import NotificationIcon from '@material-ui/icons/Notifications';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
@@ -16,13 +15,13 @@ const useStyles = makeStyles(theme => ({
         backgroundColor:'#D5ECC2 !important'
     },
     button: {
-        borderRadius:5,
+        borderRadius:"5px",
         textDecoration: 'none', 
         color:'#8a8a8a',
         textTransform: 'uppercase',
         padding:theme.spacing(3),
-        marginLeft: theme.spacing(3),
-        marginRight: theme.spacing(3),
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
         border:"none",
         borderRadius:0,
         '&:hover': {
@@ -47,8 +46,7 @@ const useStyles = makeStyles(theme => ({
         '&:hover':{
             backgroundColor:'#FFAAA7 !important',
         }
-    }
-    ,
+    },
     motherbox:{
         display:"flex",
         flexGrow:1,
@@ -74,11 +72,7 @@ export default function Navbar(props) {
         <React.Fragment>
             <Box className={classes.motherbox}>
                 <Box className={classes.container}>
-                    <img
-                        className={classes.logo}
-                        src={logo}
-                        alt='Refslevbæk Bryghus A/S'
-                    />
+                    <img className={classes.logo} src={logo} alt='Refslevbæk Bryghus A/S'/>
                         <NavLink to="/production" className={classes.button} activeClassName={classes.active}>Production</NavLink>
                         <NavLink to="/simulation" className={classes.button} activeClassName={classes.active}>Simulation</NavLink>
                         <NavLink to="/batches" className={classes.button} activeClassName={classes.active}>batches</NavLink>
