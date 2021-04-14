@@ -70,10 +70,10 @@ const useStyles = makeStyles(theme => ({
         color:'#8a8a8a',
     },
     table:{
-        paddingLeft:"3.5%",
-        paddingRight:"3.5%",
+        paddingLeft:"12.5%",
+        paddingRight:"12.5%",
         paddingTop:"1.5%",
-        maxWidth:"93%",
+        maxWidth:"75%",
         border:"2px",
     },
     title:{
