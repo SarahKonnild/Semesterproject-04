@@ -152,7 +152,7 @@ function PaginationActions(props){
 export default function Batches() {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage] = React.useState(12);
+    const [rowsPerPage] = React.useState(10);
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const handleChangePage = (event, newPage) => {
