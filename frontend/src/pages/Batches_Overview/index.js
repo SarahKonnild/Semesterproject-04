@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
+import Button from '@material-ui/core/Button';
 
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -19,14 +20,20 @@ import ArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 
 const useStyles = makeStyles(theme => ({
+    arrow:{
+        '&:hover':{
+            backgroundColor:'#98DDCA'
+        }
+    },
     button:{
         borderRadius:"5px",
         textDecoration: 'none', 
         color:'#8a8a8a',
+        backgroundColor:'#FFD3B4',
         textTransform: 'uppercase',
-        padding:theme.spacing(3),
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
+        padding:theme.spacing(2),
+        margin: theme.spacing(3),
+        marginLeft: theme.spacing(6),
         border:"none",
         '&:hover': {
             backgroundColor: '#98DDCA !important',
@@ -35,12 +42,40 @@ const useStyles = makeStyles(theme => ({
     chosen:{
 
     },
+    data:{
+        '&:hover':{
+            backgroundColor:'#D5ECC2',
+        },
+        '&:.Mui-selected':{
+            backgroundColor:'#cbac3b'
+        },
+    },
+    date:{
+        color:'#8a8a8a',
+    },
+    header:{
+        
+    },
+    id:{
+        color:'#8a8a8a',
+    },
     root:{
         flexShrink:0,
         marginLeft:theme.spacing(2.5),
     },
     rows:{
 
+    },
+    size:{
+        color:'#8a8a8a',
+    },
+    title:{
+        textTransform:'uppercase',
+        color:'#8a8a8a',
+        fontSize:'16px',
+    },
+    type:{
+        color:'#8a8a8a',
     },
 }));
 
@@ -66,6 +101,12 @@ const rows = [
     {id:14, date:"03.04.2022", type:"Wheat", size:2000},
     {id:15, date:"03.05.2022", type:"Wheat", size:3000},
     {id:16, date:"03.06.2022", type:"Wheat", size:4000},
+    {id:17, date:"03.07.2022", type:"Wheat", size:5000},
+    {id:18, date:"03.08.2022", type:"Wheat", size:6000},
+    {id:19, date:"03.09.2022", type:"Wheat", size:1000},
+    {id:20, date:"03.10.2022", type:"Wheat", size:2000},
+    {id:21, date:"03.11.2022", type:"Wheat", size:3000},
+    {id:22, date:"03.12.2022", type:"Wheat", size:4000},
 ].sort((a, b) => (a.id < b.id ? -1 : 1));
 
 PaginationActions.propTypes = {
@@ -76,7 +117,7 @@ PaginationActions.propTypes = {
 }
 
 function PaginationActions(props){
-    const classes=useStyles();
+    const classes = useStyles();
     const theme = useTheme();
     const {count, page, rowsPerPage, onChangePage} = props;
 
@@ -98,10 +139,10 @@ function PaginationActions(props){
 
     return(
         <div className={classes.root}>
-            <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0}>{theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}</IconButton>
-            <IconButton onClick={handleBackButtonClick} disabled={page === 0}>{theme.direction === 'rtl' ? <ArrowRight/> : <ArrowLeft/>}</IconButton>
-            <IconButton onClick={handleNextButtonClick} disabled={page >= Math.ceil(count/rowsPerPage) - 1}>{theme.direction === 'rtl' ? <ArrowLeft/> : <ArrowRight/>}</IconButton>
-            <IconButton onClick={handleLastPageButtonClick} disabled={page >= Math.ceil(count/rowsPerPage) - 1}>{theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}</IconButton>
+            <IconButton className={classes.arrow} onClick={handleFirstPageButtonClick} disabled={page === 0}>{theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}</IconButton>
+            <IconButton className={classes.arrow} onClick={handleBackButtonClick} disabled={page === 0}>{theme.direction === 'rtl' ? <ArrowRight/> : <ArrowLeft/>}</IconButton>
+            <IconButton className={classes.arrow} onClick={handleNextButtonClick} disabled={page >= Math.ceil(count/rowsPerPage) - 1}>{theme.direction === 'rtl' ? <ArrowLeft/> : <ArrowRight/>}</IconButton>
+            <IconButton className={classes.arrow} onClick={handleLastPageButtonClick} disabled={page >= Math.ceil(count/rowsPerPage) - 1}>{theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}</IconButton>
         </div>
     )
 }
@@ -118,24 +159,28 @@ export default function Batches() {
         setPage(newPage);
     }
 
+    const handleBatchSelected = (event) => {
+        console.log("FUUCK YOUUU For clicking this");
+    }
+
     return (
         <TableContainer>
             <Table>
                 <TableHead>
-                    <TableRow>
-                        <TableCell align="left">Batch ID</TableCell>
-                        <TableCell align="left">Date Produced</TableCell>
-                        <TableCell align="left">Beer Type</TableCell>
-                        <TableCell align="left">Batch Size</TableCell>
+                    <TableRow className={classes.header}>
+                        <TableCell className={classes.title} align="left">Batch ID</TableCell>
+                        <TableCell className={classes.title} align="left">Date Produced</TableCell>
+                        <TableCell className={classes.title} align="left">Beer Type</TableCell>
+                        <TableCell className={classes.title} align="left">Batch Size</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {(rowsPerPage>0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map((row) =>(
-                        <TableRow key={row.name}>
-                            <TableCell align="left">{row.id}</TableCell>
-                            <TableCell align="left">{row.date}</TableCell>
-                            <TableCell align="left">{row.type}</TableCell>
-                            <TableCell align="left">{row.size}</TableCell>
+                        <TableRow className={classes.data} key={row.name} onClick={handleBatchSelected}>
+                            <TableCell className={classes.id} align="left">{row.id}</TableCell>
+                            <TableCell className={classes.date} align="left">{row.date}</TableCell>
+                            <TableCell className={classes.type} align="left">{row.type}</TableCell>
+                            <TableCell className={classes.size} align="left">{row.size}</TableCell>
                         </TableRow>
                     ))}
                     {emptyRows > 0 && (
@@ -148,13 +193,16 @@ export default function Batches() {
                     <TableRow>
                         <TablePagination
                             rowsPerPageOptions={1}
-                            colSpan={3}
+                            colSpan={2}
                             count={rows.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onChangePage={handleChangePage}
                             ActionsComponent={PaginationActions}
-                        ></TablePagination>
+                        />
+                        <Button to="/details+{rows.id}" className={classes.button} align="right">
+                            Details <ArrowRight/>
+                        </Button>
                     </TableRow>
                 </TableFooter>
             </Table>

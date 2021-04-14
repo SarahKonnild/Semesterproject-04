@@ -12,7 +12,7 @@ import logo from '../../assets/img/Logo.png';
 
 const useStyles = makeStyles(theme => ({
     active:{
-        backgroundColor:'#D5ECC2 !important'
+        backgroundColor:'#c1e8a0 !important'
     },
     button: {
         borderRadius:"5px",
@@ -23,7 +23,6 @@ const useStyles = makeStyles(theme => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         border:"none",
-        borderRadius:0,
         '&:hover': {
             backgroundColor: '#98DDCA !important',
         },
