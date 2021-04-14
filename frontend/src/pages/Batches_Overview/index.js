@@ -69,6 +69,13 @@ const useStyles = makeStyles(theme => ({
     size:{
         color:'#8a8a8a',
     },
+    table:{
+        paddingLeft:"3.5%",
+        paddingRight:"3.5%",
+        paddingTop:"1.5%",
+        maxWidth:"93%",
+        border:"2px",
+    },
     title:{
         textTransform:'uppercase',
         color:'#8a8a8a',
@@ -164,8 +171,8 @@ export default function Batches() {
     }
 
     return (
-        <TableContainer>
-            <Table>
+        <TableContainer className={classes.table}>
+            <Table >
                 <TableHead>
                     <TableRow className={classes.header}>
                         <TableCell className={classes.title} align="left">Batch ID</TableCell>
