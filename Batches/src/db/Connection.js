@@ -1,4 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 mongoose.Promise = global.Promise;
 const uri = process.env.DB_CONNECTION_BATCHES;
@@ -8,4 +12,4 @@ mongoose.connect(uri, {
   useUnifiedTopology: true,
 });
 
-module.exports = mongoose;
+export default mongoose;

@@ -7,7 +7,7 @@
  * @param req this parameter must include a JSON formatted object: {"margin":value}
  * @param res this parameter will send back a JSON formatted object: {"speed":value}
  */
-exports.calculateErrorSpeed = function (req, res) {
+export function calculateErrorSpeed(req, res) {
   let margin = req.body.margin;
   if (margin >= 0) {
     let speed =
@@ -17,7 +17,7 @@ exports.calculateErrorSpeed = function (req, res) {
   } else {
     res.send(400).status('Bad Request');
   }
-};
+}
 
 /**
  * @author Sarah Manon Pradel
@@ -27,7 +27,7 @@ exports.calculateErrorSpeed = function (req, res) {
  * @param req this parameter must include a JSON formatted object: {"speed":value}
  * @param res this parameter will send back a JSON formatted object: {"margin":value}
  */
-exports.calculateErrorMargin = function (req, res) {
+export function calculateErrorMargin(req, res) {
   let speed = req.body.speed;
   if (speed > 0 && speed <= 146.771) {
     let margin =
@@ -36,7 +36,7 @@ exports.calculateErrorMargin = function (req, res) {
   } else {
     res.send(400).status('Bad Request');
   }
-};
+}
 
 /**
  * @author Sarah Manon Pradel
@@ -48,7 +48,7 @@ exports.calculateErrorMargin = function (req, res) {
  * @param req this parameter must include a JSON formatted object: {"margin":value}
  * @param res this parameter will send back a JSON formatted object: {"speed":value}
  */
-exports.calculateValidSpeed = function (req, res) {
+export function calculateValidSpeed(req, res) {
   let margin = req.body.margin;
   if (margin >= 0) {
     let speed =
@@ -57,7 +57,7 @@ exports.calculateValidSpeed = function (req, res) {
       7785 / 52;
     res.send({ speed: speed });
   }
-};
+}
 
 /**
  * @author Sarah Manon Pradel
@@ -67,7 +67,7 @@ exports.calculateValidSpeed = function (req, res) {
  * @param req this parameter must include a JSON formatted object: {"speed":value}
  * @param res this parameter will send back a JSON formatted object: {"margin":value}
  */
-exports.calculateValidMargin = function (req, res) {
+export function calculateValidMargin(req, res) {
   let speed = req.body.speed;
   if (speed > 0) {
     let margin = speed - (0.00312 * Math.pow(speed, 2) + 0.0658 * speed - 3.54);
@@ -75,7 +75,7 @@ exports.calculateValidMargin = function (req, res) {
   } else {
     res.send(400).status('Bad Request');
   }
-};
+}
 
 /**
  * @author Sarah Manon Pradel
@@ -87,7 +87,7 @@ exports.calculateValidMargin = function (req, res) {
  * @param req this parameter must include a JSON formatted object: {"margin":value, "batch":value}
  * @param res this parameter will send back a JSON formatted object: {"percentage":value}
  */
-exports.calculatePercentageBeers = function (req, res) {
+export function calculatePercentageBeers(req, res) {
   let margin = req.body.margin;
   let batch = req.body.batch;
   if (margin > 0 && batch > 0) {
@@ -96,7 +96,7 @@ exports.calculatePercentageBeers = function (req, res) {
   } else {
     res.send(400).status('Bad Request');
   }
-};
+}
 
 /**
  * @author Sarah Manon Pradel
@@ -108,7 +108,7 @@ exports.calculatePercentageBeers = function (req, res) {
  * @param req this parameter must include a JSON formatted object: {"percentage":value, "batch":value}
  * @param res this parameter will send back a JSON formatted object: {"amount":value}
  */
-exports.calculateAmountOfBeers = function (req, res) {
+export function calculateAmountOfBeers(req, res) {
   let percentage = req.body.percentage;
   let batch = req.body.batch;
   if (percentage > 0 && batch > 0) {
@@ -117,7 +117,7 @@ exports.calculateAmountOfBeers = function (req, res) {
   } else {
     res.send(400).status('Bad Request');
   }
-};
+}
 
 /**
  * @author Sarah Manon Pradel
@@ -128,7 +128,7 @@ exports.calculateAmountOfBeers = function (req, res) {
  * @param req this parameter must include a JSON formatted object: {"batch":value, "speed":value}
  * @param res this parameter will send back a JSON formatted object: {"time":value} which is noted in minutes
  */
-exports.calculateEstimatedProductionTime = function (req, res) {
+export function calculateEstimatedProductionTime(req, res) {
   let batch = req.body.batch;
   let speed = req.body.speed;
 
@@ -138,7 +138,7 @@ exports.calculateEstimatedProductionTime = function (req, res) {
   } else {
     res.send(400).status('Bad Request');
   }
-};
+}
 
 /**
  * @author Sarah Manon Pradel
@@ -154,7 +154,7 @@ exports.calculateEstimatedProductionTime = function (req, res) {
  * @param res this parameter will potentially send back an HTTP status code 400 'Bad Request'
  * @param res this parameter will potentially send back a JSON formatted object: {"speed":value}
  */
-exports.calculateOptimalSpeedUsingErrors = function (req, res) {
+export function calculateOptimalSpeedUsingErrors(req, res) {
   let batch = req.body.batch;
   let margin = req.body.margin;
   let time = req.body.time;
@@ -173,7 +173,7 @@ exports.calculateOptimalSpeedUsingErrors = function (req, res) {
   } else {
     res.send(400).status('Bad Request');
   }
-};
+}
 
 /**
  * @author Sarah Manon Pradel
@@ -190,7 +190,7 @@ exports.calculateOptimalSpeedUsingErrors = function (req, res) {
  * @param res this parameter will potentially send back a JSON formatted object: {"speed":speed}
  * @param res this parameter will potentially send back an HTTP status code 400 'Bad Request'
  */
-exports.calculateOptimalSpeedUsingValids = function (req, res) {
+export function calculateOptimalSpeedUsingValids(req, res) {
   let batch = req.body.batch;
   let margin = req.body.margin;
   let time = req.body.time;
@@ -206,4 +206,4 @@ exports.calculateOptimalSpeedUsingValids = function (req, res) {
       res.status(400).send('Bad Request');
     }
   }
-};
+}

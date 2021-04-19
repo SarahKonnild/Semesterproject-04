@@ -1,6 +1,9 @@
-const router = require('express').Router();
-const optimization = require('../controllers/optimizationController');
-const verify = require('../middleware/verifyToken');
+import express from 'express';
+
+import * as optimization from '../controller/optimizationController.js';
+import { verifyToken } from '../middleware/verifyToken.js';
+
+const router = express.Router();
 
 /**
  * @author Sarah Manon Pradel
@@ -13,7 +16,7 @@ const verify = require('../middleware/verifyToken');
  */
 router.post(
   '/calculateErrorSpeed',
-  /*verify,*/ optimization.calculateErrorSpeed
+  /* verifyToken, */ optimization.calculateErrorSpeed
 );
 
 /**
@@ -27,7 +30,7 @@ router.post(
  */
 router.post(
   '/calculateErrorMargin',
-  /*verify,*/ optimization.calculateErrorMargin
+  /* verifyToken, */ optimization.calculateErrorMargin
 );
 
 /**
@@ -41,7 +44,7 @@ router.post(
  */
 router.post(
   '/calculateValidMargin',
-  /*verify,*/ optimization.calculateValidMargin
+  /* verifyToken, */ optimization.calculateValidMargin
 );
 
 /**
@@ -55,7 +58,7 @@ router.post(
  */
 router.post(
   '/calculateValidSpeed',
-  /*verify,*/ optimization.calculateValidSpeed
+  /* verifyToken, */ optimization.calculateValidSpeed
 );
 
 /**
@@ -69,7 +72,7 @@ router.post(
  */
 router.post(
   '/calculatePercentageBeers',
-  //   verify,
+  /* verifyToken, */
   optimization.calculatePercentageBeers
 );
 
@@ -84,7 +87,7 @@ router.post(
  */
 router.post(
   '/calculateAmountOfBeers',
-  //   verify,
+  /* verifyToken, */
   optimization.calculateAmountOfBeers
 );
 
@@ -99,7 +102,7 @@ router.post(
  */
 router.post(
   '/calculateEstimatedProductionTime',
-  //   verify,
+  /* verifyToken, */
   optimization.calculateEstimatedProductionTime
 );
 
@@ -114,7 +117,7 @@ router.post(
  */
 router.post(
   '/calculateOptimalSpeedUsingErrors',
-  //   verify,
+  /* verifyToken, */
   optimization.calculateOptimalSpeedUsingErrors
 );
 
@@ -129,8 +132,8 @@ router.post(
  */
 router.post(
   '/calculateOptimalSpeedUsingValids',
-  //   verify,
+  /* verifyToken, */
   optimization.calculateOptimalSpeedUsingValids
 );
 
-module.exports = router;
+export { router };

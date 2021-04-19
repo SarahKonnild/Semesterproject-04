@@ -1,7 +1,7 @@
-const Joi = require('@hapi/joi');
+import Joi from '@hapi/joi';
 
 //Register Validation
-const registerValidation = data => {
+export const registerValidation = data => {
   const authSchema = Joi.object({
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(6).max(15).required().label('Password'),
@@ -15,13 +15,10 @@ const registerValidation = data => {
 };
 
 //Login Validation
-const loginValidation = data => {
+export const loginValidation = data => {
   const loginSchema = Joi.object({
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(6).max(15).required().label('Password'),
   });
   return loginSchema.validate(data);
 };
-
-module.exports.registerValidation = registerValidation;
-module.exports.loginValidation = loginValidation;
