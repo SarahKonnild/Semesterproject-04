@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -38,6 +39,9 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             backgroundColor: '#98DDCA !important',
         },
+    },
+    checkbox:{
+        
     },
     chosen:{
 
@@ -160,6 +164,7 @@ export default function Batches() {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage] = React.useState(10);
+    const [selected, setSelected] = React.useState();
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     const selectedBatch = null;
 
@@ -176,6 +181,7 @@ export default function Batches() {
             <Table >
                 <TableHead>
                     <TableRow className={classes.header}>
+                        <TableCell></TableCell>
                         <TableCell className={classes.title} align="left">Batch ID</TableCell>
                         <TableCell className={classes.title} align="left">Date Produced</TableCell>
                         <TableCell className={classes.title} align="left">Beer Type</TableCell>
@@ -185,6 +191,8 @@ export default function Batches() {
                 <TableBody>
                     {(rowsPerPage>0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map((row) =>(
                         <TableRow className={classes.data} key={row.name} onClick={handleBatchSelected}>
+                            {/* NEED TO VERTICALLY ALIGN CHECKBOX WITH ROW CONTENTS */}
+                            <TableCell><Checkbox className={classes.checkbox}/></TableCell>
                             <TableCell className={classes.id} align="left">{row.id}</TableCell>
                             <TableCell className={classes.date} align="left">{row.date}</TableCell>
                             <TableCell className={classes.type} align="left">{row.type}</TableCell>
