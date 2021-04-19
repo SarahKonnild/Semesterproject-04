@@ -1,6 +1,7 @@
-const router = require('express').Router();
-const opcua = require('../controllers/opcua');
-const verify = require('../middleware/verifyToken');
+import express from 'express' 
+import * as opcua from '../controllers/opcua.js';
+
+const router = express.Router()
 
 //OPC UA Controller
 /**
@@ -42,7 +43,7 @@ router.get('/resetProduction', /*verify,*/ opcua.resetProduction);
  * The route "/machineStatus" defines the path for seeing the current state of the Machine
  * See "controllers/opcuaController.js" under "machineStatus" for a further description
  */
-router.get('/machineStatus', /*verify,*/ opcua.getCurrentStatePublic);
+//router.get('/machineStatus', /*verify,*/ opcua.getCurrentStatePublic);
 
 /**
  * @author Simon Quvang
@@ -53,10 +54,8 @@ router.get('/machineStatus', /*verify,*/ opcua.getCurrentStatePublic);
  * The route "/detectMaintenanceStatus" defines the path to view the current Maintenance status in the machine
  * See "controllers/opcuaController.js" under "detectMaintenanceStatus" for a further description
  */
-router.get(
-  '/detectMaintenanceStatus',
-  /*verify,*/ opcua.detectMaintenanceStatus
-);
+
+//router.get('/detectMaintenanceStatus', /*verify,*/ opcua.detectMaintenanceStatus);
 
 /**
  * @author Simon Quvang
@@ -69,15 +68,4 @@ router.get(
  */
 router.get('/getProductionCount', /*verify,*/ opcua.getProductionCount);
 
-/**
- * @author Simon Quvang
- *
- * The GET method to access the machine status to get all the need values to be displayed when a production is started
- * See under "Public/dashboard.html" to see it in action
- *
- * The route "/getSubValues" defines the path for seeing the actual values for the production (same data as UaExpert)
- * See "controllers/opcuaController.js" under "getSubValues" for a further description
- */
-router.get('/getSubValues', /*verify,*/ opcua.getSubValues);
-
-module.exports = router;
+export default router

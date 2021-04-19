@@ -22,15 +22,19 @@ const {
 } = pkg;
 import * as production from "./production.js";
 
-export function startProductionController(beers, speed, batchNumber, beerType) {
-	return production.startProduction(beers, speed, batchNumber, beerType);
+export async function startProductionController(beers, speed, batchNumber, beerType) {
+	return await production.startProduction(beers, speed, batchNumber, beerType);
 }
-export function stopProductionController() {
-	return production.stopProduction();
+export async function stopProductionController() {
+	try {
+		return await production.stopProduction();
+	} catch (error) {
+		console.log(error.message);
+	}
 }
-export function resetProductionController() {
-	return production.resetProduction();
+export async function resetProductionController() {
+	return await production.resetProduction();
 }
-export function getProductionResultsController() {
-	return production.getProductionResults();
+export async function getProductionResultsController() {
+	return await production.getProductionResults();
 }

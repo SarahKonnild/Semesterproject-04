@@ -1,7 +1,8 @@
 {
 	"type": "module",
-	"main": "./src/opcua/controller.js",
+	"main": "./src/routes/brewster",
 	"dependencies": {
+		"express": "^4.17.1",
 		"node-opcua": "^2.30.0"
 	},
 	"scripts": {

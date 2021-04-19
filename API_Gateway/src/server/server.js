@@ -1,10 +1,11 @@
 //Importing dependencies
-const express = require('express');
-const cors = require('cors');
-require('typescript-require');
-require('dotenv').config();
+import express from "express"; 
+import cors from 'cors';
+import dotenv from 'dotenv';
 
-const middlewares = require('../middleware/notFoundRoute');
+dotenv.config()
+
+//import { notFound, errorHandler } from '../middleware/notFoundRoute';
 
 //Connection to Express for API and Setting Port for 5000
 const app = express();
@@ -20,16 +21,19 @@ app.use(
 app.use(express.json());
 
 //API Connection
+/* 
+import * as authenticationRouter from '../../../Authentication/src/routes/authRoute';
+import * as batchesRouter from '../../../Batches/src/routes/batchRoute';
+import * as optimizationRouter from '../../../Optimization/src/routes/optimizationRoute';
 
-const authenticationRouter = require('../../../Authentication/src/routes/authRoute');
-const batchesRouter = require('../../../Batches/src/routes/batchRoute');
-const brewsterRouter = require('../../../Brewster/src/routes/brewster');
-const optimizationRouter = require('../../../Optimization/src/routes/optimizationRoute');
 
 app.use('/auth', authenticationRouter);
 app.use('/batches', batchesRouter);
-app.use('/brewster', brewsterRouter);
 app.use('/optimization', optimizationRouter);
+*/
+
+import * as brewsterRouter from "../../../Brewster/src/routes/brewster.js";
+app.use("/brewster", brewsterRouter.default);
 
 app.get('/', (req, res) => {
   res.json({
@@ -37,8 +41,8 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
+//app.use(notFound);
+//app.use(errorHandler);
 
 //Setting server to listen to Port 5000
 app.listen(port, () => {

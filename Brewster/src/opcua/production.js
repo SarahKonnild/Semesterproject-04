@@ -153,7 +153,7 @@ export async function stopProduction() {
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session != null) {
-			await command.stopSession(session);
+			await connection.stopSession(session);
 		}
 	}
 }
