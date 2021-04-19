@@ -161,13 +161,14 @@ export default function Batches() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage] = React.useState(10);
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const selectedBatch = null;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     }
 
     const handleBatchSelected = (event) => {
-        console.log("FUUCK YOUUU For clicking this");
+        
     }
 
     return (
