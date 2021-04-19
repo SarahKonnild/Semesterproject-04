@@ -26,10 +26,33 @@ import * as batchesRouter from '../../../Batches/src/routes/batchRoute.js';
 import * as brewsterRouter from '../../../Brewster/src/routes/brewster.js';
 import * as optimizationRouter from '../../../Optimization/src/routes/optimizationRoute.js';
 
-app.use('/auth', authenticationRouter.router);
-app.use('/batches', batchesRouter.router);
-app.use('/brewster', brewsterRouter.router);
-app.use('/optimization', optimizationRouter.router);
+try {
+  app.use('/auth', authenticationRouter.router);
+  console.log('Auth Service Connected');
+} catch (error) {
+  console.log(error);
+}
+
+try {
+  app.use('/batches', batchesRouter.router);
+  console.log('Batches Service Connected');
+} catch (error) {
+  console.log(error);
+}
+
+try {
+  app.use('/brewster', brewsterRouter.router);
+  console.log('Brewster Service Connected');
+} catch (error) {
+  console.log(error);
+}
+
+try {
+  app.use('/optimization', optimizationRouter.router);
+  console.log('Optimization Service Connected');
+} catch (error) {
+  console.log(error);
+}
 
 app.get('/', (req, res) => {
   res.json({
@@ -42,5 +65,5 @@ app.use(errorHandler);
 
 //Setting server to listen to Port 5000
 app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
+  console.log(`API Gateway is running on port: ${port}`);
 });
