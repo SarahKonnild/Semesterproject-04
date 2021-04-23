@@ -22,10 +22,9 @@ const useStyles = makeStyles((theme) => ({
         borderWidth:"2px",
         borderColor:"#98DDCA",
         borderStyle:"solid",
-        marginLeft:"30%",
-        marginRight:"30%",
-        width:"auto",
+        height:"400px",
         minWidth:"280px",
+        maxWidth:"400px",
         direction:"column",
         marginTop:"10%",
         marginBottom:"10%",
@@ -42,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
         textTransform:"uppercase",
         color:"#8a8a8a",
         padding:theme.spacing(2),
+        marginTop:theme.spacing(4),
     },
     
 }));

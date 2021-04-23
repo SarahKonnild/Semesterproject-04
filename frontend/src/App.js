@@ -5,9 +5,9 @@ import Footer from '../src/components/Footer/footer';
 
 import Production from './pages/Production/index.js';
 import Simulation from './pages/Simulation/index.js';
-import Batches from './pages/Batches_Overview/index.js';
-import Login from './pages/Login/index.js';
-import Details from './pages/Batches_Detailed/index';
+import Batches from './pages/Batches_Overview/overview.js';
+import Login from './pages/Login/login.js';
+import Details from './pages/Batches_Detailed/detailed.js';
 
 function App() {
   return (

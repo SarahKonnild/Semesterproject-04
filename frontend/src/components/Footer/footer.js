@@ -7,8 +7,10 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
+    footer:{
+        height:"70px",
+    },
     container:{
-        
 
     },
     github:{
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     text:{
         fontSize:"14px",
         color:"#cccccc",
-        
+        margin:theme.spacing(4),
     },
 }));
 

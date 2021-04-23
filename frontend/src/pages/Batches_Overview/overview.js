@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState} from 'react';
 
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -10,14 +10,21 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
-import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import ArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import ArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import Refresh from '@material-ui/icons/Cached';
+import axios from 'axios'
+
+import './overview.css';
+import { Link } from 'react-router-dom';
+
+
+// THIS PAGE WAS CREATED BY SARAH MANON PRADEL
+// ENJOY! \(^o^)/** */
 
 
 const useStyles = makeStyles(theme => ({
@@ -33,15 +40,16 @@ const useStyles = makeStyles(theme => ({
         backgroundColor:'#FFD3B4',
         textTransform: 'uppercase',
         padding:theme.spacing(2),
-        margin: theme.spacing(3),
-        marginLeft: theme.spacing(6),
+        marginLeft:theme.spacing(4),
         border:"none",
         '&:hover': {
             backgroundColor: '#98DDCA !important',
         },
     },
     checkbox:{
-        
+        '.MuiCheckbox-colorSecondary.Mui-checked':{
+            color: "#cbac3b",
+        }
     },
     chosen:{
 
@@ -57,11 +65,24 @@ const useStyles = makeStyles(theme => ({
     date:{
         color:'#8a8a8a',
     },
+    footer:{
+        display:"flex",
+        paddingLeft:"12.5%",
+        paddingRight:"12.5%",
+        paddingTop:"1.5%",
+        maxWidth:"75%",
+    },
     header:{
         
     },
     id:{
         color:'#8a8a8a',
+    },
+    refresh:{
+        color:"#8a8a8a",
+        '&:hover':{
+            backgroundColor:"#98DDCA"
+        }
     },
     root:{
         flexShrink:0,
@@ -89,36 +110,6 @@ const useStyles = makeStyles(theme => ({
         color:'#8a8a8a',
     },
 }));
-
-//use when connected to backend
-function createData(id, date, type, size){
-    return {id, date, type, size};
-}
-
-const rows = [
-    {id:1, date:"03.03.2021", type:"Wheat", size:1000},
-    {id:2, date:"03.04.2021", type:"Wheat", size:2000},
-    {id:3, date:"03.05.2021", type:"Wheat", size:3000},
-    {id:4, date:"03.06.2021", type:"Wheat", size:4000},
-    {id:5, date:"03.07.2021", type:"Wheat", size:5000},
-    {id:6, date:"03.08.2021", type:"Wheat", size:6000},
-    {id:7, date:"03.09.2021", type:"Wheat", size:1000},
-    {id:8, date:"03.10.2021", type:"Wheat", size:2000},
-    {id:9, date:"03.11.2021", type:"Wheat", size:3000},
-    {id:10, date:"03.12.2021", type:"Wheat", size:4000},
-    {id:11, date:"03.01.2022", type:"Wheat", size:5000},
-    {id:12, date:"03.02.2022", type:"Wheat", size:6000},
-    {id:13, date:"03.03.2022", type:"Wheat", size:1000},
-    {id:14, date:"03.04.2022", type:"Wheat", size:2000},
-    {id:15, date:"03.05.2022", type:"Wheat", size:3000},
-    {id:16, date:"03.06.2022", type:"Wheat", size:4000},
-    {id:17, date:"03.07.2022", type:"Wheat", size:5000},
-    {id:18, date:"03.08.2022", type:"Wheat", size:6000},
-    {id:19, date:"03.09.2022", type:"Wheat", size:1000},
-    {id:20, date:"03.10.2022", type:"Wheat", size:2000},
-    {id:21, date:"03.11.2022", type:"Wheat", size:3000},
-    {id:22, date:"03.12.2022", type:"Wheat", size:4000},
-].sort((a, b) => (a.id < b.id ? -1 : 1));
 
 PaginationActions.propTypes = {
     count: PropTypes.number.isRequired,
@@ -158,15 +149,22 @@ function PaginationActions(props){
     )
 }
 
-
-
 export default function Batches() {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage] = React.useState(10);
-    const [selected, setSelected] = React.useState();
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-    const selectedBatch = null;
+    const [data, setData] = useState([]);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+
+    function Reload(){
+        window.location.reload(false);
+    }
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/batches/').then(
+            res => setData(res.data),
+            res => console.log(res.data)
+        )}, []);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -178,10 +176,10 @@ export default function Batches() {
 
     return (
         <TableContainer className={classes.table}>
-            <Table >
+            <Table>
                 <TableHead>
                     <TableRow className={classes.header}>
-                        <TableCell></TableCell>
+                        <TableCell><IconButton className={classes.refresh} onClick={Reload}><Refresh/></IconButton></TableCell>
                         <TableCell className={classes.title} align="left">Batch ID</TableCell>
                         <TableCell className={classes.title} align="left">Date Produced</TableCell>
                         <TableCell className={classes.title} align="left">Beer Type</TableCell>
@@ -189,14 +187,13 @@ export default function Batches() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {(rowsPerPage>0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map((row) =>(
-                        <TableRow className={classes.data} key={row.name} onClick={handleBatchSelected}>
-                            {/* NEED TO VERTICALLY ALIGN CHECKBOX WITH ROW CONTENTS */}
-                            <TableCell><Checkbox className={classes.checkbox}/></TableCell>
-                            <TableCell className={classes.id} align="left">{row.id}</TableCell>
-                            <TableCell className={classes.date} align="left">{row.date}</TableCell>
-                            <TableCell className={classes.type} align="left">{row.type}</TableCell>
-                            <TableCell className={classes.size} align="left">{row.size}</TableCell>
+                    {(rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map(batch =>(
+                        <TableRow className={classes.data} key={batch.batchId} onClick={handleBatchSelected}>
+                            <TableCell className="details" align="left"><Link to={"/details/"+batch._id}>Batch Details</Link></TableCell>
+                            <TableCell className={classes.id} align="left">{batch.batchId}</TableCell>
+                            <TableCell className={classes.date} align="left">{batch.dateProduced}</TableCell>
+                            <TableCell className={classes.type} align="left">{batch.beerType}</TableCell>
+                            <TableCell className={classes.size} align="left">{batch.batchSize}</TableCell>
                         </TableRow>
                     ))}
                     {emptyRows > 0 && (
@@ -205,20 +202,17 @@ export default function Batches() {
                         </TableRow>
                     )}
                 </TableBody>
-                <TableFooter>
+                <TableFooter className={classes.footer}>
                     <TableRow>
                         <TablePagination
                             rowsPerPageOptions={1}
                             colSpan={2}
-                            count={rows.length}
+                            count={data.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onChangePage={handleChangePage}
                             ActionsComponent={PaginationActions}
                         />
-                        <Button to="/details+{rows.id}" className={classes.button} align="right">
-                            Details <ArrowRight/>
-                        </Button>
                     </TableRow>
                 </TableFooter>
             </Table>
