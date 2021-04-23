@@ -18,6 +18,10 @@ const {
 	DataType
 } = pkg;
 
+function sleep(ms) {
+	return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export async function startProduction(beers, productionSpeed, batchnumber, beerType) {
 	//Saving the adresses of the nodes to be used in this function.
 	let session = null;
@@ -183,7 +187,7 @@ export async function resetProduction() {
 
 			//Send request to change state
 			await command.changeStateToTrue(session);
-
+			await sleep(1000);
 			newMachineState = await command.getCurrentState(session);
 
 			//Return a json object if it managed to reset
