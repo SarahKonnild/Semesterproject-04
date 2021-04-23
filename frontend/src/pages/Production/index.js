@@ -6,9 +6,12 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import ReplayOutlinedIcon from '@material-ui/icons/ReplayOutlined';
 import StopRoundedIcon from '@material-ui/icons/StopRounded';
+import AdjustIcon from '@material-ui/icons/Adjust';
 import { grey } from '@material-ui/core/colors';
+import { green } from '@material-ui/core/colors';
 import InfoIcon from '@material-ui/icons/Info';
 import Tooltip from '@material-ui/core/Tooltip';
+import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 
 import HashtagIcon from '../../assets/img/icon-hashtag.png';
 import BeersIcon from '../../assets/img/icon-beers.png';
@@ -35,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
         float: "left",
         width: "50%",
         height: "200px",
-        background: "blue",
+        background: "white",
         position: "relative",
         },
     headlines:{
@@ -52,6 +55,14 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "10px",
         padding: "5%",
         boxShadow: "0px 6px 3px 0px rgba(0,0,0,0.16)",
+    },
+    overview:{
+        margin: "3% auto",
+        width: "70%",
+        height: "auto",
+        background: "white",
+        borderRadius: "10px",
+        padding: "5%",
     },
     row:{
         width: "100%",
@@ -71,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
         height: "40px",
         marginTop: "10px",
         marginRight: "10px",
+        marginLeft: "5px",
     },
     speedometerIcon:{
         float: "left",
@@ -87,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
     },
     rowText:{
         float: "left",
-        width: "90px",
+        width: "290px",
         marginLeft: "25px",
         marginRight: "50px",
         fontSize: "18px",
@@ -190,6 +202,40 @@ export default function Production(props){
 
         <div className={classes.rightProd}>
         <h1 className={classes.headlines}>Production overview</h1>
+        <div className={classes.overview}>
+                    <div className={classes.row}>
+                        <img src={HashtagIcon} className={classes.rowIcons}/>
+                        <p className={classes.rowText}>Batch ID</p>
+                        <input type="text" className={classes.rowInput} value="1234" style={{ border: "0" }}/> 
+                    </div> 
+                    <div className={classes.row}>
+                        <img src={BeersIcon} className={classes.rowIcons}/>
+                        <p className={classes.rowText}>Batch size</p>
+                        <input type="text" className={classes.rowInput} value="1234" style={{ border: "0" }}/> 
+                    </div>
+                    <div className={classes.row}>
+                        <img src={BeerIcon} className={classes.beerIcon}/>
+                        <p className={classes.rowText}>Beer type</p>
+                        <input type="text" className={classes.rowInput} value="Wheat" style={{ border: "0" }}/> 
+                    </div>
+                    <div className={classes.row}>
+                        <img src={SpeedometerIcon} className={classes.speedometerIcon}/>
+                        <p className={classes.rowText}>Speed</p>
+                        <input type="text" className={classes.rowInput} value="1234" style={{ border: "0" }} /> 
+                    </div>
+                    <div className={classes.row}>
+                        {/* <img src={SpeedometerIcon} className={classes.speedometerIcon}/> */}
+                        <AdjustIcon style={{ color: green[400], paddingTop: "10px" }} fontSize="large" />
+                        <p className={classes.rowText}>Machine state</p>
+                        <input type="text" className={classes.rowInput} value="1234" style={{ border: "0" }}/> 
+                    </div>
+                    <div className={classes.row}>
+                    <CheckCircleRoundedIcon style={{ color: green[400], paddingTop: "10px" }} fontSize="large" />
+                        <p className={classes.rowText}>Produced</p>
+                        <input type="text" className={classes.rowInput} value="1234" style={{ border: "0" }}/> 
+                    </div>          
+                    
+                </div>
         </div>
 
 </div>
