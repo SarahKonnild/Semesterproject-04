@@ -6,6 +6,9 @@ import SvgIcon from '@material-ui/core/SvgIcon';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import ReplayOutlinedIcon from '@material-ui/icons/ReplayOutlined';
 import StopRoundedIcon from '@material-ui/icons/StopRounded';
+import { grey } from '@material-ui/core/colors';
+import InfoIcon from '@material-ui/icons/Info';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import HashtagIcon from '../../assets/img/icon-hashtag.png';
 import BeersIcon from '../../assets/img/icon-beers.png';
@@ -173,7 +176,9 @@ export default function Production(props){
                     </div>
                     <div className={classes.row}>
                         <img src={StopwatchIcon} className={classes.stopwatchIcon}/>
-                        <p className={classes.rowText}>EPT</p>
+                        <Tooltip title="Estimated Production Time (EPT)">
+                        <p className={classes.rowText}>EPT<InfoIcon color="action" fontSize="small" /></p>
+                        </Tooltip>
                         <input type="text" className={classes.rowInput}/> 
                     </div>
                     
