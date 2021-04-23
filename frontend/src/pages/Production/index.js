@@ -225,12 +225,12 @@ export default function Production(props){
                     </div>
                     <div className={classes.row}>
                         {/* <img src={SpeedometerIcon} className={classes.speedometerIcon}/> */}
-                        <AdjustIcon style={{ color: green[400], paddingTop: "10px" }} fontSize="large" />
+                        <AdjustIcon style={{ color: green[400], paddingTop: "10px", marginLeft: "-5px" }} fontSize="large" />
                         <p className={classes.rowText}>Machine state</p>
                         <input type="text" className={classes.rowInput} value="1234" style={{ border: "0" }}/> 
                     </div>
                     <div className={classes.row}>
-                    <CheckCircleRoundedIcon style={{ color: green[400], paddingTop: "10px" }} fontSize="large" />
+                    <CheckCircleRoundedIcon style={{ color: green[400], paddingTop: "10px", marginLeft: "-5px"}} fontSize="large" />
                         <p className={classes.rowText}>Produced</p>
                         <input type="text" className={classes.rowInput} value="1234" style={{ border: "0" }}/> 
                     </div>          
