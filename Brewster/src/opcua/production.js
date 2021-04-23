@@ -3,6 +3,7 @@ import * as CONSTANTS from "./constants.js";
 import pkg from "node-opcua";
 import * as command from "./commands.js";
 import * as connection from "./connection.js";
+import * as subscription from "./subscription.js";
 const {
 	OPCUAClient,
 	MessageSecurityMode,
@@ -108,6 +109,10 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 
 		//Send command to change the state
 		await command.changeStateToTrue(session);
+
+		// Setting subscriptions
+
+		subscription.createSubscription(session);
 
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
 		return { statusCode: 201, message: "Starting production" };

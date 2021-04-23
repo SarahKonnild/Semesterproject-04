@@ -38,3 +38,6 @@ export async function resetProductionController() {
 export async function getProductionResultsController() {
 	return await production.getProductionResults();
 }
+export function getSubscriptionValueController() {
+	return getSubscriptionValue();
+}

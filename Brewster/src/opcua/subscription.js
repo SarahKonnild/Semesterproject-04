@@ -15,12 +15,16 @@ const {
 	DataType
 } = pkg;
 
-function make_callback(_nodeId) {
+let keyValues = {}
 
-    var nodeId = _nodeId;
+function make_callback(nodeId) {
     return  function(dataValue) {
-        console.log(nodeId.toString() , "\t value : ",dataValue.value.value.toString());
+        keyValue.nodeId = dataValue.value.value.toString();
    };
+}
+
+export function getSubscriptionValue(){
+	return keyValues
 }
 
 

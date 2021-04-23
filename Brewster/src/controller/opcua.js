@@ -55,3 +55,9 @@ export async function getProductionCount(req, res) {
   res.send(returnValue);
   res.end;
 };
+
+export function getSubscriptionValues(req, res) {
+  let returnValue = await nodeOPCUA.getSubscriptionValueController();
+  res.send(returnValue);
+  res.end;
+}

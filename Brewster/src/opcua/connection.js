@@ -48,5 +48,3 @@ export async function stopSession(session) {
 		return null;
 	}
 }
-
-createSubscription(startSession())
