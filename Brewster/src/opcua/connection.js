@@ -1,4 +1,5 @@
 import { simulationEndpointURL, physicalEndpointURL } from "./constants.js";
+import { createSubscription } from "./subscription.js";
 import pkg from "node-opcua";
 const { OPCUAClient, MessageSecurityMode, SecurityPolicy } = pkg;
 
@@ -47,3 +48,5 @@ export async function stopSession(session) {
 		return null;
 	}
 }
+
+createSubscription(startSession())

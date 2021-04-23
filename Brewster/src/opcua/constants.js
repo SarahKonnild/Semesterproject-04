@@ -17,6 +17,7 @@ export const getBatchSizeNodeID = "ns=6;s=::Program:Cube.Status.Parameter[1].Val
 export const stopProductionCommand = 3;
 export const resetProductionCommand = 1;
 export const startProductionCommand = 2;
+
 //The URL for the simulation machine
 export const simulationEndpointURL = "opc.tcp://127.0.0.1:4840"
 //The URL for the Physical Machine

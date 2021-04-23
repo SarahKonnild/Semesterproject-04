@@ -1,4 +1,30 @@
-function createSubscription(session, nodeId) {
+import * as CONSTANTS from "./constants.js";
+import pkg from "node-opcua";
+import * as connection from "./connection.js";
+const {
+	OPCUAClient,
+	MessageSecurityMode,
+	SecurityPolicy,
+	AttributeIds,
+	makeBrowsePath,
+	ClientSubscription,
+	TimestampsToReturn,
+	MonitoringParametersOptions,
+	ReadValueIdLike,
+	ClientMonitoredItem,
+	DataType
+} = pkg;
+
+function make_callback(_nodeId) {
+
+    var nodeId = _nodeId;
+    return  function(dataValue) {
+        console.log(nodeId.toString() , "\t value : ",dataValue.value.value.toString());
+   };
+}
+
+
+export function createSubscription(session) {
 	const subscription = ClientSubscription.create(session, {
 		requestedPublishingInterval: 2000,
 		requestedMaxKeepAliveCount: 20,
@@ -8,44 +34,34 @@ function createSubscription(session, nodeId) {
 		priority: 10
 	});
 
+	
 	subscription
-		.on("started", function () {
+		.on("started",  () => {
 			console.log("subscription started for 2 seconds - subscriptionId=", subscription.subscriptionId);
 		})
-		.on("keepalive", function () {
+		.on("keepalive",  () => {
 			console.log("keepalive");
 		})
-		.on("terminated", function () {
+		.on("terminated",  () => {
 			console.log("terminated");
 		});
 
-	// install monitored item
+	let ids = [
+		CONSTANTS.acceptableProductsNodeId,
+		CONSTANTS.defectiveProductsNodeId,
+		CONSTANTS.producedNodeID,
+		CONSTANTS.getCurrentProductionSpeedNodeID,
+		CONSTANTS.maintenanceStatusNodeID
+];
 
-	const itemToMonitor = {
-		nodeId: nodeId,
-		attributeId: AttributeIds.Value
-	};
-	const parameters = {
-		samplingInterval: 100,
-		discardOldest: true,
-		queueSize: 10
-	};
+	ids.forEach(function(nodeId){
+    let monitoredItem = subscription.monitor(
+        {nodeId: nodeId, attributeId: AttributeIds.Value},
+        {samplingInterval: 10, discardOldest: true, queueSize: 1});
+    monitoredItem.on("changed",make_callback(nodeId));
+});
 
-	const monitoredItem = ClientMonitoredItem.create(subscription, itemToMonitor, parameters, TimestampsToReturn.Both);
-
-	monitoredItem.on("changed", (dataValue) => {
-		console.log(" value has changed : ", dataValue.value.toString());
-
-    	async function timeout(time) {
-		return new Promise((resolve) => setTimeout(resolve, time));
-	}
-	let running = true;
-	while (!running) {
-		await timeout(10000);
-
-		console.log("now terminating subscription");
-		await subscription.terminate();
-		await stopSession(session);
-	}
-	});
+	setTimeout(function () {
+	subscription.terminate();
+	}, 5000);
 }
