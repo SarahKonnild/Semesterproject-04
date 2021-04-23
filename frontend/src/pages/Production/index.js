@@ -103,23 +103,43 @@ const useStyles = makeStyles((theme) => ({
     startBtn:{
         width: "100px",
         color: "white",
-        backgroundColor: "lightgreen",
+        backgroundColor: "#98DDCA",
+        marginRight: "4.4%",
+        borderRadius: "10px",
+        border: "solid 2px white",
+        "&:hover": {
+            backgroundColor: "white",
+            color:  "#98DDCA",
+            border: "solid 2px #98DDCA",
+          },
     },
     resetBtn:{
-
+        width: "100px",
+        color: "white",
+        backgroundColor: "#FFD3B4",
+        marginRight: "4.4%",
+        borderRadius: "10px",
+        border: "solid 2px white",
+        "&:hover": {
+            backgroundColor: "white",
+            color:  "#FFD3B4",
+            border: "solid 2px #FFD3B4",
+          },
     },
     stopBtn:{
-
+        width: "100px",
+        color: "white",
+        backgroundColor: "#FFAAA7",
+        marginRight: "4.4%",
+        borderRadius: "10px",
+        border: "solid 2px white",
+        "&:hover": {
+            backgroundColor: "white",
+            color:  "#FFAAA7",
+            border: "solid 2px #FFAAA7",
+          },
     },
 }));
-
-function HomeIcon(props) {
-    return (
-      <SvgIcon {...props}>
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-      </SvgIcon>
-    );
-  }
 
 export default function Production(props){
     const classes = useStyles();
