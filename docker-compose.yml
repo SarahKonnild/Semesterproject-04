@@ -1,0 +1,38 @@
+#
+# @author Kasper Svane
+#
+# Docker-Compose to run the entire MES System
+# Since the server are serving the Client with HTML files then Docker-Compose is never used
+
+# Defining the Docker-Compose format version
+version: '3'
+
+#Defining the services
+services:
+    api-gateway:
+        container_name: API-Gateway
+        restart: always
+        build:
+            context: '.'
+            dockerfile: './API_Gateway/Dockerfile'
+        depends_on:
+            - auth-service
+        ports:
+            - '3000'
+
+    db-login:
+        container_name: DBLogin
+        image: mongo:latest
+        ports:
+            - '27017'
+
+    auth-service:
+        container_name: AuthService
+        restart: always
+        build:
+            context: '.'
+            dockerfile: './Authentication/Dockerfile'
+        environment:
+            - 'DB=mongodb+srv://user:test1234@beerproductionmachine.qz3es.mongodb.net/LoginSystem?retryWrites=true&w=majority'
+        depends_on:
+            - db-login
