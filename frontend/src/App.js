@@ -1,7 +1,5 @@
 import './App.css';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import Navbar from '../src/components/Navigation/navbar';
-import Footer from '../src/components/Footer/footer';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import Production from './pages/Production/index.js';
 import Simulation from './pages/Simulation/index.js';
@@ -19,6 +17,7 @@ function App() {
         <PrivateRoutes exact path='/batches' component={Batches} />
         <PrivateRoutes path='/details' component={Details} />
         <Route exact path='/login' component={Login} />
+        <Redirect exact path='/' to='/login' />
       </Switch>
     </BrowserRouter>
   );

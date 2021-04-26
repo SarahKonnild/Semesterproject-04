@@ -3,6 +3,9 @@ import axios from 'axios';
 import { Alert } from 'react-bootstrap';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { NavbarSignin } from '../../components/Navigation/navbar';
+import Footer from '../../components/Footer/footer';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
 
 import { Container, Button, TextField, Typography } from '@material-ui/core';
 
@@ -26,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     minWidth: '280px',
     maxWidth: '400px',
     direction: 'column',
-    marginTop: '10%',
+    marginTop: '8%',
     marginBottom: '10%',
   },
   form: {},
@@ -80,34 +83,42 @@ export default function Login({ history }) {
   };
 
   return (
-    <Container align='center' className={classes.container}>
-      <form className={classes.form} autoComplete='off' onSubmit={loginHandler}>
-        <Typography className={classes.title}>Sign in</Typography>
-        {error && <Alert variant='danger'>{error}</Alert>}
-        {/* NEED TO CHANGE THE COLOUR OF THE HIGHLIGHT SO IT AIN'T STANDARD BLUE. COSMETIC, NOT NECESSARY */}
-        {/* FIX: TEXTFIELDS NOT ALIGNED VERTICALLY WHEN MAXIMISED WINDOW. */}
-        <TextField
-          type='email'
-          required
-          id='username'
-          label='Username'
-          className={classes.input}
-          onChange={e => setEmail(e.target.value)}
-          value={email}
-        ></TextField>
-        <TextField
-          required
-          id='password'
-          type='password'
-          label='Password'
-          className={classes.input}
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-        ></TextField>
-        <Button className={classes.button} type='submit'>
-          Sign in
-        </Button>
-      </form>
-    </Container>
+    <Aux>
+      {NavbarSignin()}
+      <Container align='center' className={classes.container}>
+        <form
+          className={classes.form}
+          autoComplete='off'
+          onSubmit={loginHandler}
+        >
+          <Typography className={classes.title}>Sign in</Typography>
+          {error && <Alert variant='danger'>{error}</Alert>}
+          {/* NEED TO CHANGE THE COLOUR OF THE HIGHLIGHT SO IT AIN'T STANDARD BLUE. COSMETIC, NOT NECESSARY */}
+          {/* FIX: TEXTFIELDS NOT ALIGNED VERTICALLY WHEN MAXIMISED WINDOW. */}
+          <TextField
+            type='email'
+            required
+            id='username'
+            label='Username'
+            className={classes.input}
+            onChange={e => setEmail(e.target.value)}
+            value={email}
+          ></TextField>
+          <TextField
+            required
+            id='password'
+            type='password'
+            label='Password'
+            className={classes.input}
+            onChange={e => setPassword(e.target.value)}
+            value={password}
+          ></TextField>
+          <Button className={classes.button} type='submit'>
+            Sign in
+          </Button>
+        </form>
+      </Container>
+      <Footer />
+    </Aux>
   );
 }

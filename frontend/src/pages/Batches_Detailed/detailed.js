@@ -17,8 +17,6 @@ import {
   ValueAxis,
   Chart,
   LineSeries,
-  Legend,
-  Title,
 } from '@devexpress/dx-react-chart-material-ui';
 import { NavLink } from 'react-router-dom';
 

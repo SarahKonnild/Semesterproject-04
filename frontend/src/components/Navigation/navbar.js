@@ -64,6 +64,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+export function NavbarSignin() {
+  const classes = useStyles();
+  return (
+    <Container>
+      <Container>
+        <img className={classes.logo} src={logo} alt='Refslevbæk Bryghus A/S' />
+      </Container>
+    </Container>
+  );
+}
+
 export default function Navbar(props) {
   const history = useHistory();
   const classes = useStyles();
@@ -72,7 +83,7 @@ export default function Navbar(props) {
     try {
       localStorage.removeItem('authentication-token');
 
-      history.push('/production');
+      history.push('/login');
     } catch (error) {}
   }
 
@@ -104,7 +115,7 @@ export default function Navbar(props) {
             className={classes.button}
             activeClassName={classes.active}
           >
-            batches
+            Batches
           </NavLink>
         </Container>
         <ToggleButton
