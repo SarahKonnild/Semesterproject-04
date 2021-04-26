@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -18,6 +20,8 @@ import BeersIcon from '../../assets/img/icon-beers.png';
 import BeerIcon from '../../assets/img/icon-beer.png';
 import SpeedometerIcon from '../../assets/img/icon-speedometer.png';
 import StopwatchIcon from '../../assets/img/icon-stopwatch.png';
+
+// THIS PAGE WAS DEVELOPED BY MAHMOD EL-SET
 
 const useStyles = makeStyles((theme) => ({
 
@@ -158,6 +162,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Production(props){
     const classes = useStyles();
+
+// CONNECTION TO API
+    useEffect(() => {
+        axios.post('http://localhost:5000/brewster/').then(
+            res => setData(res.data),
+            res => console.log(res.data)
+        )}, []);
 
     return(
         <>
