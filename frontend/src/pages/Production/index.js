@@ -1,6 +1,7 @@
 import React, { useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 import {makeStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -162,7 +163,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Production(props){
     const classes = useStyles();
-
+    const [data, setData] = useState([]);
+    
 // CONNECTION TO API
     useEffect(() => {
         axios.post('http://localhost:5000/brewster/').then(
