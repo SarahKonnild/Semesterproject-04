@@ -162,16 +162,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Production(props){
+
+    // Declare a new state variable, which we'll call "count"
+    const [count, setCount] = useState(0);
+
     const classes = useStyles();
     const [data, setData] = useState([]);
-    
+    const [start, setStart] = useState('start');
+    const [stop, setStop] = useState('stop');
+    const [reset, setReset] = useState('reset');
+
 // CONNECTION TO API
     useEffect(() => {
-        axios.post('http://localhost:5000/brewster/').then(
+        axios.get('http://localhost:5000/brewster/').then(
             res => setData(res.data),
             res => console.log(res.data)
         )}, []);
 
+    const startMachine = (event) => {
+        //Code to start the machine
+
+        console.log("Machine started!")
+     }    
+    const stopMachine = (event) => {
+        //Code to stop the machine
+
+        console.log("Machine stopped!")
+     }    
+    const resetMachine = (event) => {
+        //Code to reset the machine
+
+        console.log("Machine resetted!")
+     }    
+
+    
+        
     return(
         <>
 <div className={classes.mainContent}>
@@ -207,9 +232,9 @@ export default function Production(props){
                         <input type="text" className={classes.rowInput}/> 
                     </div>
                     
-                    <Button className={classes.startBtn}><PlayArrowRoundedIcon color="action"/> Start</Button>
-                    <Button className={classes.resetBtn}><ReplayOutlinedIcon color="action"/> Reset</Button>
-                    <Button className={classes.stopBtn}><StopRoundedIcon color="action"/> Stop</Button>
+                    <Button className={classes.startBtn}><PlayArrowRoundedIcon color="action" onClick={startMachine}/> Start</Button>
+                    <Button className={classes.resetBtn}><ReplayOutlinedIcon color="action" onClick={resetMachine}/> Reset</Button>
+                    <Button className={classes.stopBtn}><StopRoundedIcon color="action" onClick={stopMachine}/> Stop</Button>
                 </div>
         </div> 
 
