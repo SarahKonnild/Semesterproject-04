@@ -10,6 +10,10 @@ import {NavLink} from 'react-router-dom';
 
 import logo from '../../assets/img/Logo.png';
 
+
+// THIS PAGE WAS CREATED BY SARAH MANON PRADEL
+// ENJOY! \(^o^)/** */
+
 const useStyles = makeStyles(theme => ({
     active:{
         backgroundColor:'#c1e8a0 !important'

@@ -26,7 +26,6 @@ import { Link } from 'react-router-dom';
 // THIS PAGE WAS CREATED BY SARAH MANON PRADEL
 // ENJOY! \(^o^)/** */
 
-
 const useStyles = makeStyles(theme => ({
     arrow:{
         '&:hover':{
@@ -169,11 +168,7 @@ export default function Batches() {
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     }
-
-    const handleBatchSelected = (event) => {
-        
-    }
-
+    
     return (
         <TableContainer className={classes.table}>
             <Table>
@@ -188,7 +183,7 @@ export default function Batches() {
                 </TableHead>
                 <TableBody>
                     {(rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map(batch =>(
-                        <TableRow className={classes.data} key={batch.batchId} onClick={handleBatchSelected}>
+                        <TableRow className={classes.data} key={batch.batchId}>
                             <TableCell className="details" align="left"><Link to={"/details/"+batch._id}>Batch Details</Link></TableCell>
                             <TableCell className={classes.id} align="left">{batch.batchId}</TableCell>
                             <TableCell className={classes.date} align="left">{batch.dateProduced}</TableCell>

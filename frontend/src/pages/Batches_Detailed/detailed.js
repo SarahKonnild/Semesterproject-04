@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {makeStyles} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -9,6 +9,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+
+import axios from 'axios';
 
 import LeftArrow from '@material-ui/icons/ArrowLeft';
 
@@ -21,6 +23,9 @@ import {
     Title, 
 } from '@devexpress/dx-react-chart-material-ui';
 import { NavLink } from 'react-router-dom';
+
+// THIS PAGE WAS CREATED BY SARAH MANON PRADEL
+// ENJOY! \(^o^)/** */
 
 const useStyles = makeStyles((theme) => ({
     arrow:{
@@ -46,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
     },
     chart:{
-        width:"500px",
+        width:"650px",
         margin:theme.spacing(2),
     },
     chartCard:{
@@ -61,13 +66,15 @@ const useStyles = makeStyles((theme) => ({
 
     },
     container:{
-        width:"1500px",
+        width:"1700px",
         display:"inline-flex",
     },
     export:{
         backgroundColor:"#FFD3B4",
         padding:theme.spacing(1.5),
-        margin:theme.spacing(1),
+        marginTop:theme.spacing(5),
+        marginBottom:theme.spacing(6.5),
+        marginLeft:"30%",
         color:"#8a8a8a",
         '&:hover':{
             backgroundColor:"#98DDCA"
@@ -116,54 +123,78 @@ const data = [
     {argument:3, value:30},
 ]
 
-export default function Batches(props){
-    const classes = useStyles();
+export default class Batches extends React.Component{
+    constructor(props){
+        super(props);
 
-    return(
-        <Box className={classes.container}>
-            <NavLink to="/batches" className={classes.back}>
-                <LeftArrow className={classes.arrow} align="center"/><Typography className={classes.buttonText} align="center">back</Typography>
-            </NavLink>
-            <Card className={classes.info}>
-                <Typography align="center" className={classes.title}>Batchnr. Details</Typography>
-                <Table className={classes.table}>
-                    <TableBody>
-                        <TableRow className={classes.row}>
-                            <TableCell className={classes.label}>Batch ID</TableCell>
-                            <TableCell className={classes.value}>1234</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className={classes.label}>Date</TableCell>
-                            <TableCell className={classes.value}>01.01.01</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className={classes.label}>Beer Type</TableCell>
-                            <TableCell className={classes.value}>Wheat</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className={classes.label}>Batch Size</TableCell>
-                            <TableCell className={classes.value}>1234</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className={classes.label}>Correct Beers</TableCell>
-                            <TableCell className={classes.value}>1000</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className={classes.label}>Defect Beers</TableCell>
-                            <TableCell className={classes.value}>234</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-                <Button align="center" className={classes.export}>Export to PDF</Button>
-            </Card>
-            <Card className={classes.chartCard}>
-                <Chart className={classes.chart} data={data}>
-                    <ArgumentAxis/>
-                    <ValueAxis/>
-                    <LineSeries valueField="value" argumentField="argument"/>
-                </Chart>
-            </Card>
-        </Box>
-    )
+        this.state = {
+            batchId:'',
+
+        }
+    }
+    
+
+    
+
+    // useEffect(() => {
+    //     axios.get('http://localhost:5000/batches/'+this.props.batch.data._id).then(res =>{
+    //         this.setState({
+    //             batchId: res.data.batchId,
+
+    //         })
+    //     })
+    // })
+
+    render(){
+        return(
+            <Box className="container">
+                <NavLink to="/batches" className="back">
+                    <LeftArrow className="arrow" align="center"/><Typography className="buttonText" align="center">back</Typography>
+                </NavLink>
+                <Card className="info">
+                    <Typography align="center" className="title">Batchnr. Details</Typography>
+                    <Table className="table">
+                        <TableBody>
+                            <TableRow className="row">
+                                <TableCell className="label">Batch ID</TableCell>
+                                <TableCell className="value">1234</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className="label">Date</TableCell>
+                                <TableCell className="value">01.01.01</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className="label">Beer Type</TableCell>
+                                <TableCell className="value">Wheat</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className="label">Batch Size</TableCell>
+                                <TableCell className="value">1234</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className="label">Correct Beers</TableCell>
+                                <TableCell className="value">1000</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className="label">Defect Beers</TableCell>
+                                <TableCell className="value">234</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                    <Button align="center" className="export">Export to PDF</Button>
+                </Card>
+                <Card className="chartCard">
+                    <Chart className="chart"data={data}>
+                        <ArgumentAxis/>
+                        <ValueAxis/>
+                        <LineSeries name="Temperature" valueField="value" argumentField="argument"/>
+                        <LineSeries name="Humidity" argumentField="argument"/>
+                        <LineSeries name="Vibrations" argumentField="argument"/>
+                    </Chart>
+                </Card>
+            </Box>
+        )
+    } 
+        
     
 }

@@ -7,6 +7,10 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
+
+// THIS PAGE WAS CREATED BY SARAH MANON PRADEL AND KASPER SVANE
+// ENJOY! \(^o^)/** */
+
 const useStyles = makeStyles((theme) => ({
     button:{
         padding:theme.spacing(2),
