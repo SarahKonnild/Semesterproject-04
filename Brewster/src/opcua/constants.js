@@ -8,8 +8,8 @@ export const beerTypeNodeID = "ns=6;s=::Program:Cube.Command.Parameter[1].Value"
 export const productionSpeedNodeID = "ns=6;s=::Program:Cube.Command.MachSpeed";
 export const batchSizeNodeID = "ns=6;s=::Program:Cube.Command.Parameter[2].Value";
 export const batchNumberNodeID = "ns=6;s=::Program:Cube.Command.Parameter[0].Value";
-export const defectiveProductsNodeId = "ns=6;s=::Program:Maintenance.State";
-export const acceptableProductsNodeId = "ns=6;s=::Program:Maintenance.State";
+export const defectiveProductsNodeId = "ns=6;s=::Program:Cube.Admin.ProdDefectiveCount";
+export const acceptableProductsNodeId = "ns=6;s=::Program:Cube.Admin.ProdProcessedCount";
 export const getBatchNumberNodeID = "ns=6;s=::Program:Cube.Status.Parameter[0].Value";
 export const getCurrentProductionSpeedNodeID = "ns=6;s=::Program:Cube.Status.MachSpeed";
 export const getBeerTypeNodeID = "ns=6;s=::Program:Cube.Admin.Parameter[0].Value";

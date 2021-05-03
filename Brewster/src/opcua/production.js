@@ -109,7 +109,7 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		await session.write(beerTypeToWrite);
 
 		//Send the command to put the machine in the start production state
-		await command.changeToState(session, startProductionCommand);
+		await command.changeToState(session, CONSTANTS.startProductionCommand);
 
 		//Send command to change the state
 		await command.changeStateToTrue(session);
