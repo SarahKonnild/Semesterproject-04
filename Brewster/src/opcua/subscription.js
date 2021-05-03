@@ -1,6 +1,8 @@
 import * as CONSTANTS from "./constants.js";
 import pkg from "node-opcua";
 import * as connection from "./connection.js";
+import * as command from "./command.js";
+
 const {
 	OPCUAClient,
 	MessageSecurityMode,
@@ -34,11 +36,15 @@ export async function startSubscription(session) {
 		CONSTANTS.maintenanceStatusNodeID
 	];
 
+	let machineState = await command.getCurrentState(session);
+
+	while (machineState == 6) {
 	ids.forEach(function (nodeId) {
 		getValueFromNode(nodeId, session);
 	});
 
 	await sleep(5000)
+}
 }
 
 async function getValueFromNode(nodeId, session) {
