@@ -1,0 +1,23 @@
+.dropdownInput {
+    float: left;
+    width: 235px;
+    height: 40px;
+    font-size: 18px;
+    margin-top: 5px;
+    text-align: center;
+    border-color: #98ddca;
+    border-style: solid;
+    border-radius: 10px;
+}
+
+select {
+    -webkit-appearance: menulist-button;
+    outline: none;
+    border-style: solid;
+}
+
+input {
+    -webkit-appearance: menulist-button;
+    outline: none;
+    border-style: solid;
+}
