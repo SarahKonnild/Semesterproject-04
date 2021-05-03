@@ -55,9 +55,10 @@ const useStyles = makeStyles((theme) => ({
         margin:theme.spacing(2),
     },
     chartCard:{
-        width:"800px",
-        height:"80%",
-        margin:"5%",
+        minWidth:"600px",
+        width:"40%",
+        height:"90%",
+        margin:"5% 10%",
         backgroundColor:"#ffffff",
         borderRadius:"4px",
         borderWidth:"2px",
@@ -65,8 +66,12 @@ const useStyles = makeStyles((theme) => ({
         borderStyle:"solid",
 
     },
+    chartTitle:{
+        textTransform:"uppercase",
+        color:"#8a8a8a",
+    },
     container:{
-        width:"1700px",
+        width:"100%",
         display:"inline-flex",
     },
     export:{
@@ -81,9 +86,9 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     info:{
-        margin:"5% 10%",
         minWidth:"350px",
-        maxWidth:"500px",
+        margin:"5% 5%",
+        width:"25%",
         height:"80%",
         backgroundColor:"#ffffff",
         borderRadius:"4px",
@@ -117,84 +122,65 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const data = [
+const temp = [
     {argument:1, value:10},
     {argument:2, value:20},
     {argument:3, value:30},
 ]
 
-export default class Batches extends React.Component{
-    constructor(props){
-        super(props);
+export default function Batches(){
+    const classes = useStyles();
 
-        this.state = {
-            batchId:'',
-
-        }
-    }
-    
-
-    
-
-    // useEffect(() => {
-    //     axios.get('http://localhost:5000/batches/'+this.props.batch.data._id).then(res =>{
-    //         this.setState({
-    //             batchId: res.data.batchId,
-
-    //         })
-    //     })
-    // })
-
-    render(){
-        return(
-            <Box className="container">
-                <NavLink to="/batches" className="back">
-                    <LeftArrow className="arrow" align="center"/><Typography className="buttonText" align="center">back</Typography>
+    return(
+        <Box className={classes.container}>
+                <NavLink to="/batches" className={classes.back}>
+                    <LeftArrow className={classes.arrow} align="center"/><Typography className={classes.buttonText} align="center">back</Typography>
                 </NavLink>
-                <Card className="info">
-                    <Typography align="center" className="title">Batchnr. Details</Typography>
-                    <Table className="table">
+                <Card className={classes.info}>
+                    <Typography align="center" className={classes.title}>Batchnr. Details</Typography>
+                    <Table className={classes.table}>
                         <TableBody>
-                            <TableRow className="row">
-                                <TableCell className="label">Batch ID</TableCell>
-                                <TableCell className="value">1234</TableCell>
+                            <TableRow className={classes.row}>
+                                <TableCell className={classes.label}>Batch ID</TableCell>
+                                <TableCell className={classes.value}>1234</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className="label">Date</TableCell>
-                                <TableCell className="value">01.01.01</TableCell>
+                                <TableCell className={classes.label}>Date</TableCell>
+                                <TableCell className={classes.value}>01.01.01</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className="label">Beer Type</TableCell>
-                                <TableCell className="value">Wheat</TableCell>
+                                <TableCell className={classes.label}>Beer Type</TableCell>
+                                <TableCell className={classes.value}>Wheat</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className="label">Batch Size</TableCell>
-                                <TableCell className="value">1234</TableCell>
+                                <TableCell className={classes.label}>Batch Size</TableCell>
+                                <TableCell className={classes.value}>1234</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className="label">Correct Beers</TableCell>
-                                <TableCell className="value">1000</TableCell>
+                                <TableCell className={classes.label}>Correct Beers</TableCell>
+                                <TableCell className={classes.value}>1000</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className="label">Defect Beers</TableCell>
-                                <TableCell className="value">234</TableCell>
+                                <TableCell className={classes.label}>Defect Beers</TableCell>
+                                <TableCell className={classes.value}>234</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
-                    <Button align="center" className="export">Export to PDF</Button>
+                    <Button align="center" className={classes.export}>Export to PDF</Button>
                 </Card>
-                <Card className="chartCard">
-                    <Chart className="chart"data={data}>
+                <Card className={classes.chartCard}>
+                    <Chart className={classes.chart} data={temp}>
+                        <Title className={classes.chartTitle} text={'Detailed value readings during the production'}/>
                         <ArgumentAxis/>
                         <ValueAxis/>
-                        <LineSeries name="Temperature" valueField="value" argumentField="argument"/>
-                        <LineSeries name="Humidity" argumentField="argument"/>
-                        <LineSeries name="Vibrations" argumentField="argument"/>
+                        <LineSeries/>
+                        <LineSeries/>
+                        <LineSeries/>
+                        <Legend position="bottom"/>
                     </Chart>
                 </Card>
-            </Box>
-        )
-    } 
+        </Box>
+    )
         
     
 }
