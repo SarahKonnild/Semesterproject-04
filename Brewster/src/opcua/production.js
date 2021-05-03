@@ -116,7 +116,7 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 
 		// Setting subscriptions
 
-		subscription.createSubscription(session);
+		subscription.startSubscription(session);
 
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
 		return { statusCode: 201, message: "Starting production" };
