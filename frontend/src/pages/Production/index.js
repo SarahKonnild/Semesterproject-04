@@ -163,36 +163,53 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Production(props){
 
-    // Declare a new state variable, which we'll call "count"
-    const [count, setCount] = useState(0);
-
     const classes = useStyles();
     const [data, setData] = useState([]);
     const [start, setStart] = useState('start');
     const [stop, setStop] = useState('stop');
     const [reset, setReset] = useState('reset');
 
-// CONNECTION TO API
-    useEffect(() => {
-        axios.get('http://localhost:5000/brewster/').then(
+//START PRODUCTION
+
+    const startProduction = (event) => {
+        let batchID = parseInt(document.getElementById("batchID").value);
+        let beerType = document.getElementById("beerTypes").value;
+        let batchSize = document.getElementById("batchSize").value;
+        let speed = document.getElementById("speed").value;
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let raw = JSON.stringify({ "beers": batchSize, "speed": speed, "batchNumber": batchID, "beerType": beerType });
+
+    let requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+        console.log("Production started!")
+     }
+
+     useEffect(() => {
+        axios.post('http://localhost:5000/brewster/startProduction').then(
             res => setData(res.data),
             res => console.log(res.data)
         )}, []);
 
-    const startMachine = (event) => {
-        //Code to start the machine
+     
+//STOP PRODUCTION
+    const stopProduction = (event) => {
+        
 
-        console.log("Machine started!")
+        console.log("Production stopped!")
      }    
-    const stopMachine = (event) => {
-        //Code to stop the machine
 
-        console.log("Machine stopped!")
-     }    
-    const resetMachine = (event) => {
-        //Code to reset the machine
+//RESET PRODUCTION
+    const resetProduction = (event) => {
+        
 
-        console.log("Machine resetted!")
+        console.log("Production resetted!")
      }    
 
     
@@ -207,22 +224,22 @@ export default function Production(props){
                     <div className={classes.row}>
                         <img src={HashtagIcon} className={classes.rowIcons}/>
                         <p className={classes.rowText}>Batch ID</p>
-                        <input type="text" className={classes.rowInput}/> 
+                        <input type="text" id="batchID" className={classes.rowInput}/> 
                     </div> 
                     <div className={classes.row}>
                         <img src={BeersIcon} className={classes.rowIcons}/>
                         <p className={classes.rowText}>Batch size</p>
-                        <input type="text" className={classes.rowInput}/> 
+                        <input type="text" id="batchSize" className={classes.rowInput}/> 
                     </div>
                     <div className={classes.row}>
                         <img src={BeerIcon} className={classes.beerIcon}/>
                         <p className={classes.rowText}>Beer type</p>
-                        <input type="text" className={classes.rowInput}/> 
+                        <input type="text" id="beerTypes" className={classes.rowInput}/> 
                     </div>
                     <div className={classes.row}>
                         <img src={SpeedometerIcon} className={classes.speedometerIcon}/>
                         <p className={classes.rowText}>Speed</p>
-                        <input type="text" className={classes.rowInput}/> 
+                        <input type="text" id="speed" className={classes.rowInput}/> 
                     </div>
                     <div className={classes.row}>
                         <img src={StopwatchIcon} className={classes.stopwatchIcon}/>
@@ -232,9 +249,9 @@ export default function Production(props){
                         <input type="text" className={classes.rowInput}/> 
                     </div>
                     
-                    <Button className={classes.startBtn}><PlayArrowRoundedIcon color="action" onClick={startMachine}/> Start</Button>
-                    <Button className={classes.resetBtn}><ReplayOutlinedIcon color="action" onClick={resetMachine}/> Reset</Button>
-                    <Button className={classes.stopBtn}><StopRoundedIcon color="action" onClick={stopMachine}/> Stop</Button>
+                    <Button className={classes.startBtn}><PlayArrowRoundedIcon color="action" onClick={startProduction}/> Start</Button>
+                    <Button className={classes.resetBtn}><ReplayOutlinedIcon color="action" onClick={resetProduction}/> Reset</Button>
+                    <Button className={classes.stopBtn}><StopRoundedIcon color="action" onClick={stopProduction}/> Stop</Button>
                 </div>
         </div> 
 
