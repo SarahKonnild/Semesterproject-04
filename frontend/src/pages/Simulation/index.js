@@ -86,13 +86,30 @@ const useStyles = makeStyles((theme) => ({
 export default function Simulation(props){
     const classes = useStyles();
     const [beerType, setBeerType] = React.useState('');
+    const [batchSize, setBatchSize] = React.useState('');
+    const [validBeers, setvalidBeers] = React.useState('');
+    const [timeAllotted, setTimeAllotted] = React.useState('');
+    const [optimalSpeed, setOptimalSpeed] = React.useState('');
 
     const handleChange = (event) => {
         setBeerType(event.target.value);
     }
 
-    const simulate = (event) => {
+    const simulate = () => {
+        console.log("Simulate pressed");
 
+        const sim ={
+            batch: batchSize,
+            margin: validBeers,
+            time: timeAllotted
+        };
+
+        axios.post('http://localhost:5000/optimization/calculateOptimalSpeedUsingValids', sim).then(
+            res => {
+                setOptimalSpeed(res.data.speed);
+                console.log(optimalSpeed);
+            }
+        )
     }
 
     return(
@@ -116,23 +133,23 @@ export default function Simulation(props){
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Batch Size</TableCell>
-                            <TableCell className={classes.value}><TextField className={classes.inputFields}></TextField></TableCell>
+                            <TableCell className={classes.value} id="batchSize" value={batchSize}><TextField className={classes.inputFields}></TextField></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Valid Beers</TableCell>
-                            <TableCell className={classes.value}><TextField className={classes.inputFields}></TextField></TableCell>
+                            <TableCell className={classes.value} id="validBeers" value={validBeers}><TextField className={classes.inputFields}></TextField></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Time Allotted</TableCell>
-                            <TableCell className={classes.value}><TextField className={classes.inputFields}></TextField></TableCell>
+                            <TableCell className={classes.value} id="timeAllotted" value={timeAllotted}><TextField className={classes.inputFields}></TextField></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Optimal Speed</TableCell>
-                            <TableCell className={classes.value}></TableCell>
+                            <TableCell className={classes.value} id="optimalSpeed" value={optimalSpeed}></TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
-                <Button align="center" className={classes.simulate} onClick={simulate}>Simulate</Button>
+                <Button align="center" className={classes.simulate} id="simButton" onClick={simulate}>Simulate</Button>
             </Card>
         </Box>
         
