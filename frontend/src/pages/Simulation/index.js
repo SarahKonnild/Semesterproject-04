@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     beerType:{
         width:"130px",
         color:"#8a8a8a",
+    },
+    buttons:{
+        display:"flex",
     },
     container:{
         width:"100%",
@@ -50,15 +53,22 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor:"#98DDCA"
         }
     },
+    reset:{
+        backgroundColor:"#FFAAA7",
+        padding:theme.spacing(2),
+        margin:"15%",
+        color:"#8a8a8a",
+        '&:hover':{
+            backgroundColor:"#98DDCA"
+        }
+    },
     row:{
         margin:theme.spacing(5),
     },
     simulate:{
         backgroundColor:"#FFD3B4",
-        padding:theme.spacing(1.5),
-        marginTop:theme.spacing(5),
-        marginBottom:theme.spacing(6.5),
-        marginLeft:"40%",
+        padding:theme.spacing(2),
+        margin:"15%",
         color:"#8a8a8a",
         '&:hover':{
             backgroundColor:"#98DDCA"
@@ -87,17 +97,24 @@ export default function Simulation(props){
     const classes = useStyles();
     const [beerType, setBeerType] = React.useState('');
     const [batchSize, setBatchSize] = React.useState('');
-    const [validBeers, setvalidBeers] = React.useState('');
+    const [validBeers, setValidBeers] = React.useState('');
     const [timeAllotted, setTimeAllotted] = React.useState('');
     const [optimalSpeed, setOptimalSpeed] = React.useState('');
+
 
     const handleChange = (event) => {
         setBeerType(event.target.value);
     }
 
-    const simulate = () => {
-        console.log("Simulate pressed");
+    const reset = () => {
+        setBatchSize(0);
+        setValidBeers(0);
+        setTimeAllotted(0);
+        setBeerType('');
+        setOptimalSpeed(0);
+    }
 
+    const simulate = () => {
         const sim ={
             batch: batchSize,
             margin: validBeers,
@@ -109,7 +126,7 @@ export default function Simulation(props){
                 setOptimalSpeed(res.data.speed);
                 console.log(optimalSpeed);
             }
-        )
+        ).catch(error => console.log(error));
     }
 
     return(
@@ -133,23 +150,26 @@ export default function Simulation(props){
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Batch Size</TableCell>
-                            <TableCell className={classes.value} id="batchSize" value={batchSize}><TextField className={classes.inputFields}></TextField></TableCell>
+                            <TableCell className={classes.value} id="batchSize" value={batchSize} onChange={event => setBatchSize(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Valid Beers</TableCell>
-                            <TableCell className={classes.value} id="validBeers" value={validBeers}><TextField className={classes.inputFields}></TextField></TableCell>
+                            <TableCell className={classes.value} id="validBeers" value={validBeers} onChange={event => setValidBeers(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Time Allotted</TableCell>
-                            <TableCell className={classes.value} id="timeAllotted" value={timeAllotted}><TextField className={classes.inputFields}></TextField></TableCell>
+                            <TableCell className={classes.value} id="timeAllotted" value={timeAllotted} onChange={event => setTimeAllotted(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Optimal Speed</TableCell>
-                            <TableCell className={classes.value} id="optimalSpeed" value={optimalSpeed}></TableCell>
+                            <TableCell className={classes.value}><TextField disabled className={classes.inputFields}/></TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
-                <Button align="center" className={classes.simulate} id="simButton" onClick={simulate}>Simulate</Button>
+                <Box className={classes.buttons} align="center">
+                    <Button align="center" className={classes.simulate} id="simButton" onClick={simulate}>Simulate</Button>
+                    <Button align="center" className={classes.reset} id="resetButton" onClick={reset}>Reset</Button>
+                </Box>
             </Card>
         </Box>
         
