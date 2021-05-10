@@ -22,6 +22,18 @@ function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function jsonBuilder(statusCode, message) {
+	return { statusCode: statusCode, message: message };
+}
+
+class MachineNotReadyError extends Error {
+	constructor(){
+		super("Machine not ready for production, please reset the machine to state 4");
+		this.name - "MachineNotReadyError"
+	}
+
+}
+
 export async function startProduction(beers, productionSpeed, batchnumber, beerType) {
 	//Saving the adresses of the nodes to be used in this function.
 	let session = null;
@@ -37,7 +49,7 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 
 		let state = await command.getCurrentState(session);
 
-		if (state != 4) throw new Error("Machine not ready for production, please reset the machine to state 4");
+		if (state != 4) throw new MachineNotReadyError;
 
 		// setting the amount of beers to produce
 		const beerAmountToWrite = [
@@ -119,9 +131,9 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		subscription.startSubscription(session);
 
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
-		return { statusCode: 201, message: "Starting production" };
+		return jsonBuilder(201, "Starting production");
 	} catch (err) {
-		console.log("Connection to the server failed", err);
+		
 		return { statusCode: 400, message: "Starting production failed", error: err };
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
@@ -213,68 +225,63 @@ export async function resetProduction() {
 }
 
 /**
- * The function takes no parameters, but will connect to the machine, check if the machine is in state 17. 
- * If the machine is in state 17 that means that a production is done and it can then get the amounts of defective and valid products. 
- * It gets those numbers by connection to the nodes on the machine that holds those values. 
- * 
- * Finally the function will return a JSON object with the information. 
+ * The function takes no parameters, but will connect to the machine, check if the machine is in state 17.
+ * If the machine is in state 17 that means that a production is done and it can then get the amounts of defective and valid products.
+ * It gets those numbers by connection to the nodes on the machine that holds those values.
+ *
+ * Finally the function will return a JSON object with the information.
  */
 export async function getProducedAmount() {
+	let defectiveCount = null;
+	let acceptableCount = null;
 
-    let defectiveCount = null; 
-    let acceptableCount = null; 
+	let session = null;
+	try {
+		//Starts the connection to the machine
+		session = await connection.startSession();
 
-    let session = null;
-    try {
-        //Starts the connection to the machine
-        session = await connection.startSession();
+		//Checking to make sure there is an active connection, otherwise throw an error.
+		if (session == null) {
+			throw new Error("No session");
+		}
 
-        //Checking to make sure there is an active connection, otherwise throw an error.
-        if(session == null){
-            throw new Error("No session");
-        }
+		// Read the state status of the machine
+		let machineState = await command.getCurrentState(session);
 
-        // Read the state status of the machine
-        let machineState = await command.getCurrentState(session);
-        
-        //Checking to see if the machine is done with the production
-        if (machineState== 17) {
+		//Checking to see if the machine is done with the production
+		if (machineState == 17) {
+			//Reads the 2 values we need to return
+			const defectiveNodeRead = {
+				nodeId: CONSTANTS.defectiveProductsNodeId,
+				attributeId: AttributeIds.Value
+			};
+			const acceptableNodeRead = {
+				nodeId: CONSTANTS.acceptableProductsNodeId,
+				attributeId: AttributeIds.Value
+			};
 
-            //Reads the 2 values we need to return
-            const defectiveNodeRead = {
-                nodeId: CONSTANTS.defectiveProductsNodeId,
-                attributeId: AttributeIds.Value,
-            };
-            const acceptableNodeRead = {
-                nodeId: CONSTANTS.acceptableProductsNodeId,
-                attributeId: AttributeIds.Value,
-            };
+			defectiveCount = await session.read(defectiveNodeRead);
+			acceptableCount = await session.read(acceptableNodeRead);
 
-            defectiveCount = await session.read(defectiveNodeRead);
-            acceptableCount = await session.read(acceptableNodeRead);
-
-            //Setting up the json return object
-            let returnResult = {"statusCode": 200,
-                                "message": "Got the values", 
-                                "defective": defectiveCount.value.value, 
-                                "acceptable": acceptableCount.value.value};
-            return returnResult;
-        }else{
-            // Returns the statuscode that means bad request and a message
-            return {"statusCode": 400,
-                    "message":"Production has not finished"};
-        }
-    }
-    catch (err) {
-        console.log("Ohh no something went wrong when opening connection ", err);
-        return {"statusCode": 400,
-                "message":"Failed to get the produced amounts",
-                "error": err};
-    }finally{
-        // Make sure to close down the session so its possible to connect to it again through another function 
-        if(session != null){
-            await connection.stopSession(session);
-        };
-    };
-
+			//Setting up the json return object
+			let returnResult = {
+				statusCode: 200,
+				message: "Got the values",
+				defective: defectiveCount.value.value,
+				acceptable: acceptableCount.value.value
+			};
+			return returnResult;
+		} else {
+			// Returns the statuscode that means bad request and a message
+			return { statusCode: 400, message: "Production has not finished" };
+		}
+	} catch (err) {
+		console.log("Ohh no something went wrong when opening connection ", err);
+		return { statusCode: 400, message: "Failed to get the produced amounts", error: err };
+	} finally {
+		// Make sure to close down the session so its possible to connect to it again through another function
+		if (session != null) {
+			await connection.stopSession(session);
+		}
+	}
 }
