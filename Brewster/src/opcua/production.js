@@ -22,7 +22,7 @@ function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function jsonBuilder(statusCode, message) {
+function BobTheBuilder(statusCode, message) {
 	return { statusCode: statusCode, message: message };
 }
 
@@ -170,9 +170,9 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		subscription.startSubscription(session);
 
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
-		return jsonBuilder(201, "Starting production");
+		return BobTheBuilder(201, "Starting production");
 	} catch (err) {
-		return err instanceof CustomError ? err.toJson() : jsonBuilder(400, "Unknown error");
+		return err instanceof CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session) await connection.stopSession(session);
@@ -200,12 +200,12 @@ export async function stopProduction() {
 			//Send request to change state
 			await command.changeStateToTrue(session);
 
-			return jsonBuilder(200, "Production stopped");
+			return BobTheBuilder(200, "Production stopped");
 		} else {
 			throw new NoProductionOngoingToStopError();
 		}
 	} catch (err) {
-		return err instanceof CustomError ? err.toJson() : jsonBuilder(400, "Unknown error");
+		return err instanceof CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session) await connection.stopSession(session);
@@ -236,14 +236,14 @@ export async function resetProduction() {
 			newMachineState = await command.getCurrentState(session);
 
 			//Return a json object if it managed to reset
-			return jsonBuilder(400, "Beer Machine reset");
+			return BobTheBuilder(400, "Beer Machine reset");
 		} else {
 			//Return a json object if it isnt in state 2 or 17
 			throw new MachineNotAbleToResetError();
 		}
 	} catch (err) {
 		// Return a JSON object if it failed at some point.
-		return err instanceof CustomError ? err.toJson() : jsonBuilder(400, "Unknown error");
+		return err instanceof CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session) await connection.stopSession(session);
@@ -302,7 +302,7 @@ export async function getProducedAmount() {
 			throw new MachineNotFinishedProductionError();
 		}
 	} catch (err) {
-		return err instanceof CustomError ? err.toJson() : jsonBuilder(400, "Unknown error");
+		return err instanceof CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session) await connection.stopSession(session);
