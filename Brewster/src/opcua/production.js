@@ -30,7 +30,7 @@ class MachineNotReadyError extends Error {
 	constructor(state) {
 		let message = "Machine is in state" + state + " and not ready for production, please reset the machine to state 4 ";
 		super(message);
-		this.name - "MachineNotReadyError";
+		this.name = "MachineNotReadyError";
 	}
 }
 
@@ -38,7 +38,7 @@ class NoSessionToMachineError extends Error {
 	constructor() {
 		let message = "Failed to connect to the machine, make sure server is running";
 		super(message);
-		this.name - "NoSessionToMachineError";
+		this.name = "NoSessionToMachineError";
 	}
 }
 
@@ -46,7 +46,7 @@ class MachineNotAbleToResetError extends Error {
 	constructor() {
 		let message = "Beer Machine is not in a state it can reset from";
 		super(message);
-		this.name - "MachineNotAbleToResetError";
+		this.name = "MachineNotAbleToResetError";
 	}
 }
 
@@ -54,7 +54,7 @@ class MachineNotFinishedProductionError extends Error {
 	constructor() {
 		let message = "Beer Machine is still producing beers, please stop production first";
 		super(message);
-		this.name - "MachineNotFinishedProductionError";
+		this.name = "MachineNotFinishedProductionError";
 	}
 }
 
