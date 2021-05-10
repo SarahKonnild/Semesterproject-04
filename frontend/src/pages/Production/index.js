@@ -23,7 +23,7 @@ import BeerIcon from '../../assets/img/icon-beer.png';
 import SpeedometerIcon from '../../assets/img/icon-speedometer.png';
 import StopwatchIcon from '../../assets/img/icon-stopwatch.png';
 
-// THIS PAGE WAS DEVELOPED BY MAHMOD EL-SET
+// THIS PAGE WAS DEVELOPED BY MAHMOD EL-SET and Kasper Svane
 
 const useStyles = makeStyles(theme => ({
     mainContent: {
@@ -161,7 +161,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Production(props) {
+const Production = props => {
     const classes = useStyles();
     const [batchId, setBatchId] = useState('');
     const [batchSize, setBatchSize] = useState('');
@@ -171,6 +171,8 @@ export default function Production(props) {
     const [start, setStart] = useState('start');
     const [stop, setStop] = useState('stop');
     const [reset, setReset] = useState('reset');
+    const [succesMessage, setSuccesMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     //START PRODUCTION
 
@@ -188,28 +190,114 @@ export default function Production(props) {
                 setBatchSize('');
                 setBeerType('');
                 setSpeed('');
+                if (response.data.statusCode === 201) {
+                    setSuccesMessage(response.data.message);
+                }
+                if (response.data.statusCode === 400) {
+                    let errorMessage = JSON.parse(
+                        localStorage.getItem('Error')
+                    );
+                    if (errorMessage === null) {
+                        errorMessage = [];
+                    }
+
+                    errorMessage.push(response.data.message);
+
+                    localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                    setErrorMessage(response.data.message);
+                }
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                let oldData = localStorage.getItem('Error');
+
+                oldData = oldData ? oldData.split(',') : [];
+
+                oldData.push(error.message);
+
+                localStorage.setItem('Error', oldData.toString());
+
+                setErrorMessage(error.message);
+            });
     };
 
     //STOP PRODUCTION
     const stopProduction = () => {
         axios
             .get('http://localhost:5000/brewster/stopProduction')
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+            .then(response => {
+                if (response.data.statusCode === 200) {
+                    setSuccesMessage(response.data.message);
+                }
+                if (response.data.statusCode === 400) {
+                    let oldData = localStorage.getItem('Error');
+
+                    oldData = oldData ? oldData.split(',') : [];
+
+                    oldData.push(response.data.message);
+
+                    localStorage.setItem('Error', oldData.toString());
+
+                    setErrorMessage(response.data.message);
+                }
+            })
+            .catch(error => {
+                let oldData = localStorage.getItem('Error');
+
+                oldData = oldData ? oldData.split(',') : [];
+
+                oldData.push(error.message);
+
+                localStorage.setItem('Error', oldData.toString());
+
+                setErrorMessage(error.message);
+            });
     };
 
     //RESET PRODUCTION
     const resetProduction = () => {
         axios
             .get('http://localhost:5000/brewster/resetProduction')
-            .then(response => console.log('Reset Production'))
-            .catch(error => console.log(error));
+            .then(response => {
+                if (response.data.statusCode === 200) {
+                    setSuccesMessage(response.data.message);
+                }
+                if (response.data.statusCode === 400) {
+                    let oldData = localStorage.getItem('Error');
+
+                    oldData = oldData ? oldData.split(',') : [];
+
+                    oldData.push(response.data.message);
+
+                    localStorage.setItem('Error', oldData.toString());
+
+                    setErrorMessage(
+                        response.data.message +
+                            ', Current State =' +
+                            response.data.oldState
+                    );
+                }
+            })
+            .catch(error => {
+                let oldData = localStorage.getItem('Error');
+
+                oldData = oldData ? oldData.split(',') : [];
+
+                oldData.push(error.message);
+
+                localStorage.setItem('Error', oldData.toString());
+
+                setErrorMessage(error.message);
+            });
     };
+
+    let message = '';
 
     return (
         <>
+            {message
+                ? succesMessage && <h3 className='error'>{succesMessage}</h3>
+                : errorMessage && <h3 className='error'>{errorMessage}</h3>}
             <div className={classes.mainContent}>
                 <div className={classes.leftProd}>
                     <h1 className={classes.headlines}>Production controls</h1>
@@ -218,6 +306,7 @@ export default function Production(props) {
                             <img
                                 src={HashtagIcon}
                                 className={classes.rowIcons}
+                                alt=''
                             />
                             <p className={classes.rowText}>Batch ID</p>
                             <input
@@ -229,7 +318,11 @@ export default function Production(props) {
                             />
                         </div>
                         <div className={classes.row}>
-                            <img src={BeersIcon} className={classes.rowIcons} />
+                            <img
+                                src={BeersIcon}
+                                className={classes.rowIcons}
+                                alt=''
+                            />
                             <p className={classes.rowText}>Batch size</p>
                             <input
                                 type='text'
@@ -267,6 +360,7 @@ export default function Production(props) {
                             <img
                                 src={SpeedometerIcon}
                                 className={classes.speedometerIcon}
+                                alt=''
                             />
                             <p className={classes.rowText}>Speed</p>
                             <input
@@ -281,6 +375,7 @@ export default function Production(props) {
                             <img
                                 src={StopwatchIcon}
                                 className={classes.stopwatchIcon}
+                                alt=''
                             />
                             <Tooltip title='Estimated Production Time (EPT)'>
                                 <p className={classes.rowText}>
@@ -326,6 +421,7 @@ export default function Production(props) {
                             <img
                                 src={HashtagIcon}
                                 className={classes.rowIcons}
+                                alt=''
                             />
                             <p className={classes.rowText}>Batch ID</p>
                             <input
@@ -335,7 +431,11 @@ export default function Production(props) {
                             />
                         </div>
                         <div className={classes.row}>
-                            <img src={BeersIcon} className={classes.rowIcons} />
+                            <img
+                                src={BeersIcon}
+                                className={classes.rowIcons}
+                                alt=''
+                            />
                             <p className={classes.rowText}>Batch size</p>
                             <input
                                 type='text'
@@ -345,7 +445,11 @@ export default function Production(props) {
                             />
                         </div>
                         <div className={classes.row}>
-                            <img src={BeerIcon} className={classes.beerIcon} />
+                            <img
+                                src={BeerIcon}
+                                className={classes.beerIcon}
+                                alt=''
+                            />
                             <p className={classes.rowText}>Beer type</p>
                             <input
                                 type='text'
@@ -358,6 +462,7 @@ export default function Production(props) {
                             <img
                                 src={SpeedometerIcon}
                                 className={classes.speedometerIcon}
+                                alt=''
                             />
                             <p className={classes.rowText}>Speed</p>
                             <input
@@ -407,4 +512,6 @@ export default function Production(props) {
             </div>
         </>
     );
-}
+};
+
+export default Production;
