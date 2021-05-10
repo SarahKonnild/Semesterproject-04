@@ -42,6 +42,14 @@ class NoSessionToMachineError extends Error {
 	}
 }
 
+class MachineNotAbleToResetError extends Error {
+	constructor() {
+		let message = "Beer Machine is not in a state it can reset from";
+		super(message);
+		this.name - "MachineNotAbleToResetError";
+	}
+}
+
 export async function startProduction(beers, productionSpeed, batchnumber, beerType) {
 	//Saving the adresses of the nodes to be used in this function.
 	let session = null;
@@ -141,7 +149,6 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
 		return jsonBuilder(201, "Starting production");
 	} catch (err) {
-
 		if (err instanceof MachineNotReadyError) {
 			return jsonBuilder(400, err.message);
 		}
@@ -149,7 +156,6 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 			return jsonBuilder(400, err.message);
 		}
 		return jsonBuilder(400, "Unkown error occoured");
-
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session != null) {
@@ -165,7 +171,7 @@ export async function stopProduction() {
 
 		//Checking to make sure there is an active connection, otherwise throw an error.
 		if (session == null) {
-			throw new NoSessionToMachineError;
+			throw new NoSessionToMachineError();
 		}
 
 		// check if a production is going on then kill it
@@ -181,11 +187,11 @@ export async function stopProduction() {
 
 			return jsonBuilder(200, "Production stopped");
 		} else {
-			return jsonBuilder(400, "No production to stop")
+			return jsonBuilder(400, "No production to stop");
 		}
 	} catch (err) {
-		if(err instanceof NoSessionToMachineError){
-			return jsonBuilder(400, err.message)
+		if (err instanceof NoSessionToMachineError) {
+			return jsonBuilder(400, err.message);
 		}
 		return jsonBuilder(400, "failed to stop production");
 	} finally {
@@ -203,7 +209,7 @@ export async function resetProduction() {
 
 		//Checking to make sure there is an active connection, otherwise throw an error.
 		if (session == null) {
-			throw new Error("No session");
+			throw new NoSessionToMachineError();
 		}
 		// Getting the state of the machine
 		let machineState = await command.getCurrentState(session);
@@ -220,19 +226,14 @@ export async function resetProduction() {
 			newMachineState = await command.getCurrentState(session);
 
 			//Return a json object if it managed to reset
-			return { statusCode: 200, message: "Beer Machine reset", oldState: machineState, newState: newMachineState };
+			return jsonBuilder(400, "Beer Machine reset");
 		} else {
 			//Return a json object if it isnt in state 2 or 17
-			return {
-				statusCode: 400,
-				message: "Beer Machine is not in a state it can reset from",
-				oldState: machineState,
-				newState: newMachineState
-			};
+			throw new MachineNotAbleToResetError();
 		}
 	} catch (err) {
 		// Return a JSON object if it failed at some point.
-		return { statusCode: 400, message: "Failed to reset the beer machine", error: err };
+		return jsonBuilder(400, err.message)
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session != null) {
