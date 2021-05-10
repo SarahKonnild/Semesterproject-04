@@ -27,12 +27,19 @@ function jsonBuilder(statusCode, message) {
 }
 
 class MachineNotReadyError extends Error {
-	constructor(state){
+	constructor(state) {
 		let message = "Machine is in state" + state + " and not ready for production, please reset the machine to state 4 ";
 		super(message);
-		this.name - "MachineNotReadyError"
+		this.name - "MachineNotReadyError";
 	}
+}
 
+class NoSessionToMachineError extends Error {
+	constructor() {
+		let message = "Failed to connect to the machine, make sure server is running";
+		super(message);
+		this.name - "NoSessionToMachineError";
+	}
 }
 
 export async function startProduction(beers, productionSpeed, batchnumber, beerType) {
@@ -45,7 +52,7 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 
 		//Checking to make sure there is an active connection, otherwise throw an error.
 		if (session == null) {
-			throw new Error("No session");
+			throw new NoSessionToMachineError();
 		}
 
 		let state = await command.getCurrentState(session);
@@ -134,10 +141,15 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
 		return jsonBuilder(201, "Starting production");
 	} catch (err) {
-		if (err instanceof MachineNotReadyError){
-			return jsonBuilder(400, err.message)
+		
+		if (err instanceof MachineNotReadyError) {
+			return jsonBuilder(400, err.message);
+		}
+		if (err instanceof NoSessionToMachineError) {
+			return jsonBuilder(400, err.message);
 		}
 		return jsonBuilder(400, "Unkown error occoured");
+
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session != null) {
