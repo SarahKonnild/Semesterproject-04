@@ -141,7 +141,7 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
 		return jsonBuilder(201, "Starting production");
 	} catch (err) {
-		
+
 		if (err instanceof MachineNotReadyError) {
 			return jsonBuilder(400, err.message);
 		}
@@ -165,7 +165,7 @@ export async function stopProduction() {
 
 		//Checking to make sure there is an active connection, otherwise throw an error.
 		if (session == null) {
-			throw new Error("No session");
+			throw new NoSessionToMachineError;
 		}
 
 		// check if a production is going on then kill it
@@ -179,13 +179,15 @@ export async function stopProduction() {
 			//Send request to change state
 			await command.changeStateToTrue(session);
 
-			return { statusCode: 200, message: "Production stopped" };
+			return jsonBuilder(200, "Production stopped");
 		} else {
-			return { statusCode: 400, message: "No production to be stopped" };
+			return jsonBuilder(400, "No production to stop")
 		}
 	} catch (err) {
-		console.log("Error happened", err);
-		return { statusCode: 400, message: "Failed to stop the production", error: err };
+		if(err instanceof NoSessionToMachineError){
+			return jsonBuilder(400, err.message)
+		}
+		return jsonBuilder(400, "failed to stop production");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session != null) {
