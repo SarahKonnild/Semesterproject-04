@@ -50,6 +50,14 @@ class MachineNotAbleToResetError extends Error {
 	}
 }
 
+class MachineNotFinishedProductionError extends Error {
+	constructor() {
+		let message = "Beer Machine is still producing beers, please stop production first";
+		super(message);
+		this.name - "MachineNotFinishedProductionError";
+	}
+}
+
 export async function startProduction(beers, productionSpeed, batchnumber, beerType) {
 	//Saving the adresses of the nodes to be used in this function.
 	let session = null;
@@ -233,7 +241,7 @@ export async function resetProduction() {
 		}
 	} catch (err) {
 		// Return a JSON object if it failed at some point.
-		return jsonBuilder(400, err.message)
+		return jsonBuilder(400, err.message);
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session != null) {
@@ -260,7 +268,7 @@ export async function getProducedAmount() {
 
 		//Checking to make sure there is an active connection, otherwise throw an error.
 		if (session == null) {
-			throw new Error("No session");
+			throw new NoSessionToMachineError();
 		}
 
 		// Read the state status of the machine
@@ -291,11 +299,11 @@ export async function getProducedAmount() {
 			return returnResult;
 		} else {
 			// Returns the statuscode that means bad request and a message
-			return { statusCode: 400, message: "Production has not finished" };
+			throw new MachineNotFinishedProductionError();
 		}
 	} catch (err) {
 		console.log("Ohh no something went wrong when opening connection ", err);
-		return { statusCode: 400, message: "Failed to get the produced amounts", error: err };
+		return jsonBuilder(400, err.message);
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session != null) {
