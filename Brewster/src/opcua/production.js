@@ -27,8 +27,9 @@ function jsonBuilder(statusCode, message) {
 }
 
 class MachineNotReadyError extends Error {
-	constructor(){
-		super("Machine not ready for production, please reset the machine to state 4");
+	constructor(state){
+		let message = "Machine not ready for production, please reset the machine to state " + state;
+		super(message);
 		this.name - "MachineNotReadyError"
 	}
 
@@ -133,8 +134,10 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
 		return jsonBuilder(201, "Starting production");
 	} catch (err) {
-		
-		return { statusCode: 400, message: "Starting production failed", error: err };
+		if (err instanceof MachineNotReadyError){
+			return jsonBuilder(400, err.message)
+		}
+		return jsonBuilder(400, "Unkown error occoured");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session != null) {
