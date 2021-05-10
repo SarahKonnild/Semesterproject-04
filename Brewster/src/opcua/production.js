@@ -26,35 +26,47 @@ function jsonBuilder(statusCode, message) {
 	return { statusCode: statusCode, message: message };
 }
 
-class MachineNotReadyError extends Error {
+class CustomError extends Error {
+	constructor(message) {
+		super(message);
+		this.name = this.constructor.name;
+		this.statusCode = 400;
+	}
+
+	toJson() {
+		return { statusCode: this.statusCode, message: this.message, name: this.name };
+	}
+}
+
+class MachineNotReadyError extends CustomError {
 	constructor(state) {
 		let message = "Machine is in state" + state + " and not ready for production, please reset the machine to state 4 ";
 		super(message);
-		this.name = "MachineNotReadyError";
+
 	}
 }
 
-class NoSessionToMachineError extends Error {
+class NoSessionToMachineError extends CustomError {
 	constructor() {
 		let message = "Failed to connect to the machine, make sure server is running";
 		super(message);
-		this.name = "NoSessionToMachineError";
+
 	}
 }
 
-class MachineNotAbleToResetError extends Error {
+class MachineNotAbleToResetError extends CustomError {
 	constructor() {
 		let message = "Beer Machine is not in a state it can reset from";
 		super(message);
-		this.name = "MachineNotAbleToResetError";
+
 	}
 }
 
-class MachineNotFinishedProductionError extends Error {
+class MachineNotFinishedProductionError extends CustomError {
 	constructor() {
 		let message = "Beer Machine is still producing beers, please stop production first";
 		super(message);
-		this.name = "MachineNotFinishedProductionError";
+
 	}
 }
 
@@ -158,12 +170,12 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		return jsonBuilder(201, "Starting production");
 	} catch (err) {
 		if (err instanceof MachineNotReadyError) {
-			return jsonBuilder(400, err.message);
+			return jsonBuilder(err.statusCode, err.message);
 		}
 		if (err instanceof NoSessionToMachineError) {
-			return jsonBuilder(400, err.message);
+			return jsonBuilder(err.statusCode, err.message);
 		}
-		return jsonBuilder(400, "Unkown error occoured");
+		return jsonBuilder(err.statusCode, "Unkown error occoured");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session != null) {
