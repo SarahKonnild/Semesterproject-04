@@ -28,7 +28,7 @@ function jsonBuilder(statusCode, message) {
 
 class MachineNotReadyError extends Error {
 	constructor(state){
-		let message = "Machine not ready for production, please reset the machine to state " + state;
+		let message = "Machine is in state" + state + " and not ready for production, please reset the machine to state 4 ";
 		super(message);
 		this.name - "MachineNotReadyError"
 	}
@@ -50,7 +50,7 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 
 		let state = await command.getCurrentState(session);
 
-		if (state != 4) throw new MachineNotReadyError;
+		if (state != 4) throw new MachineNotReadyError(state);
 
 		// setting the amount of beers to produce
 		const beerAmountToWrite = [
