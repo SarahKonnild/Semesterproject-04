@@ -42,7 +42,6 @@ class MachineNotReadyError extends CustomError {
 	constructor(state) {
 		let message = "Machine is in state" + state + " and not ready for production, please reset the machine to state 4 ";
 		super(message);
-
 	}
 }
 
@@ -50,7 +49,6 @@ class NoSessionToMachineError extends CustomError {
 	constructor() {
 		let message = "Failed to connect to the machine, make sure server is running";
 		super(message);
-
 	}
 }
 
@@ -58,7 +56,6 @@ class MachineNotAbleToResetError extends CustomError {
 	constructor() {
 		let message = "Beer Machine is not in a state it can reset from";
 		super(message);
-
 	}
 }
 
@@ -66,7 +63,13 @@ class MachineNotFinishedProductionError extends CustomError {
 	constructor() {
 		let message = "Beer Machine is still producing beers, please stop production first";
 		super(message);
+	}
+}
 
+class NoProductionOngoingToStopError extends CustomError {
+	constructor() {
+		let message = "Beer Machine is not producing anything at this time and cannot be stopped";
+		super(message);
 	}
 }
 
@@ -169,18 +172,10 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
 		return jsonBuilder(201, "Starting production");
 	} catch (err) {
-		if (err instanceof MachineNotReadyError) {
-			return jsonBuilder(err.statusCode, err.message);
-		}
-		if (err instanceof NoSessionToMachineError) {
-			return jsonBuilder(err.statusCode, err.message);
-		}
-		return jsonBuilder(err.statusCode, "Unkown error occoured");
+		return err instanceof CustomError ? err.toJson() : jsonBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
-		if (session != null) {
-			await connection.stopSession(session);
-		}
+		if (session) await connection.stopSession(session);
 	}
 }
 export async function stopProduction() {
@@ -207,18 +202,13 @@ export async function stopProduction() {
 
 			return jsonBuilder(200, "Production stopped");
 		} else {
-			return jsonBuilder(400, "No production to stop");
+			throw new NoProductionOngoingToStopError();
 		}
 	} catch (err) {
-		if (err instanceof NoSessionToMachineError) {
-			return jsonBuilder(400, err.message);
-		}
-		return jsonBuilder(400, "failed to stop production");
+		return err instanceof CustomError ? err.toJson() : jsonBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
-		if (session != null) {
-			await connection.stopSession(session);
-		}
+		if (session) await connection.stopSession(session);
 	}
 }
 export async function resetProduction() {
@@ -253,12 +243,10 @@ export async function resetProduction() {
 		}
 	} catch (err) {
 		// Return a JSON object if it failed at some point.
-		return jsonBuilder(400, err.message);
+		return err instanceof CustomError ? err.toJson() : jsonBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
-		if (session != null) {
-			await connection.stopSession(session);
-		}
+		if (session) await connection.stopSession(session);
 	}
 }
 
@@ -314,12 +302,9 @@ export async function getProducedAmount() {
 			throw new MachineNotFinishedProductionError();
 		}
 	} catch (err) {
-		console.log("Ohh no something went wrong when opening connection ", err);
-		return jsonBuilder(400, err.message);
+		return err instanceof CustomError ? err.toJson() : jsonBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
-		if (session != null) {
-			await connection.stopSession(session);
-		}
+		if (session) await connection.stopSession(session);
 	}
 }
