@@ -130,6 +130,10 @@ const temp = [
     {argument:3, value:30},
 ]
 
+function printScreen(){
+    window.print();
+}
+
 export default function Batches(){
     const [data, setData] = React.useState('');
     const classes = useStyles();
@@ -185,7 +189,7 @@ export default function Batches(){
                             </TableRow>
                         </TableBody>
                     </Table>
-                    <Button align="center" className={classes.export}>Export to PDF</Button>
+                    <Button align="center" className={classes.export} onClick={printScreen}>Export to PDF</Button>
                 </Card>
                 <Card className={classes.chartCard}>
                     {/* <Chart className={classes.chart} data={data.readings}> */}
