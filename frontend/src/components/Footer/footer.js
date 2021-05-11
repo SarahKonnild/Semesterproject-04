@@ -6,8 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import Box from '@material-ui/core/Box';
 
-// THIS PAGE WAS CREATED BY SARAH MANON PRADEL
-// ENJOY! \(^o^)/** */
+/**
+ * @author Sarah Manon Pradel
+ * 
+ * 
+ */
 
 const useStyles = makeStyles((theme) => ({
     footer:{

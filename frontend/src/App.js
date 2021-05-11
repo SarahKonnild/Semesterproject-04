@@ -1,4 +1,3 @@
-import './App.css';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import Navbar from '../src/components/Navigation/navbar';
 import Footer from '../src/components/Footer/footer';

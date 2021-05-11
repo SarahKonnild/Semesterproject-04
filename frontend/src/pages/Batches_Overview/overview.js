@@ -23,8 +23,14 @@ import './overview.css';
 import { Link } from 'react-router-dom';
 
 
-// THIS PAGE WAS CREATED BY SARAH MANON PRADEL
-// ENJOY! \(^o^)/** */
+/**
+ * The primary @author Sarah Manon Pradel
+ * 
+ * This page contains all of the functionality and layout related to the batches Overview page. 
+ * Please feel free to collapse the useStyles constant.
+ * 
+ * All complex functionality in here will be documented.
+ */
 
 const useStyles = makeStyles(theme => ({
     arrow:{
@@ -117,6 +123,13 @@ PaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired
 }
 
+/**
+ * This function is responsible for the pagination functionality for the table. 
+ * There is a function for each type of button, and the overall function will
+ * @return the div that contains the buttons that the user can interact with to
+ * utilize the functionality.
+ *
+ */
 function PaginationActions(props){
     const classes = useStyles();
     const theme = useTheme();
@@ -148,7 +161,17 @@ function PaginationActions(props){
     )
 }
 
+/**
+ * 
+ * This is the React function that returns the page. It is called in the App.js file, 
+ * and can always be accessed through the /batches path. 
+ * 
+ * @returns the graphical user interface developed in MaterialUI
+ */
 export default function Batches() {
+    /**
+     * Set the environment variables
+     */
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage] = React.useState(10);
@@ -159,6 +182,10 @@ export default function Batches() {
         window.location.reload(false);
     }
 
+    /**
+     * When the page is (re)loaded, it should pull the information from the database again
+     * and write it to the data React.state
+     */
     useEffect(() => {
         axios.get('http://localhost:5000/batches/').then(
             res => setData(res.data),
@@ -182,6 +209,7 @@ export default function Batches() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
+                    {/* Figures out how to split the information in the data variable into rows */}
                     {(rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map(batch =>(
                         <TableRow className={classes.data} key={batch.batchId}>
                             <TableCell className="details" align="left"><Link to={"/details/"+batch._id}>Batch Details</Link></TableCell>

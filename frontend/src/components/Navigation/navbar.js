@@ -11,8 +11,11 @@ import {NavLink} from 'react-router-dom';
 import logo from '../../assets/img/Logo.png';
 
 
-// THIS PAGE WAS CREATED BY SARAH MANON PRADEL
-// ENJOY! \(^o^)/** */
+/**
+ * @author Sarah Manon Pradel
+ * 
+ * 
+ */
 
 const useStyles = makeStyles(theme => ({
     active:{

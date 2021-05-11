@@ -24,8 +24,14 @@ import {
 } from '@devexpress/dx-react-chart-material-ui';
 import { NavLink } from 'react-router-dom';
 
-// THIS PAGE WAS CREATED BY SARAH MANON PRADEL
-// ENJOY! \(^o^)/** */
+/**
+ * The primary @author Sarah Manon Pradel
+ * 
+ * This page contains all of the functionality and layout related to the batches details page. 
+ * Please feel free to collapse the useStyles constant.
+ * 
+ * All complex functionality in here will be documented.
+ */
 
 const useStyles = makeStyles((theme) => ({
     arrow:{
@@ -122,24 +128,41 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
-
 const temp = [
     {argument:1, value:10},
     {argument:2, value:20},
     {argument:3, value:30},
 ]
 
+/**
+ * Simple function used to simplify the Ctrl+P hotkey for printing the screen
+ */
 function printScreen(){
     window.print();
 }
 
+/**
+ * 
+ * This is the React function that returns the page. It is called in the App.js file, 
+ * and can always be accessed through the /details path. Be aware though, that this will
+ * leave the fields and graph empty, because there is no database ID referenced in the URL
+ * 
+ * @returns the graphical user interface developed in MaterialUI
+ */
 export default function Batches(){
     const [data, setData] = React.useState('');
     const classes = useStyles();
     //json value for humidity: humidity, vibrations: vibrations, temperature: temperature
     //I WOULD LIKE THE DATA TO COME IN AN ARRAY OF ARRAYS WITH: [[time:a, temperature:b, humidity:c, vibrations:d], [time:a, temperature:b, humidity:c, vibrations:d],...]
 
+    /**
+     * Takes the URL for the current page and splices it into an array, separated by '/'
+     * Then takes the 5th index ([4]) of the array, and uses that as the database ID. It 
+     * then uses the API_Gateway to access the information stored in relation to that
+     * database ID and sets the JSON object as the data React.state value.
+     * 
+     * NOTE: if accessing the page as /details/, the console will throw an error here. 
+     */
     function getBatch(){
         const url = window.location.href;
         const array = url.split('/');
@@ -150,6 +173,10 @@ export default function Batches(){
         )
     }
 
+    /**
+     * Simply enables the getBatch() function on reload, to ensure that the correct data
+     * is always there
+     */
     useEffect(() => {
         getBatch()
     }, []);
