@@ -133,12 +133,13 @@ const temp = [
 export default function Batches(){
     const [data, setData] = React.useState('');
     const classes = useStyles();
+    //json value for humidity: humidity, vibrations: vibrations, temperature: temperature
+    //I WOULD LIKE THE DATA TO COME IN AN ARRAY OF ARRAYS WITH: [[time:a, temperature:b, humidity:c, vibrations:d], [time:a, temperature:b, humidity:c, vibrations:d],...]
 
     function getBatch(){
         const url = window.location.href;
         const array = url.split('/');
         const id = array[4];
-        console.log(id);
 
         axios.get('http://localhost:5000/batches/'+ id).then(
             res => setData(res.data),
@@ -155,7 +156,7 @@ export default function Batches(){
                     <LeftArrow className={classes.arrow} align="center"/><Typography className={classes.buttonText} align="center">back</Typography>
                 </NavLink>
                 <Card className={classes.info}>
-                    <Typography align="center" className={classes.title}>Batchnr. Details</Typography>
+                    <Typography align="center" className={classes.title}>Batch Details</Typography>
                     <Table className={classes.table}>
                         <TableBody>
                             <TableRow className={classes.row}>
@@ -187,13 +188,14 @@ export default function Batches(){
                     <Button align="center" className={classes.export}>Export to PDF</Button>
                 </Card>
                 <Card className={classes.chartCard}>
+                    {/* <Chart className={classes.chart} data={data.readings}> */}
                     <Chart className={classes.chart} data={temp}>
                         <Title className={classes.chartTitle} text={'Detailed value readings during the production'}/>
-                        <ArgumentAxis/>
+                        <ArgumentAxis />
                         <ValueAxis/>
-                        <LineSeries/>
-                        <LineSeries/>
-                        <LineSeries/>
+                        <LineSeries name="Temperature" valueField="temperature" argumentField="time"/>
+                        <LineSeries name="Humidity" valueField="humidity" argumentField="time"/>
+                        <LineSeries name="Vibrations" valueField="vibrations" argumentField="time"/>
                         <Legend position="bottom"/>
                     </Chart>
                 </Card>
