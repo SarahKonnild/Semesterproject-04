@@ -122,6 +122,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
+
 const temp = [
     {argument:1, value:10},
     {argument:2, value:20},
@@ -129,7 +131,23 @@ const temp = [
 ]
 
 export default function Batches(){
+    const [data, setData] = React.useState('');
     const classes = useStyles();
+
+    function getBatch(){
+        const url = window.location.href;
+        const array = url.split('/');
+        const id = array[4];
+        console.log(id);
+
+        axios.get('http://localhost:5000/batches/'+ id).then(
+            res => setData(res.data),
+        )
+    }
+
+    useEffect(() => {
+        getBatch()
+    }, []);
 
     return(
         <Box className={classes.container}>
@@ -142,27 +160,27 @@ export default function Batches(){
                         <TableBody>
                             <TableRow className={classes.row}>
                                 <TableCell className={classes.label}>Batch ID</TableCell>
-                                <TableCell className={classes.value}>1234</TableCell>
+                                <TableCell className={classes.value}>{data.batchId}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.label}>Date</TableCell>
-                                <TableCell className={classes.value}>01.01.01</TableCell>
+                                <TableCell className={classes.value}>{data.dateProduced}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.label}>Beer Type</TableCell>
-                                <TableCell className={classes.value}>Wheat</TableCell>
+                                <TableCell className={classes.value}>{data.beerType}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.label}>Batch Size</TableCell>
-                                <TableCell className={classes.value}>1234</TableCell>
+                                <TableCell className={classes.value}>{data.batchSize}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.label}>Correct Beers</TableCell>
-                                <TableCell className={classes.value}>1000</TableCell>
+                                <TableCell className={classes.value}>{data.valid}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className={classes.label}>Defect Beers</TableCell>
-                                <TableCell className={classes.value}>234</TableCell>
+                                <TableCell className={classes.label}>Defective Beers</TableCell>
+                                <TableCell className={classes.value}>{data.defects}</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
