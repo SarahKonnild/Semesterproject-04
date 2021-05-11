@@ -124,9 +124,8 @@ export default function Simulation(props){
         axios.post('http://localhost:5000/optimization/calculateOptimalSpeedUsingValids', sim).then(
             res => {
                 setOptimalSpeed(res.data.speed);
-                console.log(optimalSpeed);
             }
-        ).catch(error => console.log(error));
+        ).catch(error => setOptimalSpeed("Error, invalid input"));
     }
 
     return(
@@ -150,19 +149,19 @@ export default function Simulation(props){
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Batch Size</TableCell>
-                            <TableCell className={classes.value} id="batchSize" value={batchSize} onChange={event => setBatchSize(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
+                            <TableCell className={classes.value} id="batchSize" onChange={event => setBatchSize(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Valid Beers</TableCell>
-                            <TableCell className={classes.value} id="validBeers" value={validBeers} onChange={event => setValidBeers(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
+                            <TableCell className={classes.value} id="validBeers" onChange={event => setValidBeers(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Time Allotted</TableCell>
-                            <TableCell className={classes.value} id="timeAllotted" value={timeAllotted} onChange={event => setTimeAllotted(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
+                            <TableCell className={classes.value} id="timeAllotted" onChange={event => setTimeAllotted(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.label}>Optimal Speed</TableCell>
-                            <TableCell className={classes.value}><TextField disabled className={classes.inputFields}/></TableCell>
+                            <TableCell className={classes.value}>{optimalSpeed}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
