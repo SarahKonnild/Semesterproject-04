@@ -9,6 +9,17 @@ import Aux from '../../hoc/Auxiliary/Auxiliary';
 
 import { Container, Button, TextField, Typography } from '@material-ui/core';
 
+/**
+ * @author Kasper Svane and Sarah Manon Pradel
+ * Kasper did the functionality behind the login, ensuring that the correct authentication tokens are set up, and the connection to the login database is set up
+ * Sarah did the overall setup of the page and some basic cleanup.
+ * 
+ * This page contains all of the functionality and layout related to the batches Overview page. 
+ * Please feel free to collapse the useStyles constant.
+ * 
+ * All complex functionality in here will be documented.
+ */
+
 const useStyles = makeStyles(theme => ({
   button: {
     width: '60%',
