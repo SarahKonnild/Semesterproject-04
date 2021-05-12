@@ -4,6 +4,7 @@ import pkg from "node-opcua";
 import * as command from "./commands.js";
 import * as connection from "./connection.js";
 import * as subscription from "./subscription.js";
+import * as error from "./errorCodes.js";
 const {
 	OPCUAClient,
 	MessageSecurityMode,
@@ -26,52 +27,6 @@ function BobTheBuilder(statusCode, message) {
 	return { statusCode: statusCode, message: message };
 }
 
-class CustomError extends Error {
-	constructor(message) {
-		super(message);
-		this.name = this.constructor.name;
-		this.statusCode = 400;
-	}
-
-	toJson() {
-		return { statusCode: this.statusCode, message: this.message, name: this.name };
-	}
-}
-
-class MachineNotReadyError extends CustomError {
-	constructor(state) {
-		let message = "Machine is in state" + state + " and not ready for production, please reset the machine to state 4 ";
-		super(message);
-	}
-}
-
-class NoSessionToMachineError extends CustomError {
-	constructor() {
-		let message = "Failed to connect to the machine, make sure server is running";
-		super(message);
-	}
-}
-
-class MachineNotAbleToResetError extends CustomError {
-	constructor() {
-		let message = "Beer Machine is not in a state it can reset from";
-		super(message);
-	}
-}
-
-class MachineNotFinishedProductionError extends CustomError {
-	constructor() {
-		let message = "Beer Machine is still producing beers, please stop production first";
-		super(message);
-	}
-}
-
-class NoProductionOngoingToStopError extends CustomError {
-	constructor() {
-		let message = "Beer Machine is not producing anything at this time and cannot be stopped";
-		super(message);
-	}
-}
 
 export async function startProduction(beers, productionSpeed, batchnumber, beerType) {
 	//Saving the adresses of the nodes to be used in this function.
@@ -83,12 +38,12 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 
 		//Checking to make sure there is an active connection, otherwise throw an error.
 		if (session == null) {
-			throw new NoSessionToMachineError();
+			throw new error.NoSessionToMachineError();
 		}
 
 		let state = await command.getCurrentState(session);
 
-		if (state != 4) throw new MachineNotReadyError(state);
+		if (state != 4) throw new error.MachineNotReadyError(state);
 
 		// setting the amount of beers to produce
 		const beerAmountToWrite = [
@@ -166,13 +121,12 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		await command.changeStateToTrue(session);
 
 		// Setting subscriptions
-
 		subscription.startSubscription(session);
 
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
 		return BobTheBuilder(201, "Starting production");
 	} catch (err) {
-		return err instanceof CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
+		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session) await connection.stopSession(session);
@@ -186,7 +140,7 @@ export async function stopProduction() {
 
 		//Checking to make sure there is an active connection, otherwise throw an error.
 		if (session == null) {
-			throw new NoSessionToMachineError();
+			throw new error.NoSessionToMachineError();
 		}
 
 		// check if a production is going on then kill it
@@ -202,10 +156,10 @@ export async function stopProduction() {
 
 			return BobTheBuilder(200, "Production stopped");
 		} else {
-			throw new NoProductionOngoingToStopError();
+			throw new error.NoProductionOngoingToStopError();
 		}
 	} catch (err) {
-		return err instanceof CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
+		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session) await connection.stopSession(session);
@@ -219,7 +173,7 @@ export async function resetProduction() {
 
 		//Checking to make sure there is an active connection, otherwise throw an error.
 		if (session == null) {
-			throw new NoSessionToMachineError();
+			throw new error.NoSessionToMachineError();
 		}
 		// Getting the state of the machine
 		let machineState = await command.getCurrentState(session);
@@ -239,11 +193,11 @@ export async function resetProduction() {
 			return BobTheBuilder(400, "Beer Machine reset");
 		} else {
 			//Return a json object if it isnt in state 2 or 17
-			throw new MachineNotAbleToResetError();
+			throw new error.MachineNotAbleToResetError();
 		}
 	} catch (err) {
 		// Return a JSON object if it failed at some point.
-		return err instanceof CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
+		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session) await connection.stopSession(session);
@@ -268,7 +222,7 @@ export async function getProducedAmount() {
 
 		//Checking to make sure there is an active connection, otherwise throw an error.
 		if (session == null) {
-			throw new NoSessionToMachineError();
+			throw new error.NoSessionToMachineError();
 		}
 
 		// Read the state status of the machine
@@ -299,10 +253,10 @@ export async function getProducedAmount() {
 			return returnResult;
 		} else {
 			// Returns the statuscode that means bad request and a message
-			throw new MachineNotFinishedProductionError();
+			throw new error.MachineNotFinishedProductionError();
 		}
 	} catch (err) {
-		return err instanceof CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
+		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
 		if (session) await connection.stopSession(session);
