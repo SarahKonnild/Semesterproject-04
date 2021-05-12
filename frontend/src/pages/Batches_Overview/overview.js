@@ -213,7 +213,7 @@ export default function Batches() {
                     {(rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map(batch =>(
                         <TableRow className={classes.data} key={batch.batchId}>
                             <TableCell className="details" align="left"><Link to={"/details/"+batch._id}>Batch Details</Link></TableCell>
-                            <TableCell className={classes.id} align="left">{batch.batchId}</TableCell>
+                            <TableCell className={classes.id} align="left">{batch._id}</TableCell>
                             <TableCell className={classes.date} align="left">{batch.dateProduced}</TableCell>
                             <TableCell className={classes.type} align="left">{batch.beerType}</TableCell>
                             <TableCell className={classes.size} align="left">{batch.batchSize}</TableCell>

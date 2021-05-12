@@ -192,7 +192,7 @@ export default function Batches(){
                         <TableBody>
                             <TableRow className={classes.row}>
                                 <TableCell className={classes.label}>Batch ID</TableCell>
-                                <TableCell className={classes.value}>{data.batchId}</TableCell>
+                                <TableCell className={classes.value}>{data._id}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.label}>Date</TableCell>
