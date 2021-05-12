@@ -19,6 +19,11 @@ const {
 
 let nodeClass = [];
 
+/**
+ * This class define a node by holding the adress and the readings.
+ * It has a method to add new readings
+ *
+ **/
 class node {
 	nodeAdress;
 	readings = {};
@@ -33,16 +38,23 @@ class node {
 		return readings;
 	}
 }
-
+/**
+ *
+ * @returns Json object with 5 objects that each contains an object named readings that have the timestamp and values
+ */
 export function getSubscriptionValue() {
 	return JSON.stringify(nodeClass);
 }
 
+/**
+ * Helper function to make the process sleep for the define amount of time
+ */
 function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export async function startSubscription(session) {
+	//Defineing the adresses of the nodes we want to read the value from
 	let ids = [
 		CONSTANTS.acceptableProductsNodeId,
 		CONSTANTS.defectiveProductsNodeId,
@@ -50,7 +62,7 @@ export async function startSubscription(session) {
 		CONSTANTS.getCurrentProductionSpeedNodeID,
 		CONSTANTS.maintenanceStatusNodeID
 	];
-
+	//Creating some new node objects
 	ids.forEach((id) => {
 		nodeClass.push(new node(id));
 	});
@@ -69,13 +81,14 @@ export async function startSubscription(session) {
 }
 
 async function getValueFromNode(node, session) {
+	//Define the node to be read
 	const nodeToRead = [
 		{
 			nodeId: node.nodeAdress,
 			attributeId: AttributeIds.Value
 		}
 	];
-
+	//Read the node
 	const value = await (await session.read(nodeToRead)).value.value;
 	let timestamp = Math.round(+new Date() / 1000);
 	node.addNewReading(timestamp, value);
