@@ -6,18 +6,11 @@ import * as connection from "./connection.js";
 import * as subscription from "./subscription.js";
 import * as error from "./errorCodes.js";
 const {
-	OPCUAClient,
-	MessageSecurityMode,
-	SecurityPolicy,
 	AttributeIds,
-	makeBrowsePath,
-	ClientSubscription,
-	TimestampsToReturn,
-	MonitoringParametersOptions,
-	ReadValueIdLike,
-	ClientMonitoredItem,
 	DataType
 } = pkg;
+
+
 
 function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
