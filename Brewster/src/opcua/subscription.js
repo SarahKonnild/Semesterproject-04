@@ -90,6 +90,10 @@ async function getValueFromNode(node, session) {
 	];
 	//Read the node
 	const value = await (await session.read(nodeToRead)).value.value;
+
+	//Get current time in UNIX since epoch in milliseconds and then convert to seconds
 	let timestamp = Math.round(+new Date() / 1000);
+
+	//add timestamp and value to the node object
 	node.addNewReading(timestamp, value);
 }
