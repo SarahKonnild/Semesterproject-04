@@ -38,13 +38,15 @@ export async function startSubscription(session) {
 
 	let machineState = await command.getCurrentState(session);
 
+	// Only run this code while the machine is running
 	while (machineState == 6) {
-	ids.forEach(function (nodeId) {
-		getValueFromNode(nodeId, session);
-	});
+		ids.forEach(function (nodeId) {
+			getValueFromNode(nodeId, session);
+		});
 
-	await sleep(5000)
-}
+		// Run the code every 5 sec
+		await sleep(5000);
+	}
 }
 
 async function getValueFromNode(nodeId, session) {
