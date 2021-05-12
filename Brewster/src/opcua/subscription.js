@@ -17,10 +17,25 @@ const {
 	DataType
 } = pkg;
 
-let keyValues = {};
+let nodeClass = [];
+
+class node {
+	nodeAdress;
+	readings = {};
+	constructor(nodeId) {
+		this.nodeAdress = nodeId;
+	}
+
+	addNewReading(time, reading) {
+		readings[time] = reading;
+	}
+	getReadings() {
+		return readings;
+	}
+}
 
 export function getSubscriptionValue() {
-	return keyValues;
+	return JSON.stringify(nodeClass);
 }
 
 function sleep(ms) {
@@ -36,12 +51,16 @@ export async function startSubscription(session) {
 		CONSTANTS.maintenanceStatusNodeID
 	];
 
+	ids.forEach((id) => {
+		nodeClass.push(new node(id));
+	});
+
 	let machineState = await command.getCurrentState(session);
 
 	// Only run this code while the machine is running
 	while (machineState == 6) {
-		ids.forEach(function (nodeId) {
-			getValueFromNode(nodeId, session);
+		nodeClass.forEach((node) => {
+			getValueFromNode(node, session);
 		});
 
 		// Run the code every 5 sec
@@ -49,15 +68,15 @@ export async function startSubscription(session) {
 	}
 }
 
-async function getValueFromNode(nodeId, session) {
+async function getValueFromNode(node, session) {
 	const nodeToRead = [
 		{
-			nodeId: nodeId,
+			nodeId: node.nodeAdress,
 			attributeId: AttributeIds.Value
 		}
 	];
 
 	const value = await (await session.read(nodeToRead)).value.value;
-
-	keyValues[nodeId] = value;
+	let timestamp = Math.round(+new Date() / 1000);
+	node.addNewReading(timestamp, value);
 }
