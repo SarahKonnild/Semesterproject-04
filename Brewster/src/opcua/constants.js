@@ -11,14 +11,17 @@ export const batchNumberNodeID = "ns=6;s=::Program:Cube.Command.Parameter[0].Val
 export const defectiveProductsNodeId = "ns=6;s=::Program:Cube.Admin.ProdDefectiveCount";
 export const acceptableProductsNodeId = "ns=6;s=::Program:Cube.Admin.ProdProcessedCount";
 export const getBatchNumberNodeID = "ns=6;s=::Program:Cube.Status.Parameter[0].Value";
-export const getCurrentProductionSpeedNodeID = "ns=6;s=::Program:Cube.Status.MachSpeed";
+export const getCurrentProductionSpeedNodeID = "ns=6;s=::Program:Cube.Status.CurMachSpeed";
 export const getBeerTypeNodeID = "ns=6;s=::Program:Cube.Admin.Parameter[0].Value";
 export const getBatchSizeNodeID = "ns=6;s=::Program:Cube.Status.Parameter[1].Value";
+export const getHumidityNodeID = "ns=6;s=::Program:Cube.Status.Parameter[2].Value";
+export const getTemperaturNodeID = "ns=6;s=::Program:Cube.Status.Parameter[3].Value";
+export const getVibrationNodeID = "ns=6;s=::Program:Cube.Status.Parameter[4].Value";
 export const stopProductionCommand = 3;
 export const resetProductionCommand = 1;
 export const startProductionCommand = 2;
 
 //The URL for the simulation machine
-export const simulationEndpointURL = "opc.tcp://127.0.0.1:4840"
+export const simulationEndpointURL = "opc.tcp://127.0.0.1:4840";
 //The URL for the Physical Machine
-export const physicalEndpointURL = "opc.tcp://192.168.0.122:4840"
+export const physicalEndpointURL = "opc.tcp://192.168.0.122:4840";

@@ -21,6 +21,7 @@ const {
 	DataType
 } = pkg;
 import * as production from "./production.js";
+import * as subscription from "./subscription.js";
 
 export async function startProductionController(beers, speed, batchNumber, beerType) {
 	return await production.startProduction(beers, speed, batchNumber, beerType);
@@ -39,5 +40,5 @@ export async function getProductionResultsController() {
 	return await production.getProductionResults();
 }
 export function getSubscriptionValueController() {
-	return getSubscriptionValue();
+	return subscription.getSubscriptionValue();
 }

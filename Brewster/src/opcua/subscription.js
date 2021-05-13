@@ -1,7 +1,8 @@
 import * as CONSTANTS from "./constants.js";
 import pkg from "node-opcua";
+import * as command from "./commands.js";
+import * as error from "./errorCodes.js";
 import * as connection from "./connection.js";
-import * as command from "./command.js";
 
 const {
 	OPCUAClient,
@@ -14,7 +15,8 @@ const {
 	MonitoringParametersOptions,
 	ReadValueIdLike,
 	ClientMonitoredItem,
-	DataType
+	DataType,
+	DataValue
 } = pkg;
 
 let nodeClass = [];
@@ -26,24 +28,58 @@ let nodeClass = [];
  **/
 class node {
 	nodeAdress;
-	readings = {};
+	readings;
 	constructor(nodeId) {
 		this.nodeAdress = nodeId;
+		this.readings = {};
 	}
 
 	addNewReading(time, reading) {
-		readings[time] = reading;
+		this.readings[time] = reading;
 	}
 	getReadings() {
-		return readings;
+		return this.readings;
 	}
+}
+
+function SarahTheBuilder() {
+	let jointReadings = { readings: [] };
+
+	let node1Readings = nodeClass[0].getReadings();
+	let entries = Object.keys(node1Readings);
+
+	entries.forEach((element) => {
+		let temp = {
+			time: parseInt(element),
+			temperature: null,
+			vibrations: null,
+			humidity: null
+		};
+		nodeClass.forEach((node) => {
+			if (node.nodeAdress == CONSTANTS.getTemperaturNodeID) {
+				temp.temperature = node.readings[element];
+			}
+			if (node.nodeAdress == CONSTANTS.getVibrationNodeID) {
+				temp.vibrations = node.readings[element];
+			}
+			if (node.nodeAdress == CONSTANTS.getHumidityNodeID) {
+				temp.humidity = node.readings[element];
+			}
+		});
+		jointReadings.readings.push(temp);
+	});
+	return jointReadings;
 }
 /**
  *
  * @returns Json object with 5 objects that each contains an object named readings that have the timestamp and values
  */
 export function getSubscriptionValue() {
-	return JSON.stringify(nodeClass);
+	return SarahTheBuilder();
+}
+
+function BobTheBuilder(statusCode, message) {
+	return { statusCode: statusCode, message: message };
 }
 
 /**
@@ -53,35 +89,46 @@ function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export async function startSubscription(session) {
+export async function startSubscription() {
 	//Defineing the adresses of the nodes we want to read the value from
-	let ids = [
-		CONSTANTS.acceptableProductsNodeId,
-		CONSTANTS.defectiveProductsNodeId,
-		CONSTANTS.producedNodeID,
-		CONSTANTS.getCurrentProductionSpeedNodeID,
-		CONSTANTS.maintenanceStatusNodeID
-	];
+	let ids = [CONSTANTS.getHumidityNodeID, CONSTANTS.getVibrationNodeID, CONSTANTS.getTemperaturNodeID];
 	//Creating some new node objects
 	ids.forEach((id) => {
 		nodeClass.push(new node(id));
 	});
 
-	let machineState = await command.getCurrentState(session);
+	let session = null;
+	await sleep(1000); // needs to wait a bit for the machine to be ready for connection
+	try {
+		//Trying to start up a connection to the machine
+		session = await connection.startSession();
 
-	// Only run this code while the machine is running
-	while (machineState == 6) {
-		machineState = await command.getCurrentState(session);
-		nodeClass.forEach((node) => {
-			getValueFromNode(node, session);
-		});
+		//Checking to make sure there is an active connection, otherwise throw an error.
+		if (session == null) {
+			throw new error.NoSessionToMachineError();
+		}
 
-		// Run the code every 5 sec
-		await sleep(5000);
+		let machineState = await command.getCurrentState(session);
+		// Only run this code while the machine is running
+		let startTime = Math.round(+new Date() / 1000);
+		while (machineState == 6) {
+			machineState = await command.getCurrentState(session);
+			nodeClass.forEach((node) => {
+				getValueFromNode(node, session, startTime);
+			});
+
+			// Run the code every 5 sec
+			await sleep(1000);
+		}
+	} catch (err) {
+		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
+	} finally {
+		SarahTheBuilder();
+		await connection.stopSession(session);
 	}
 }
 
-async function getValueFromNode(node, session) {
+async function getValueFromNode(node, session, startTime) {
 	//Define the node to be read
 	const nodeToRead = [
 		{
@@ -90,11 +137,11 @@ async function getValueFromNode(node, session) {
 		}
 	];
 	//Read the node
-	const value = await (await session.read(nodeToRead)).value.value;
+	const value = await (await session.read(nodeToRead))[0].value.value;
 
 	//Get current time in UNIX since epoch in milliseconds and then convert to seconds
-	let timestamp = Math.round(+new Date() / 1000);
+	let timeSinceStart = Math.round(+new Date() / 1000) - startTime;
 
 	//add timestamp and value to the node object
-	node.addNewReading(timestamp, value);
+	node.addNewReading(timeSinceStart, value);
 }

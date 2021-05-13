@@ -5,12 +5,7 @@ import * as command from "./commands.js";
 import * as connection from "./connection.js";
 import * as subscription from "./subscription.js";
 import * as error from "./errorCodes.js";
-const {
-	AttributeIds,
-	DataType
-} = pkg;
-
-
+const { AttributeIds, DataType } = pkg;
 
 function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
@@ -19,7 +14,6 @@ function sleep(ms) {
 function BobTheBuilder(statusCode, message) {
 	return { statusCode: statusCode, message: message };
 }
-
 
 export async function startProduction(beers, productionSpeed, batchnumber, beerType) {
 	//Saving the adresses of the nodes to be used in this function.
@@ -113,16 +107,18 @@ export async function startProduction(beers, productionSpeed, batchnumber, beerT
 		//Send command to change the state
 		await command.changeStateToTrue(session);
 
-		// Setting subscriptions
-		subscription.startSubscription(session);
-
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
 		return BobTheBuilder(201, "Starting production");
 	} catch (err) {
 		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
 	} finally {
 		// Make sure to close down the session so its possible to connect to it again through another function
-		if (session) await connection.stopSession(session);
+		if (session) {
+			// Setting subscriptions
+			subscription.startSubscription();
+
+			await connection.stopSession(session);
+		}
 	}
 }
 export async function stopProduction() {
@@ -183,7 +179,7 @@ export async function resetProduction() {
 			newMachineState = await command.getCurrentState(session);
 
 			//Return a json object if it managed to reset
-			return BobTheBuilder(400, "Beer Machine reset");
+			return BobTheBuilder(200, "Beer Machine reset");
 		} else {
 			//Return a json object if it isnt in state 2 or 17
 			throw new error.MachineNotAbleToResetError();

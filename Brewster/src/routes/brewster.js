@@ -1,7 +1,7 @@
-import express from 'express';
+import express from "express";
 
-import * as opcua from '../controller/opcua.js';
-import { verifyToken } from '../middleware/verifyToken.js';
+import * as opcua from "../controller/opcua.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ const router = express.Router();
  * The route "/startProduction" defines the path for starting a production
  * See "controllers/opcuaController.js" under "startProduction" for a further description
  */
-router.post('/startProduction', /* verifyToken, */ opcua.startProduction);
+router.post("/startProduction", /* verifyToken, */ opcua.startProduction);
 
 /**
  * @author Simon Quvang
@@ -24,7 +24,7 @@ router.post('/startProduction', /* verifyToken, */ opcua.startProduction);
  * The route "/stopProduction" defines the path for stopping a production
  * See "controllers/opcuaController.js" under "stopProduction" for a further description
  */
-router.get('/stopProduction', /* verifyToken, */ opcua.stopProduction);
+router.get("/stopProduction", /* verifyToken, */ opcua.stopProduction);
 
 /**
  * @author Simon Quvang
@@ -34,7 +34,7 @@ router.get('/stopProduction', /* verifyToken, */ opcua.stopProduction);
  * The route "/resetProduction" defines the path for resetting the machine state
  * See "controllers/opcuaController.js" under "resetProduction" for a further description
  */
-router.get('/resetProduction', /* verifyToken, */ opcua.resetProduction);
+router.get("/resetProduction", /* verifyToken, */ opcua.resetProduction);
 
 /**
  * @author Simon Quvang
@@ -68,6 +68,8 @@ router.get('/resetProduction', /* verifyToken, */ opcua.resetProduction);
  * The route "/getProductionCount" defines the path to get the count of the produced products, if the production is done, and the machine hasnt been reset
  * See "controllers/opcuaController.js" under "getProductionCount" for a further description
  */
-router.get('/getProductionCount', /* verifyToken, */ opcua.getProductionCount);
+router.get("/getProductionCount", /* verifyToken, */ opcua.getProductionCount);
+
+router.get("/getSubValues", /* verifyToken, */ opcua.getSubscriptionValues);
 
 export { router };
