@@ -209,13 +209,15 @@ const Production = props => {
                 }
             })
             .catch(error => {
-                let oldData = localStorage.getItem('Error');
+                let errorMessage = JSON.parse(localStorage.getItem('Error'));
 
-                oldData = oldData ? oldData.split(',') : [];
+                if (errorMessage === null) {
+                    errorMessage = [];
+                }
 
-                oldData.push(error.message);
+                errorMessage.push(error.message);
 
-                localStorage.setItem('Error', oldData.toString());
+                localStorage.setItem('Error', JSON.stringify(errorMessage));
 
                 setErrorMessage(error.message);
             });
