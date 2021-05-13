@@ -29,9 +29,11 @@ let nodeClass = [];
 class node {
 	nodeAdress;
 	readings;
-	constructor(nodeId) {
+	name;
+	constructor(nodeId, name) {
 		this.nodeAdress = nodeId;
 		this.readings = {};
+		this.name = name;
 	}
 
 	addNewReading(time, reading) {
@@ -44,32 +46,22 @@ class node {
 
 function SarahTheBuilder() {
 	let jointReadings = { readings: [] };
+	let tempObj = {};
 
 	let node1Readings = nodeClass[0].getReadings();
 	let entries = Object.keys(node1Readings);
 
 	entries.forEach((element) => {
-		let temp = {
-			time: parseInt(element),
-			temperature: null,
-			vibrations: null,
-			humidity: null
-		};
+		//Getting the time element and adding that
+		tempObj["time"] = parseInt(element);
 		nodeClass.forEach((node) => {
-			switch (node.nodeAdress) {
-				case CONSTANTS.getTemperaturNodeID:
-					temp.temperature = node.readings[element];
-					break;
-				case CONSTANTS.getVibrationNodeID:
-					temp.vibrations = node.readings[element];
-					break;
-				case CONSTANTS.getHumidityNodeID:
-					temp.humidity = node.readings[element];
-					break;
-			}
+			//Looping through all the nodes names and adding their value for the given time
+			tempObj[node.name] = node.readings[element];
 		});
-		jointReadings.readings.push(temp);
+		//add the timestamp and its values to the array of readings
+		jointReadings.readings.push(tempObj);
 	});
+
 	return jointReadings;
 }
 /**
@@ -92,12 +84,10 @@ function sleep(ms) {
 }
 
 export async function startSubscription() {
-	//Defineing the adresses of the nodes we want to read the value from
-	let ids = [CONSTANTS.getHumidityNodeID, CONSTANTS.getVibrationNodeID, CONSTANTS.getTemperaturNodeID];
 	//Creating some new node objects
-	ids.forEach((id) => {
-		nodeClass.push(new node(id));
-	});
+	nodeClass.push(new node(CONSTANTS.getHumidityNodeID, "humidity"));
+	nodeClass.push(new node(CONSTANTS.getVibrationNodeID, "vibration"));
+	nodeClass.push(new node(CONSTANTS.getTemperaturNodeID, "temperatur"));
 
 	let session = null;
 	await sleep(1000); // needs to wait a bit for the machine to be ready for connection
