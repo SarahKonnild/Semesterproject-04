@@ -81,6 +81,7 @@ export async function startSubscription(session) {
 }
 
 async function getValueFromNode(node, session) {
+	machineState = await command.getCurrentState(session);
 	//Define the node to be read
 	const nodeToRead = [
 		{
