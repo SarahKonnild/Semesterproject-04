@@ -56,14 +56,16 @@ function SarahTheBuilder() {
 			humidity: null
 		};
 		nodeClass.forEach((node) => {
-			if (node.nodeAdress == CONSTANTS.getTemperaturNodeID) {
-				temp.temperature = node.readings[element];
-			}
-			if (node.nodeAdress == CONSTANTS.getVibrationNodeID) {
-				temp.vibrations = node.readings[element];
-			}
-			if (node.nodeAdress == CONSTANTS.getHumidityNodeID) {
-				temp.humidity = node.readings[element];
+			switch (node.nodeAdress) {
+				case CONSTANTS.getTemperaturNodeID:
+					temp.temperature = node.readings[element];
+					break;
+				case CONSTANTS.getVibrationNodeID:
+					temp.vibrations = node.readings[element];
+					break;
+				case CONSTANTS.getHumidityNodeID:
+					temp.humidity = node.readings[element];
+					break;
 			}
 		});
 		jointReadings.readings.push(temp);
