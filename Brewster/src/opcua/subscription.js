@@ -71,6 +71,7 @@ export async function startSubscription(session) {
 
 	// Only run this code while the machine is running
 	while (machineState == 6) {
+		machineState = await command.getCurrentState(session);
 		nodeClass.forEach((node) => {
 			getValueFromNode(node, session);
 		});
@@ -81,7 +82,6 @@ export async function startSubscription(session) {
 }
 
 async function getValueFromNode(node, session) {
-	machineState = await command.getCurrentState(session);
 	//Define the node to be read
 	const nodeToRead = [
 		{
