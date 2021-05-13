@@ -44,6 +44,15 @@ class node {
 	}
 }
 
+function getReadingValueFromNodes(time, tempObj) {
+	nodeClass.forEach((node) => {
+		//Looping through all the nodes names and adding their value for the given time
+		tempObj[node.name] = node.readings[time];
+	});
+
+	return tempObj;
+}
+
 function SarahTheBuilder() {
 	let jointReadings = { readings: [] };
 	let tempObj = {};
@@ -54,12 +63,9 @@ function SarahTheBuilder() {
 	entries.forEach((element) => {
 		//Getting the time element and adding that
 		tempObj["time"] = parseInt(element);
-		nodeClass.forEach((node) => {
-			//Looping through all the nodes names and adding their value for the given time
-			tempObj[node.name] = node.readings[element];
-		});
+
 		//add the timestamp and its values to the array of readings
-		jointReadings.readings.push(tempObj);
+		jointReadings.readings.push(getReadingValueFromNodes(element, tempObj));
 	});
 
 	return jointReadings;
