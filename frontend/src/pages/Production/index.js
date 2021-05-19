@@ -22,6 +22,7 @@ import BeersIcon from '../../assets/img/icon-beers.png';
 import BeerIcon from '../../assets/img/icon-beer.png';
 import SpeedometerIcon from '../../assets/img/icon-speedometer.png';
 import StopwatchIcon from '../../assets/img/icon-stopwatch.png';
+import { toast, ToastContainer } from 'react-toastify';
 
 // THIS PAGE WAS DEVELOPED BY MAHMOD EL-SET and Kasper Svane
 
@@ -192,6 +193,7 @@ const Production = props => {
                 setSpeed('');
                 if (response.data.statusCode === 201) {
                     setSuccesMessage(response.data.message);
+                    toast.success(response.data.message);
                 }
                 if (response.data.statusCode === 400) {
                     let errorMessage = JSON.parse(
@@ -205,7 +207,9 @@ const Production = props => {
 
                     localStorage.setItem('Error', JSON.stringify(errorMessage));
 
-                    setErrorMessage(response.data.message);
+                    toast.error(errorMessage.message, {
+                        autoClose: true,
+                    });
                 }
             })
             .catch(error => {
@@ -220,6 +224,10 @@ const Production = props => {
                 localStorage.setItem('Error', JSON.stringify(errorMessage));
 
                 setErrorMessage(error.message);
+
+                toast.error(error.message, {
+                    autoClose: true,
+                });
             });
     };
 
@@ -228,31 +236,39 @@ const Production = props => {
         axios
             .get('http://localhost:5000/brewster/stopProduction')
             .then(response => {
-                if (response.data.statusCode === 200) {
+                if (response.data.statusCode === 201) {
                     setSuccesMessage(response.data.message);
+                    toast.success(response.data.message);
                 }
-                if (response.data.statusCode === 400) {
-                    let oldData = localStorage.getItem('Error');
-
-                    oldData = oldData ? oldData.split(',') : [];
-
-                    oldData.push(response.data.message);
-
-                    localStorage.setItem('Error', oldData.toString());
-
-                    setErrorMessage(response.data.message);
+                let errorMessage = JSON.parse(localStorage.getItem('Error'));
+                if (errorMessage === null) {
+                    errorMessage = [];
                 }
+
+                errorMessage.push(response.data.message);
+
+                localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                toast.error(errorMessage.message, {
+                    autoClose: true,
+                });
             })
             .catch(error => {
-                let oldData = localStorage.getItem('Error');
+                let errorMessage = JSON.parse(localStorage.getItem('Error'));
 
-                oldData = oldData ? oldData.split(',') : [];
+                if (errorMessage === null) {
+                    errorMessage = [];
+                }
 
-                oldData.push(error.message);
+                errorMessage.push(error.message);
 
-                localStorage.setItem('Error', oldData.toString());
+                localStorage.setItem('Error', JSON.stringify(errorMessage));
 
                 setErrorMessage(error.message);
+
+                toast.error(error.message, {
+                    autoClose: true,
+                });
             });
     };
 
@@ -261,45 +277,45 @@ const Production = props => {
         axios
             .get('http://localhost:5000/brewster/resetProduction')
             .then(response => {
-                if (response.data.statusCode === 200) {
+                if (response.data.statusCode === 201) {
                     setSuccesMessage(response.data.message);
+                    toast.success(response.data.message);
                 }
-                if (response.data.statusCode === 400) {
-                    let oldData = localStorage.getItem('Error');
-
-                    oldData = oldData ? oldData.split(',') : [];
-
-                    oldData.push(response.data.message);
-
-                    localStorage.setItem('Error', oldData.toString());
-
-                    setErrorMessage(
-                        response.data.message +
-                            ', Current State =' +
-                            response.data.oldState
-                    );
+                let errorMessage = JSON.parse(localStorage.getItem('Error'));
+                if (errorMessage === null) {
+                    errorMessage = [];
                 }
+
+                errorMessage.push(response.data.message);
+
+                localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                toast.error(errorMessage.message, {
+                    autoClose: true,
+                });
             })
             .catch(error => {
-                let oldData = localStorage.getItem('Error');
+                let errorMessage = JSON.parse(localStorage.getItem('Error'));
 
-                oldData = oldData ? oldData.split(',') : [];
+                if (errorMessage === null) {
+                    errorMessage = [];
+                }
 
-                oldData.push(error.message);
+                errorMessage.push(error.message);
 
-                localStorage.setItem('Error', oldData.toString());
+                localStorage.setItem('Error', JSON.stringify(errorMessage));
 
                 setErrorMessage(error.message);
+
+                toast.error(error.message, {
+                    autoClose: true,
+                });
             });
     };
 
-    let message = '';
-
     return (
         <>
-            {message
-                ? succesMessage && <h3 className='error'>{succesMessage}</h3>
-                : errorMessage && <h3 className='error'>{errorMessage}</h3>}
+            <ToastContainer autoClose={5000} />
             <div className={classes.mainContent}>
                 <div className={classes.leftProd}>
                     <h1 className={classes.headlines}>Production controls</h1>

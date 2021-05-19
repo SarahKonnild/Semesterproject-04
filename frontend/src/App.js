@@ -1,5 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-notifications-component/dist/theme.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from '../src/components/Navigation/navbar';
 import Footer from '../src/components/Footer/footer';

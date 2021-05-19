@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import Modal from 'react-bootstrap/Modal';
 import Button from '@material-ui/core/Button';
@@ -6,28 +6,33 @@ import NotificationIcon from '@material-ui/icons/Notifications';
 
 function Modals() {
     const [show, setShow] = useState(false);
-    const [log, setLog] = useState() || [];
+    const [log, setLog] = useState([]) || [];
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    function FetchLogs() {
+    const FetchLogs = () => {
         setLog(JSON.parse(localStorage.getItem('Error')));
-    }
+    };
 
-    function activeContent() {
+    const DeleteLogs = () => {
+        localStorage.removeItem('Error');
+        setLog([]);
+    };
+
+    const activeContent = () => {
         return log.map(logs => {
             return <div className='list'>{logs}</div>;
         });
-    }
+    };
 
-    function inactiveContent() {
+    const inactiveContent = () => {
         return <p>No Logs</p>;
-    }
+    };
 
-    function removeLogs() {
-        localStorage.removeItem('Error');
-    }
+    useEffect(() => {
+        FetchLogs();
+    }, []);
 
     return (
         <>
@@ -56,7 +61,7 @@ function Modals() {
                     <div>{log ? activeContent() : inactiveContent()}</div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={removeLogs}>Clear logs</Button>
+                    <Button onClick={DeleteLogs}>Clear Logs</Button>
                 </Modal.Footer>
             </Modal>
         </>
