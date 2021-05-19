@@ -61,8 +61,8 @@ export function getSubscriptionValues(req, res) {
 	res.send(returnValue);
 	res.end;
 }
-export function getMachineStatus(req, res) {
-	let returnValue = nodeOPCUA.getMachineStatusController();
+export async function getMachineStatus(req, res) {
+	let returnValue = await nodeOPCUA.getMachineStatusController();
 	res.send(returnValue);
 	res.end;
 }
