@@ -10,7 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 
-import axios from 'axios';
+import './detailed.css';
 
 import LeftArrow from '@material-ui/icons/ArrowLeft';
 
