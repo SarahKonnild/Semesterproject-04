@@ -191,9 +191,10 @@ const Production = props => {
                 setBatchSize('');
                 setBeerType('');
                 setSpeed('');
-                if (response.data.statusCode === 201) {
+                if (response.data.statusCode === 200) {
                     setSuccesMessage(response.data.message);
                     toast.success(response.data.message);
+                    console.log(response.data.message);
                 }
                 if (response.data.statusCode === 400) {
                     let errorMessage = JSON.parse(
@@ -207,10 +208,13 @@ const Production = props => {
 
                     localStorage.setItem('Error', JSON.stringify(errorMessage));
 
-                    toast.error(errorMessage.message, {
+                    setErrorMessage(errorMessage.message);
+
+                    toast.error(response.data.message, {
                         autoClose: true,
                     });
                 }
+                console.log(response.data.message);
             })
             .catch(error => {
                 let errorMessage = JSON.parse(localStorage.getItem('Error'));
@@ -236,22 +240,28 @@ const Production = props => {
         axios
             .get('http://localhost:5000/brewster/stopProduction')
             .then(response => {
-                if (response.data.statusCode === 201) {
+                if (response.data.statusCode === 200) {
                     setSuccesMessage(response.data.message);
                     toast.success(response.data.message);
                 }
-                let errorMessage = JSON.parse(localStorage.getItem('Error'));
-                if (errorMessage === null) {
-                    errorMessage = [];
+                if (response.data.statusCode === 400) {
+                    let errorMessage = JSON.parse(
+                        localStorage.getItem('Error')
+                    );
+                    if (errorMessage === null) {
+                        errorMessage = [];
+                    }
+
+                    errorMessage.push(response.data.message);
+
+                    localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                    setErrorMessage(errorMessage.message);
+
+                    toast.error(response.data.message, {
+                        autoClose: true,
+                    });
                 }
-
-                errorMessage.push(response.data.message);
-
-                localStorage.setItem('Error', JSON.stringify(errorMessage));
-
-                toast.error(errorMessage.message, {
-                    autoClose: true,
-                });
             })
             .catch(error => {
                 let errorMessage = JSON.parse(localStorage.getItem('Error'));
@@ -277,22 +287,28 @@ const Production = props => {
         axios
             .get('http://localhost:5000/brewster/resetProduction')
             .then(response => {
-                if (response.data.statusCode === 201) {
+                if (response.data.statusCode === 200) {
                     setSuccesMessage(response.data.message);
                     toast.success(response.data.message);
                 }
-                let errorMessage = JSON.parse(localStorage.getItem('Error'));
-                if (errorMessage === null) {
-                    errorMessage = [];
+                if (response.data.statusCode === 400) {
+                    let errorMessage = JSON.parse(
+                        localStorage.getItem('Error')
+                    );
+                    if (errorMessage === null) {
+                        errorMessage = [];
+                    }
+
+                    errorMessage.push(response.data.message);
+
+                    localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                    setErrorMessage(errorMessage.message);
+
+                    toast.error(response.data.message, {
+                        autoClose: true,
+                    });
                 }
-
-                errorMessage.push(response.data.message);
-
-                localStorage.setItem('Error', JSON.stringify(errorMessage));
-
-                toast.error(errorMessage.message, {
-                    autoClose: true,
-                });
             })
             .catch(error => {
                 let errorMessage = JSON.parse(localStorage.getItem('Error'));
