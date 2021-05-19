@@ -213,7 +213,7 @@ const Production = props => {
                 setBatchSize('');
                 setBeerType('');
                 setProductionSpeed('');
-                Readings();
+                console.log(readings);
                 if (response.data.statusCode === 200) {
                     setSuccesMessage(response.data.message);
                     toast.success(response.data.message);
