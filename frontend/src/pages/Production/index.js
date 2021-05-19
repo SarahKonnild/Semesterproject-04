@@ -169,9 +169,6 @@ const Production = props => {
     const [readings, setReadings] = useState(null);
     const [valid, setValid] = useState(null);
     const [defects, setDefects] = useState(null);
-    const [start, setStart] = useState('start');
-    const [stop, setStop] = useState('stop');
-    const [reset, setReset] = useState('reset');
     const [succesMessage, setSuccesMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -202,17 +199,17 @@ const Production = props => {
 
     const startProduction = () => {
         const production = {
-            batchSize: batchSize,
             beerType: beerType,
-            speed: productionSpeed,
+            batchSize: batchSize,
+            productionSpeed: productionSpeed,
+            readings: readings,
+            valid: valid,
+            defects: defects,
         };
         axios
-            .post(
-                'http://localhost:5000/brewster/startProduction',
-                JSON.stringify(production)
-            )
+            .post('http://localhost:5000/brewster/startProduction', production)
             .then(response => {
-                console.log(response);
+                console.log(response.config.data.readings);
                 setBatchSize('');
                 setBeerType('');
                 setProductionSpeed('');
@@ -247,12 +244,12 @@ const Production = props => {
                     .then(result => {
                         let production = JSON.parse(result);
                         let dataToDatabase = JSON.stringify({
-                            beerType: beerType,
-                            batchSize: batchSize,
-                            productionSpeed: productionSpeed,
-                            readings: readings,
-                            valid: valid,
-                            defects: defects,
+                            // beerType: beerType,
+                            // batchSize: batchSize,
+                            // productionSpeed: productionSpeed,
+                            // readings: readings,
+                            // valid: valid,
+                            // defects: defects,
                         });
                     })
                     .catch(error => {
@@ -373,38 +370,38 @@ const Production = props => {
     };
 
     //Function to insert all values from the getSubValues API into the table and the table setup
-    function addDataToTable(jsonData) {
-        jsonData = JSON.parse(jsonData);
+    // function addDataToTable(jsonData) {
+    //     jsonData = JSON.parse(jsonData);
 
-        let label = [
-            'Batch ID',
-            'Batch Size',
-            'Beer Type',
-            'Production Speed',
-            'Machine State',
-            'Produced',
-        ];
-        let valueID = [
-            'showId',
-            'showSize',
-            'showType',
-            'showSpeed',
-            'showState',
-            'showProduced',
-        ];
-        console.log(jsonData);
-        let dataTable = [];
-        dataTable.push(jsonData.batchNumberNodeID);
-        dataTable.push(jsonData.batchSizeNodeID);
-        dataTable.push(jsonData.beerTypeNodeID);
-        dataTable.push(jsonData.getCurrentProductionSpeedNodeID);
-        dataTable.push(jsonData.currentStateNodeID);
-        dataTable.push(jsonData.producedNodeID);
+    //     let label = [
+    //         'Batch ID',
+    //         'Batch Size',
+    //         'Beer Type',
+    //         'Production Speed',
+    //         'Machine State',
+    //         'Produced',
+    //     ];
+    //     let valueID = [
+    //         'showId',
+    //         'showSize',
+    //         'showType',
+    //         'showSpeed',
+    //         'showState',
+    //         'showProduced',
+    //     ];
+    //     console.log(jsonData);
+    //     let dataTable = [];
+    //     dataTable.push(jsonData.batchNumberNodeID);
+    //     dataTable.push(jsonData.batchSizeNodeID);
+    //     dataTable.push(jsonData.beerTypeNodeID);
+    //     dataTable.push(jsonData.getCurrentProductionSpeedNodeID);
+    //     dataTable.push(jsonData.currentStateNodeID);
+    //     dataTable.push(jsonData.producedNodeID);
 
-        for (let i = 0; i < valueID.length; i++) {
-            document.getElementById(valueID[i]).value = dataTable[i];
-        }
-    }
+    //     for (let i = 0; i < valueID.length; i++) {
+    //         document.getElementById(valueID[i]).value = dataTable[i];
+    //     }
+    // }
 
     return (
         <Aux>
@@ -422,7 +419,7 @@ const Production = props => {
                             />
                             <p className={classes.rowText}>Batch size</p>
                             <input
-                                type='text'
+                                type='number'
                                 className={classes.rowInput}
                                 id='batchSize'
                                 value={batchSize}
