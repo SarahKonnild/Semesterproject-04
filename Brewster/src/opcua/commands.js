@@ -1,7 +1,5 @@
 import * as CONSTANTS from "./constants.js";
 import pkg from "node-opcua";
-import BobTheBuilder from "./helperFunctions.js";
-import * as error from "./errorCodes.js";
 
 const {
 	OPCUAClient,
@@ -70,27 +68,4 @@ export async function getCurrentState(session) {
 	const stateStatus = await (await session.read(nodeToRead)).value.value;
 
 	return stateStatus;
-}
-
-export async function getMachineStatus() {
-	let session = null;
-	try {
-		//Starts the connection to the machine
-		session = await connection.startSession();
-
-		//Checking to make sure there is an active connection, otherwise throw an error.
-		if (session == null) {
-			throw new error.NoSessionToMachineError();
-		}
-
-		// Read the state status of the machine
-		let machineState = await command.getCurrentState(session);
-
-		return BobTheBuilder(200, machineState)
-	} catch (err) {
-		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
-	} finally {
-		// Make sure to close down the session so its possible to connect to it again through another function
-		if (session) await connection.stopSession(session);
-	}
 }

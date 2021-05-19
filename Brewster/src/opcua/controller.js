@@ -5,7 +5,7 @@
  */
 
 import * as CONSTANTS from "./constants.js";
-import * as commands from "./commands.js";
+import * as connection from "./connection.js";
 //Importing dependencies for Node OPC UA
 import pkg from "node-opcua";
 const {
@@ -43,6 +43,6 @@ export async function getProductionResultsController() {
 export function getSubscriptionValueController() {
 	return subscription.getSubscriptionValue();
 }
-export function getMachineStatusController() {
-	return commands.getMachineStatus();
+export async function getMachineStatusController() {
+	return connection.getMachineStatus();
 }

@@ -1,6 +1,9 @@
 import { simulationEndpointURL, physicalEndpointURL } from "./constants.js";
 import pkg from "node-opcua";
 const { OPCUAClient, MessageSecurityMode, SecurityPolicy } = pkg;
+import BobTheBuilder from "./helperFunctions.js";
+import * as error from "./errorCodes.js";
+import * as command from "./commands.js";
 
 //Setting up the connection strategy
 const connectionStrategy = {
@@ -45,5 +48,28 @@ export async function stopSession(session) {
 		return "done";
 	} catch (err) {
 		return null;
+	}
+}
+
+export async function getMachineStatus() {
+	let session = null;
+	try {
+		//Starts the connection to the machine
+		session = await startSession();
+
+		//Checking to make sure there is an active connection, otherwise throw an error.
+		if (session == null) {
+			throw new error.NoSessionToMachineError();
+		}
+
+		// Read the state status of the machine
+		let machineState = await command.getCurrentState(session);
+
+		return BobTheBuilder(200, machineState);
+	} catch (err) {
+		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
+	} finally {
+		// Make sure to close down the session so its possible to connect to it again through another function
+		if (session) await stopSession(session);
 	}
 }
