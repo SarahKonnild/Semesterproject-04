@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "name": "brewster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "node-opcua": "^2.30.0"
+  },
+  "scripts": {
+    "start": "node ."
+  }
+}
