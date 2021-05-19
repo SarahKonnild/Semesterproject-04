@@ -4,6 +4,7 @@ import * as command from "./commands.js";
 import * as error from "./errorCodes.js";
 import * as connection from "./connection.js";
 import BobTheBuilder from "./helperFunctions.js";
+import NoVariablesFromProduction from "./errorCodes.js";
 
 const {
 	OPCUAClient,
@@ -57,7 +58,9 @@ function getReadingValueFromNodes(time, tempObj) {
 function SarahTheBuilder() {
 	let jointReadings = { readings: [] };
 	let tempObj = {};
-
+	if (!nodeClass) {
+		throw NoVariablesFromProduction;
+	}
 	let node1Readings = nodeClass[0].getReadings();
 	let entries = Object.keys(node1Readings);
 
@@ -76,7 +79,11 @@ function SarahTheBuilder() {
  * @returns Json object with 5 objects that each contains an object named readings that have the timestamp and values
  */
 export function getSubscriptionValue() {
-	return SarahTheBuilder();
+	try {
+		return SarahTheBuilder();
+	} catch (error) {
+		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
+	}
 }
 
 /**
