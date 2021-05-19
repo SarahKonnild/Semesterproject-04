@@ -87,7 +87,7 @@ function sleep(ms) {
 }
 
 export async function startSubscription() {
-<<<<<<< HEAD
+    nodeClass = [];
     //Creating some new node objects
     nodeClass.push(new node(CONSTANTS.getHumidityNodeID, 'humidity'));
     nodeClass.push(new node(CONSTANTS.getVibrationNodeID, 'vibration'));
@@ -124,43 +124,6 @@ export async function startSubscription() {
         SarahTheBuilder();
         await connection.stopSession(session);
     }
-=======
-	nodeClass = [];
-	//Creating some new node objects
-	nodeClass.push(new node(CONSTANTS.getHumidityNodeID, "humidity"));
-	nodeClass.push(new node(CONSTANTS.getVibrationNodeID, "vibration"));
-	nodeClass.push(new node(CONSTANTS.getTemperaturNodeID, "temperatur"));
-
-	let session = null;
-	await sleep(1000); // needs to wait a bit for the machine to be ready for connection
-	try {
-		//Trying to start up a connection to the machine
-		session = await connection.startSession();
-
-		//Checking to make sure there is an active connection, otherwise throw an error.
-		if (session == null) {
-			throw new error.NoSessionToMachineError();
-		}
-
-		let machineState = await command.getCurrentState(session);
-		// Only run this code while the machine is running
-		let startTime = Math.round(+new Date() / 1000);
-		while (machineState == 6) {
-			machineState = await command.getCurrentState(session);
-			nodeClass.forEach((node) => {
-				getValueFromNode(node, session, startTime);
-			});
-
-			// Run the code every 5 sec
-			await sleep(1000);
-		}
-	} catch (err) {
-		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
-	} finally {
-		SarahTheBuilder();
-		await connection.stopSession(session);
-	}
->>>>>>> Production-Pages
 }
 
 async function getValueFromNode(node, session, startTime) {
