@@ -1,9 +1,19 @@
+<<<<<<< HEAD
 import * as CONSTANTS from './constants.js';
 import pkg from 'node-opcua';
 import * as command from './commands.js';
 import * as error from './errorCodes.js';
 import * as connection from './connection.js';
 import BobTheBuilder from './helperFunctions.js';
+=======
+import * as CONSTANTS from "./constants.js";
+import pkg from "node-opcua";
+import * as command from "./commands.js";
+import * as error from "./errorCodes.js";
+import * as connection from "./connection.js";
+import BobTheBuilder from "./helperFunctions.js";
+import NoVariablesFromProduction from "./errorCodes.js";
+>>>>>>> Production-Pages
 
 const {
     OPCUAClient,
@@ -55,11 +65,21 @@ function getReadingValueFromNodes(time, tempObj) {
 }
 
 function SarahTheBuilder() {
+<<<<<<< HEAD
     let jointReadings = { readings: [] };
     let tempObj = {};
 
     let node1Readings = nodeClass[0].getReadings();
     let entries = Object.keys(node1Readings);
+=======
+	let jointReadings = { readings: [] };
+	let tempObj = {};
+	if (!nodeClass) {
+		throw NoVariablesFromProduction;
+	}
+	let node1Readings = nodeClass[0].getReadings();
+	let entries = Object.keys(node1Readings);
+>>>>>>> Production-Pages
 
     entries.forEach(element => {
         //Getting the time element and adding that
@@ -76,7 +96,15 @@ function SarahTheBuilder() {
  * @returns Json object with 5 objects that each contains an object named readings that have the timestamp and values
  */
 export function getSubscriptionValue() {
+<<<<<<< HEAD
     return SarahTheBuilder();
+=======
+	try {
+		return SarahTheBuilder();
+	} catch (error) {
+		return err instanceof error.CustomError ? err.toJson() : BobTheBuilder(400, "Unknown error");
+	}
+>>>>>>> Production-Pages
 }
 
 /**
