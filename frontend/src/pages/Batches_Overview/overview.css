@@ -1,0 +1,16 @@
+.MuiCheckbox-colorSecondary.Mui-checked {
+    color: #98DDCA !important;
+}
+
+.details a{
+    text-transform:uppercase;
+    text-decoration: none !important;
+    color:#8a8a8a;
+
+}
+
+.details a:hover{
+    text-transform:uppercase;
+    text-decoration: none !important;
+    color:#ffbb10;
+}
