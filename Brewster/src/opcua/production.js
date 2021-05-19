@@ -6,13 +6,10 @@ import * as connection from './connection.js';
 import * as subscription from './subscription.js';
 import * as error from './errorCodes.js';
 const { AttributeIds, DataType } = pkg;
+import BobTheBuilder from './helperFunctions.js'
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function BobTheBuilder(statusCode, message) {
-    return { statusCode: statusCode, message: message };
 }
 
 export async function startProduction(

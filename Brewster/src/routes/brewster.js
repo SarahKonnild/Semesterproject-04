@@ -72,4 +72,6 @@ router.get("/getProductionCount", /* verifyToken, */ opcua.getProductionCount);
 
 router.get("/getSubValues", /* verifyToken, */ opcua.getSubscriptionValues);
 
+router.get("/getMachineStatus", opcua.getMachineStatusController);
+
 export { router };
