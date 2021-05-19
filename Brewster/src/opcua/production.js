@@ -12,7 +12,7 @@ function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export async function startProduction(batchId, beerType, batchSize, productionSpeed) {
+export async function startProduction(beerType, batchSize, productionSpeed) {
 	//Saving the adresses of the nodes to be used in this function.
 	let session = null;
 
@@ -62,24 +62,6 @@ export async function startProduction(batchId, beerType, batchSize, productionSp
 		];
 
 		await session.write(productionSpeedToWrite);
-
-		// Setting the batchnumber
-
-		const batchnumberToWrite = [
-			{
-				nodeId: CONSTANTS.batchNumberNodeID,
-				attributeId: AttributeIds.Value,
-				indexRange: null,
-				value: {
-					value: {
-						dataType: DataType.Float,
-						value: batchId
-					}
-				}
-			}
-		];
-
-		await session.write(batchnumberToWrite);
 
 		// Setting the type of beer to produce
 		const beerTypeToWrite = [

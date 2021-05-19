@@ -10,7 +10,6 @@ import * as nodeOPCUA from "../opcua/controller.js";
 export async function startProduction(req, res) {
 	//beers, productionSpeed, batchnumber, beerType
 	let someValue = await nodeOPCUA.startProductionController(
-		req.body.batchId,
 		req.body.beerType,
 		req.body.batchSize,
 		req.body.productionSpeed
