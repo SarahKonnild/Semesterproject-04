@@ -151,11 +151,13 @@ function printScreen(){
  */
 export default function Batches(){
     const [data, setData] = React.useState('');
+    const [isLoading, setLoading] = React.useState(true);
     const classes = useStyles();
-    //json value for humidity: humidity, vibrations: vibrations, temperature: temperature
-    //I WOULD LIKE THE DATA TO COME IN AN ARRAY OF ARRAYS WITH: [[time:a, temperature:b, humidity:c, vibrations:d], [time:a, temperature:b, humidity:c, vibrations:d],...]
 
-    /**
+    
+
+    useEffect(() => {
+        /**
      * Takes the URL for the current page and splices it into an array, separated by '/'
      * Then takes the 5th index ([4]) of the array, and uses that as the database ID. It 
      * then uses the API_Gateway to access the information stored in relation to that
@@ -163,23 +165,18 @@ export default function Batches(){
      * 
      * NOTE: if accessing the page as /details/, the console will throw an error here. 
      */
-    function getBatch(){
-        const url = window.location.href;
-        const array = url.split('/');
-        const id = array[4];
+        async function getBatch(){
+            const url = window.location.href;
+            const array = url.split('/');
+            const id = array[4];
 
-        axios.get('http://localhost:5000/batches/'+ id).then(
-            res => setData(res.data),
-            console.log(data)
-        )
-    }
-
-    /**
-     * Simply enables the getBatch() function on reload, to ensure that the correct data
-     * is always there
-     */
-    useEffect(() => {
-        getBatch()
+            const request = fetch('http://localhost:5000/batches/'+ id);
+            const response = await request;
+            const parsed = await response.json();
+            setData(parsed);
+            setLoading(false);
+        }
+        getBatch();
     }, []);
 
     return(
@@ -220,15 +217,17 @@ export default function Batches(){
                     <Button align="center" className={classes.export} onClick={printScreen}>Export to PDF</Button>
                 </Card>
                 <Card className={classes.chartCard}>
-                    <Chart className={classes.chart} data={data.readings}>
-                        <Title className={classes.chartTitle} text={'Detailed value readings during the production'}/>
-                        <ArgumentAxis />
-                        <ValueAxis/>
-                        <LineSeries name="Temperature" valueField="temperature" argumentField="time"/>
-                        <LineSeries name="Humidity" valueField="humidity" argumentField="time"/>
-                        <LineSeries name="Vibrations" valueField="vibrations" argumentField="time"/>
-                        <Legend position="bottom"/>
-                    </Chart>
+                    {isLoading ? <p>Loading...</p> : 
+                        <Chart className={classes.chart} data={data.readings}>
+                            <Title className={classes.chartTitle} text={'Detailed value readings during the production'}/>
+                            <ArgumentAxis />
+                            <ValueAxis/>
+                            <LineSeries name="Temperature" valueField="temperature" argumentField="time"/>
+                            <LineSeries name="Humidity" valueField="humidity" argumentField="time"/>
+                            <LineSeries name="Vibrations" valueField="vibrations" argumentField="time"/>
+                            <Legend position="bottom"/>
+                        </Chart>
+                    }
                 </Card>
         </Box>
     )
