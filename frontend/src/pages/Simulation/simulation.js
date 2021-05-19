@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -15,6 +15,15 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import axios from 'axios';
+
+/**
+ * The primary @author Sarah Manon Pradel
+ * 
+ * This page contains all of the functionality and layout related to the batches details page. 
+ * Please feel free to collapse the useStyles constant.
+ * 
+ * All complex functionality in here will be documented.
+ */
 
 const useStyles = makeStyles((theme) => ({
     beerType:{
@@ -102,10 +111,15 @@ export default function Simulation(props){
     const [optimalSpeed, setOptimalSpeed] = React.useState('');
 
 
+    /**
+     * Sets the beer type as a react state. Note, that the value will be numerical 
+     * and in accordance with the value written in the project description
+     */
     const handleChange = (event) => {
         setBeerType(event.target.value);
     }
 
+    //Resets the react.state but does not empty the fields. 
     const reset = () => {
         setBatchSize(0);
         setValidBeers(0);
@@ -114,6 +128,13 @@ export default function Simulation(props){
         setOptimalSpeed(0);
     }
 
+    /**
+     * Creates an object that can be sent to the optimization controller. It will then make the
+     * required post-request to the controller, bringing the object along. After making the 
+     * post-request, there is a promise to set the optimalSpeed react.state value to the
+     * result, but if there is an error caught, it will set the optimal speed to the "Error,
+     * invalid input" message, to notify the user of the impossibility of their desired production
+     */
     const simulate = () => {
         const sim ={
             batch: batchSize,
@@ -125,7 +146,7 @@ export default function Simulation(props){
             res => {
                 setOptimalSpeed(res.data.speed);
             }
-        ).catch(error => setOptimalSpeed("Error, invalid input"));
+        ).catch(setOptimalSpeed("Error, invalid input"));
     }
 
     return(

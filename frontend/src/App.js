@@ -4,7 +4,7 @@ import Navbar from '../src/components/Navigation/navbar';
 import Footer from '../src/components/Footer/footer';
 
 import Production from './pages/Production/index.js';
-import Simulation from './pages/Simulation/index.js';
+import Simulation from './pages/Simulation/simulation.js';
 import Batches from './pages/Batches/index.js';
 import Login from './pages/Login/index.js';
 
