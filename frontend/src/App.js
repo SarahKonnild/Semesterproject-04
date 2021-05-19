@@ -1,24 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
+import Navbar from '../src/components/Navigation/navbar';
+import Footer from '../src/components/Footer/footer';
+
+import Production from './pages/Production/index.js';
+import Simulation from './pages/Simulation/index.js';
+import Batches from './pages/Batches/index.js';
+import Login from './pages/Login/index.js';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter style={{margin:0}}>
+      <Navbar/>
+        <Switch>
+          <Route path="/production" component={Production}/>
+          <Route path="/simulation" component={Simulation}/>
+          <Route path="/batches" component={Batches}/>
+          <Route path="/login" component={Login}/>
+          <Redirect from="/" to="/production"/>
+        </Switch>
+      <Footer/>
+    </BrowserRouter>
   );
 }
 

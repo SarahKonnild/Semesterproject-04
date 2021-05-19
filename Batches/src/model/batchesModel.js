@@ -1,24 +1,47 @@
 import mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
+const reqNumber = {
+    type: Number,
+    required: true,
+};
 
-const batchesSchema = new Schema(
-  {
-    //Basic Batch
-    batchId: { type: Number, required: true },
-    beerType: { type: Number, required: true },
-    batchSize: { type: Number, required: true },
-    productionSpeed: { type: Number, required: true },
-    dateProduced: { type: Date, default: Date.now },
+const noReqNumber = {
+    type: Number,
+    required: false,
+};
 
-    //Detailed Batch
-    temperature: { type: Number },
-    vibrations: { type: Number },
-    humidity: { type: Number },
-    valid: { type: Number },
-    defects: { type: Number },
-  },
-  { versionKey: false }
+const dateProperties = {
+    type: Date,
+    default: Date.now,
+};
+
+const readingSchema = mongoose.Schema({
+    time: noReqNumber,
+    temperature: noReqNumber,
+    vibrations: noReqNumber,
+    humidity: noReqNumber,
+});
+
+const readingsProperties = {
+    type: [readingSchema],
+    required: false,
+};
+
+const batchesSchema = mongoose.Schema(
+    {
+        //Basic Batch
+        batchId: reqNumber,
+        beerType: reqNumber,
+        batchSize: reqNumber,
+        productionSpeed: reqNumber,
+        dateProduced: dateProperties,
+
+        //Detailed Batch
+        readings: readingsProperties,
+        valid: noReqNumber,
+        defects: noReqNumber,
+    },
+    { versionKey: false }
 );
 
 const Batches = mongoose.model('Batches', batchesSchema);
