@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './production.css';
 
@@ -166,57 +166,87 @@ const Production = props => {
     const [batchSize, setBatchSize] = useState('');
     const [beerType, setBeerType] = useState({});
     const [productionSpeed, setProductionSpeed] = useState('');
-    const [readings, setReadings] = useState(null);
-    const [valid, setValid] = useState(null);
+    const [time, setTime] = useState([]);
+    const [temperature, setTemperature] = useState([]);
+    const [humidity, setHumidity] = useState([]);
+    const [vibrations, setVibrations] = useState([]);
+    const [readings, setReadings] = useState([]);
     const [defects, setDefects] = useState(null);
     const [succesMessage, setSuccesMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     //START PRODUCTION
 
-    function saveToDatabase() {
+    const setupRefresh = () => {
         axios
-            .post('http://localhost:5000/batches/add')
+            .get('http://localhost:5000/brewster/getMachineStatus')
             .then(response => {
-                console.log(response);
+                if (!response.data.statusCode === 200) {
+                    throw new Error('Something went wrong');
+                }
+
+                if (response.data.message === 17) {
+                    clearTimeout(timer);
+                    const dataToSave = {
+                        beerType: beerType,
+                        batchSize: batchSize,
+                        productionSpeed: productionSpeed,
+                        readings: readings,
+                        valid: batchSize,
+                        defects: defects,
+                    };
+                    saveToDatabase(dataToSave);
+                }
+            })
+            .catch(err => {
+                clearTimeout(timer);
+                console.error(err);
+            });
+        let timer = setTimeout(setupRefresh, 1000); // milliseconds
+    };
+
+    function saveToDatabase(dataToSave) {
+        axios
+            .post('http://localhost:5000/batches/add', dataToSave)
+            .then(response => {
+                toast.success('Batches saved successfully');
             })
             .catch(error => {
                 console.log(error);
             });
     }
 
-    function Readings() {
+    const Readings = () => {
         axios
             .get('http://localhost:5000/brewster/getSubValues')
             .then(response => {
-                setReadings(response.data);
-                console.log(response.data);
+                let loggedReading = response.data.readings[0];
+                setReadings(loggedReading);
             })
             .catch(error => {
                 console.log(error);
             });
-    }
+
+        setTimeout(Readings, 1000); // milliseconds
+    };
 
     const startProduction = () => {
         const production = {
             beerType: beerType,
             batchSize: batchSize,
             productionSpeed: productionSpeed,
-            readings: readings,
-            valid: valid,
-            defects: defects,
         };
         axios
             .post('http://localhost:5000/brewster/startProduction', production)
             .then(response => {
-                console.log(response.config.data.readings);
+                console.log(production);
                 setBatchSize('');
                 setBeerType('');
                 setProductionSpeed('');
-                console.log(readings);
+                Readings();
                 if (response.data.statusCode === 200) {
                     setSuccesMessage(response.data.message);
-                    toast.success(response.data.message);
+                    toast.success('Production Started');
                 }
                 if (response.data.statusCode === 400) {
                     let errorMessage = JSON.parse(
@@ -236,25 +266,7 @@ const Production = props => {
                         autoClose: true,
                     });
                 }
-                axios
-                    .get('http://localhost:5000/brewster/getMachineStatus')
-                    .then(response => {
-                        console.log(response.data);
-                    })
-                    .then(result => {
-                        let production = JSON.parse(result);
-                        let dataToDatabase = JSON.stringify({
-                            // beerType: beerType,
-                            // batchSize: batchSize,
-                            // productionSpeed: productionSpeed,
-                            // readings: readings,
-                            // valid: valid,
-                            // defects: defects,
-                        });
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
+                setupRefresh();
             })
             .catch(error => {
                 let errorMessage = JSON.parse(localStorage.getItem('Error'));
