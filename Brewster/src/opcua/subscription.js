@@ -91,6 +91,7 @@ function sleep(ms) {
 }
 
 export async function startSubscription() {
+	nodeClass = [];
 	//Creating some new node objects
 	nodeClass.push(new node(CONSTANTS.getHumidityNodeID, "humidity"));
 	nodeClass.push(new node(CONSTANTS.getVibrationNodeID, "vibration"));
