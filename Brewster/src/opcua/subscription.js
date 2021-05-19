@@ -3,6 +3,7 @@ import pkg from "node-opcua";
 import * as command from "./commands.js";
 import * as error from "./errorCodes.js";
 import * as connection from "./connection.js";
+import BobTheBuilder from "./helperFunctions.js";
 
 const {
 	OPCUAClient,
