@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './production.css';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import SvgIcon from '@material-ui/core/SvgIcon';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
 import ReplayOutlinedIcon from '@material-ui/icons/ReplayOutlined';
 import StopRoundedIcon from '@material-ui/icons/StopRounded';
 import AdjustIcon from '@material-ui/icons/Adjust';
-import { grey } from '@material-ui/core/colors';
 import { green } from '@material-ui/core/colors';
 import InfoIcon from '@material-ui/icons/Info';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -167,11 +163,12 @@ const useStyles = makeStyles(theme => ({
 
 const Production = props => {
     const classes = useStyles();
-    const [batchId, setBatchId] = useState('');
     const [batchSize, setBatchSize] = useState('');
     const [beerType, setBeerType] = useState({});
-    const [speed, setSpeed] = useState('');
-    const [production, setProduction] = useState(null);
+    const [productionSpeed, setProductionSpeed] = useState('');
+    const [readings, setReadings] = useState(null);
+    const [valid, setValid] = useState(null);
+    const [defects, setDefects] = useState(null);
     const [start, setStart] = useState('start');
     const [stop, setStop] = useState('stop');
     const [reset, setReset] = useState('reset');
@@ -180,20 +177,46 @@ const Production = props => {
 
     //START PRODUCTION
 
+    function saveToDatabase() {
+        axios
+            .post('http://localhost:5000/batches/add')
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    function Readings() {
+        axios
+            .get('http://localhost:5000/brewster/getSubValues')
+            .then(response => {
+                setReadings(response.data);
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     const startProduction = () => {
         const production = {
-            batchId: batchId,
             batchSize: batchSize,
             beerType: beerType,
-            speed: speed,
+            speed: productionSpeed,
         };
         axios
-            .post('http://localhost:5000/brewster/startProduction', production)
+            .post(
+                'http://localhost:5000/brewster/startProduction',
+                JSON.stringify(production)
+            )
             .then(response => {
-                setBatchId('');
+                console.log(response);
                 setBatchSize('');
                 setBeerType('');
-                setSpeed('');
+                setProductionSpeed('');
+                Readings();
                 if (response.data.statusCode === 200) {
                     setSuccesMessage(response.data.message);
                     toast.success(response.data.message);
@@ -216,6 +239,25 @@ const Production = props => {
                         autoClose: true,
                     });
                 }
+                axios
+                    .get('http://localhost:5000/brewster/getMachineStatus')
+                    .then(response => {
+                        console.log(response.data);
+                    })
+                    .then(result => {
+                        let production = JSON.parse(result);
+                        let dataToDatabase = JSON.stringify({
+                            beerType: beerType,
+                            batchSize: batchSize,
+                            productionSpeed: productionSpeed,
+                            readings: readings,
+                            valid: valid,
+                            defects: defects,
+                        });
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
             })
             .catch(error => {
                 let errorMessage = JSON.parse(localStorage.getItem('Error'));
@@ -374,21 +416,6 @@ const Production = props => {
                     <div className={classes.controls}>
                         <div className={classes.row}>
                             <img
-                                src={HashtagIcon}
-                                className={classes.rowIcons}
-                                alt=''
-                            />
-                            <p className={classes.rowText}>Batch ID</p>
-                            <input
-                                type='text'
-                                className={classes.rowInput}
-                                id='batchId'
-                                value={batchId}
-                                onChange={e => setBatchId(e.target.value)}
-                            />
-                        </div>
-                        <div className={classes.row}>
-                            <img
                                 src={BeersIcon}
                                 className={classes.rowIcons}
                                 alt=''
@@ -437,8 +464,10 @@ const Production = props => {
                                 type='text'
                                 className={classes.rowInput}
                                 id='speed'
-                                value={speed}
-                                onChange={e => setSpeed(e.target.value)}
+                                value={productionSpeed}
+                                onChange={e =>
+                                    setProductionSpeed(e.target.value)
+                                }
                             />
                         </div>
                         <div className={classes.row}>

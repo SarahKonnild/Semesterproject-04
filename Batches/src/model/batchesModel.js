@@ -30,7 +30,6 @@ const readingsProperties = {
 const batchesSchema = mongoose.Schema(
     {
         //Basic Batch
-        batchId: reqNumber,
         beerType: reqNumber,
         batchSize: reqNumber,
         productionSpeed: reqNumber,

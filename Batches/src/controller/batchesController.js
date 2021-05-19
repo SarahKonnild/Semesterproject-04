@@ -20,13 +20,6 @@ export function getBatchById(req, res) {
 }
 
 export async function addBatch(req, res) {
-    const batchIdExists = await Batches.findOne({
-        batchId: req.body.batchId,
-    });
-    if (batchIdExists) {
-        return res.status(400).send('batchId already exists');
-    }
-
     try {
         const newBatch = new Batches(req.body);
         const savedBatch = await newBatch.save();
