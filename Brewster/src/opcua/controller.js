@@ -52,3 +52,6 @@ export async function getProductionResultsController() {
 export function getSubscriptionValueController() {
     return subscription.getSubscriptionValue();
 }
+export function getMachineStatusController() {
+	return commands.getMachineStatus();
+}
