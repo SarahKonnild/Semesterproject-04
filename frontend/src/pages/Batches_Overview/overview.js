@@ -33,86 +33,9 @@ import { Link } from 'react-router-dom';
  */
 
 const useStyles = makeStyles(theme => ({
-    arrow:{
-        '&:hover':{
-            backgroundColor:'#98DDCA'
-        }
-    },
-    button:{
-        borderRadius:"5px",
-        textDecoration: 'none', 
-        color:'#8a8a8a',
-        backgroundColor:'#FFD3B4',
-        textTransform: 'uppercase',
-        padding:theme.spacing(2),
-        marginLeft:theme.spacing(4),
-        border:"none",
-        '&:hover': {
-            backgroundColor: '#98DDCA !important',
-        },
-    },
-    checkbox:{
-        '.MuiCheckbox-colorSecondary.Mui-checked':{
-            color: "#cbac3b",
-        }
-    },
-    chosen:{
-
-    },
-    data:{
-        '&:hover':{
-            backgroundColor:'#D5ECC2',
-        },
-        '&:.Mui-selected':{
-            backgroundColor:'#cbac3b'
-        },
-    },
-    date:{
-        color:'#8a8a8a',
-    },
-    footer:{
-        display:"flex",
-        paddingLeft:"12.5%",
-        paddingRight:"12.5%",
-        paddingTop:"1.5%",
-        maxWidth:"75%",
-    },
-    header:{
-        
-    },
-    id:{
-        color:'#8a8a8a',
-    },
-    refresh:{
-        color:"#8a8a8a",
-        '&:hover':{
-            backgroundColor:"#98DDCA"
-        }
-    },
     root:{
         flexShrink:0,
         marginLeft:theme.spacing(2.5),
-    },
-    rows:{
-
-    },
-    size:{
-        color:'#8a8a8a',
-    },
-    table:{
-        paddingLeft:"12.5%",
-        paddingRight:"12.5%",
-        paddingTop:"1.5%",
-        maxWidth:"75%",
-        border:"2px",
-    },
-    title:{
-        textTransform:'uppercase',
-        color:'#8a8a8a',
-        fontSize:'16px',
-    },
-    type:{
-        color:'#8a8a8a',
     },
 }));
 
@@ -153,10 +76,10 @@ function PaginationActions(props){
 
     return(
         <div className={classes.root}>
-            <IconButton className={classes.arrow} onClick={handleFirstPageButtonClick} disabled={page === 0}>{theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}</IconButton>
-            <IconButton className={classes.arrow} onClick={handleBackButtonClick} disabled={page === 0}>{theme.direction === 'rtl' ? <ArrowRight/> : <ArrowLeft/>}</IconButton>
-            <IconButton className={classes.arrow} onClick={handleNextButtonClick} disabled={page >= Math.ceil(count/rowsPerPage) - 1}>{theme.direction === 'rtl' ? <ArrowLeft/> : <ArrowRight/>}</IconButton>
-            <IconButton className={classes.arrow} onClick={handleLastPageButtonClick} disabled={page >= Math.ceil(count/rowsPerPage) - 1}>{theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}</IconButton>
+            <IconButton className='arrow' onClick={handleFirstPageButtonClick} disabled={page === 0}>{theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}</IconButton>
+            <IconButton className='arrow' onClick={handleBackButtonClick} disabled={page === 0}>{theme.direction === 'rtl' ? <ArrowRight/> : <ArrowLeft/>}</IconButton>
+            <IconButton className='arrow' onClick={handleNextButtonClick} disabled={page >= Math.ceil(count/rowsPerPage) - 1}>{theme.direction === 'rtl' ? <ArrowLeft/> : <ArrowRight/>}</IconButton>
+            <IconButton className='arrow' onClick={handleLastPageButtonClick} disabled={page >= Math.ceil(count/rowsPerPage) - 1}>{theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}</IconButton>
         </div>
     )
 }
@@ -197,15 +120,15 @@ export default function Batches() {
     }
     
     return (
-        <TableContainer className={classes.table}>
+        <TableContainer className='table'>
             <Table>
                 <TableHead>
-                    <TableRow className={classes.header}>
-                        <TableCell><IconButton className={classes.refresh} onClick={Reload}><Refresh/></IconButton></TableCell>
-                        <TableCell className={classes.title} align="left">Batch ID</TableCell>
-                        <TableCell className={classes.title} align="left">Date Produced</TableCell>
-                        <TableCell className={classes.title} align="left">Beer Type</TableCell>
-                        <TableCell className={classes.title} align="left">Batch Size</TableCell>
+                    <TableRow>
+                        <TableCell><IconButton className='refresh' onClick={Reload}><Refresh/></IconButton></TableCell>
+                        <TableCell className='title' align="left">Batch ID</TableCell>
+                        <TableCell className='title' align="left">Date Produced</TableCell>
+                        <TableCell className='title' align="left">Beer Type</TableCell>
+                        <TableCell className='title' align="left">Batch Size</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -213,7 +136,7 @@ export default function Batches() {
                     {(rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map(batch =>(
                         <TableRow className={classes.data} key={batch.batchId}>
                             <TableCell className="details" align="left"><Link to={"/details/"+batch._id}>Batch Details</Link></TableCell>
-                            <TableCell className={classes.id} align="left">{batch._id}</TableCell>
+                            <TableCell className='id' align="left">{batch._id}</TableCell>
                             <TableCell className={classes.date} align="left">{batch.dateProduced}</TableCell>
                             <TableCell className={classes.type} align="left">{batch.beerType}</TableCell>
                             <TableCell className={classes.size} align="left">{batch.batchSize}</TableCell>
