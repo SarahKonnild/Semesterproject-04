@@ -23,6 +23,9 @@ import BeerIcon from '../../assets/img/icon-beer.png';
 import SpeedometerIcon from '../../assets/img/icon-speedometer.png';
 import StopwatchIcon from '../../assets/img/icon-stopwatch.png';
 import { toast, ToastContainer } from 'react-toastify';
+import Navbar from '../../components/Navigation/navbar';
+import Footer from '../../components/Footer/footer';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
 
 // THIS PAGE WAS DEVELOPED BY MAHMOD EL-SET and Kasper Svane
 
@@ -362,7 +365,8 @@ const Production = props => {
     }
 
     return (
-        <>
+        <Aux>
+            <Navbar />
             <ToastContainer autoClose={5000} />
             <div className={classes.mainContent}>
                 <div className={classes.leftProd}>
@@ -582,7 +586,8 @@ const Production = props => {
                     </div>
                 </div>
             </div>
-        </>
+            <Footer />
+        </Aux>
     );
 };
 
