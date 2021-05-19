@@ -44,4 +44,3 @@ export class NoProductionOngoingToStopError extends CustomError {
 		super(message);
 	}
 }
-
