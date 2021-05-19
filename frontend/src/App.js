@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from '../src/components/Navigation/navbar';
 import Footer from '../src/components/Footer/footer';
-import Production from './pages/Production/index.js';
+import Production from './pages/Production/production.js';
 import Simulation from './pages/Simulation/index.js';
 import Batches from './pages/Batches_Overview/overview.js';
 import Login from './pages/Login/login.js';
