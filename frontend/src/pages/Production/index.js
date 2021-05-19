@@ -22,8 +22,9 @@ import BeersIcon from '../../assets/img/icon-beers.png';
 import BeerIcon from '../../assets/img/icon-beer.png';
 import SpeedometerIcon from '../../assets/img/icon-speedometer.png';
 import StopwatchIcon from '../../assets/img/icon-stopwatch.png';
+import { toast, ToastContainer } from 'react-toastify';
 
-// THIS PAGE WAS DEVELOPED BY MAHMOD EL-SET
+// THIS PAGE WAS DEVELOPED BY MAHMOD EL-SET and Kasper Svane
 
 const useStyles = makeStyles(theme => ({
     mainContent: {
@@ -161,7 +162,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Production(props) {
+const Production = props => {
     const classes = useStyles();
     const [batchId, setBatchId] = useState('');
     const [batchSize, setBatchSize] = useState('');
@@ -171,6 +172,8 @@ export default function Production(props) {
     const [start, setStart] = useState('start');
     const [stop, setStop] = useState('stop');
     const [reset, setReset] = useState('reset');
+    const [succesMessage, setSuccesMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     //START PRODUCTION
 
@@ -188,24 +191,142 @@ export default function Production(props) {
                 setBatchSize('');
                 setBeerType('');
                 setSpeed('');
+                if (response.data.statusCode === 200) {
+                    setSuccesMessage(response.data.message);
+                    toast.success(response.data.message);
+                    console.log(response.data.message);
+                }
+                if (response.data.statusCode === 400) {
+                    let errorMessage = JSON.parse(
+                        localStorage.getItem('Error')
+                    );
+                    if (errorMessage === null) {
+                        errorMessage = [];
+                    }
+
+                    errorMessage.push(response.data.message);
+
+                    localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                    setErrorMessage(errorMessage.message);
+
+                    toast.error(response.data.message, {
+                        autoClose: true,
+                    });
+                }
+                console.log(response.data.message);
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                let errorMessage = JSON.parse(localStorage.getItem('Error'));
+
+                if (errorMessage === null) {
+                    errorMessage = [];
+                }
+
+                errorMessage.push(error.message);
+
+                localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                setErrorMessage(error.message);
+
+                toast.error(error.message, {
+                    autoClose: true,
+                });
+            });
     };
 
     //STOP PRODUCTION
     const stopProduction = () => {
         axios
             .get('http://localhost:5000/brewster/stopProduction')
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+            .then(response => {
+                if (response.data.statusCode === 200) {
+                    setSuccesMessage(response.data.message);
+                    toast.success(response.data.message);
+                }
+                if (response.data.statusCode === 400) {
+                    let errorMessage = JSON.parse(
+                        localStorage.getItem('Error')
+                    );
+                    if (errorMessage === null) {
+                        errorMessage = [];
+                    }
+
+                    errorMessage.push(response.data.message);
+
+                    localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                    setErrorMessage(errorMessage.message);
+
+                    toast.error(response.data.message, {
+                        autoClose: true,
+                    });
+                }
+            })
+            .catch(error => {
+                let errorMessage = JSON.parse(localStorage.getItem('Error'));
+
+                if (errorMessage === null) {
+                    errorMessage = [];
+                }
+
+                errorMessage.push(error.message);
+
+                localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                setErrorMessage(error.message);
+
+                toast.error(error.message, {
+                    autoClose: true,
+                });
+            });
     };
 
     //RESET PRODUCTION
     const resetProduction = () => {
         axios
             .get('http://localhost:5000/brewster/resetProduction')
-            .then(response => console.log('Reset Production'))
-            .catch(error => console.log(error));
+            .then(response => {
+                if (response.data.statusCode === 200) {
+                    setSuccesMessage(response.data.message);
+                    toast.success(response.data.message);
+                }
+                if (response.data.statusCode === 400) {
+                    let errorMessage = JSON.parse(
+                        localStorage.getItem('Error')
+                    );
+                    if (errorMessage === null) {
+                        errorMessage = [];
+                    }
+
+                    errorMessage.push(response.data.message);
+
+                    localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                    setErrorMessage(errorMessage.message);
+
+                    toast.error(response.data.message, {
+                        autoClose: true,
+                    });
+                }
+            })
+            .catch(error => {
+                let errorMessage = JSON.parse(localStorage.getItem('Error'));
+
+                if (errorMessage === null) {
+                    errorMessage = [];
+                }
+
+                errorMessage.push(error.message);
+
+                localStorage.setItem('Error', JSON.stringify(errorMessage));
+
+                setErrorMessage(error.message);
+
+                toast.error(error.message, {
+                    autoClose: true,
+                });
+            });
     };
 
     //Function to insert all values from the getSubValues API into the table and the table setup
@@ -230,6 +351,7 @@ function addDataToTable(jsonData) {
 
     return (
         <>
+            <ToastContainer autoClose={5000} />
             <div className={classes.mainContent}>
                 <div className={classes.leftProd}>
                     <h1 className={classes.headlines}>Production controls</h1>
@@ -238,6 +360,7 @@ function addDataToTable(jsonData) {
                             <img
                                 src={HashtagIcon}
                                 className={classes.rowIcons}
+                                alt=''
                             />
                             <p className={classes.rowText}>Batch ID</p>
                             <input
@@ -249,7 +372,11 @@ function addDataToTable(jsonData) {
                             />
                         </div>
                         <div className={classes.row}>
-                            <img src={BeersIcon} className={classes.rowIcons} />
+                            <img
+                                src={BeersIcon}
+                                className={classes.rowIcons}
+                                alt=''
+                            />
                             <p className={classes.rowText}>Batch size</p>
                             <input
                                 type='text'
@@ -287,6 +414,7 @@ function addDataToTable(jsonData) {
                             <img
                                 src={SpeedometerIcon}
                                 className={classes.speedometerIcon}
+                                alt=''
                             />
                             <p className={classes.rowText}>Speed</p>
                             <input
@@ -301,6 +429,7 @@ function addDataToTable(jsonData) {
                             <img
                                 src={StopwatchIcon}
                                 className={classes.stopwatchIcon}
+                                alt=''
                             />
                             <Tooltip title='Estimated Production Time (EPT)'>
                                 <p className={classes.rowText}>
@@ -346,6 +475,7 @@ function addDataToTable(jsonData) {
                             <img
                                 src={HashtagIcon}
                                 className={classes.rowIcons}
+                                alt=''
                             />
                             <p className={classes.rowText}>Batch ID</p>
                             <input
@@ -356,7 +486,11 @@ function addDataToTable(jsonData) {
                             />
                         </div>
                         <div className={classes.row}>
-                            <img src={BeersIcon} className={classes.rowIcons} />
+                            <img
+                                src={BeersIcon}
+                                className={classes.rowIcons}
+                                alt=''
+                            />
                             <p className={classes.rowText}>Batch size</p>
                             <input
                                 type='text'
@@ -367,7 +501,11 @@ function addDataToTable(jsonData) {
                             />
                         </div>
                         <div className={classes.row}>
-                            <img src={BeerIcon} className={classes.beerIcon} />
+                            <img
+                                src={BeerIcon}
+                                className={classes.beerIcon}
+                                alt=''
+                            />
                             <p className={classes.rowText}>Beer type</p>
                             <input
                                 type='text'
@@ -381,6 +519,7 @@ function addDataToTable(jsonData) {
                             <img
                                 src={SpeedometerIcon}
                                 className={classes.speedometerIcon}
+                                alt=''
                             />
                             <p className={classes.rowText}>Speed</p>
                             <input
@@ -433,4 +572,6 @@ function addDataToTable(jsonData) {
             </div>
         </>
     );
-}
+};
+
+export default Production;
