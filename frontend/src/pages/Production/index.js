@@ -208,6 +208,26 @@ export default function Production(props) {
             .catch(error => console.log(error));
     };
 
+    //Function to insert all values from the getSubValues API into the table and the table setup
+function addDataToTable(jsonData) {
+    jsonData = JSON.parse(jsonData)
+
+    let label = ['Batch ID', 'Batch Size', 'Beer Type', 'Production Speed', 'Machine State', 'Produced'];
+    let valueID = ['showId', 'showSize', 'showType', 'showSpeed', 'showState', 'showProduced'];
+    console.log(jsonData);
+    let dataTable = []
+    dataTable.push(jsonData.batchNumberNodeID);
+    dataTable.push(jsonData.batchSizeNodeID);
+    dataTable.push(jsonData.beerTypeNodeID);
+    dataTable.push(jsonData.getCurrentProductionSpeedNodeID);
+    dataTable.push(jsonData.currentStateNodeID);
+    dataTable.push(jsonData.producedNodeID);
+
+    for (let i = 0; i < valueID.length; i++) {
+        document.getElementById(valueID[i]).value = dataTable[i];
+    }
+}
+
     return (
         <>
             <div className={classes.mainContent}>
@@ -331,6 +351,7 @@ export default function Production(props) {
                             <input
                                 type='text'
                                 className={classes.rowInput}
+                                aria-label='showID'
                                 style={{ border: '0' }}
                             />
                         </div>
@@ -339,8 +360,9 @@ export default function Production(props) {
                             <p className={classes.rowText}>Batch size</p>
                             <input
                                 type='text'
+                                aria-label='showSize'
                                 className={classes.rowInput}
-                                value='1234'
+                                // value={batchSize}
                                 style={{ border: '0' }}
                             />
                         </div>
@@ -349,8 +371,9 @@ export default function Production(props) {
                             <p className={classes.rowText}>Beer type</p>
                             <input
                                 type='text'
+                                aria-label='showType'
                                 className={classes.rowInput}
-                                value='Wheat'
+                                //value={beerType}
                                 style={{ border: '0' }}
                             />
                         </div>
@@ -362,8 +385,9 @@ export default function Production(props) {
                             <p className={classes.rowText}>Speed</p>
                             <input
                                 type='text'
+                                aria-label='showSpeed'
                                 className={classes.rowInput}
-                                value='1234'
+                                //value={speed}
                                 style={{ border: '0' }}
                             />
                         </div>
@@ -380,8 +404,9 @@ export default function Production(props) {
                             <p className={classes.rowText}>Machine state</p>
                             <input
                                 type='text'
+                                aria-label='showState'
                                 className={classes.rowInput}
-                                value='1234'
+                                //value='1234'
                                 style={{ border: '0' }}
                             />
                         </div>
@@ -397,8 +422,9 @@ export default function Production(props) {
                             <p className={classes.rowText}>Produced</p>
                             <input
                                 type='text'
+                                aria-label='showProduced'
                                 className={classes.rowInput}
-                                value='1234'
+                                //value='1234'
                                 style={{ border: '0' }}
                             />
                         </div>
