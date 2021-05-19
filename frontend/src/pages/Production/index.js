@@ -194,7 +194,6 @@ const Production = props => {
                 if (response.data.statusCode === 200) {
                     setSuccesMessage(response.data.message);
                     toast.success(response.data.message);
-                    console.log(response.data.message);
                 }
                 if (response.data.statusCode === 400) {
                     let errorMessage = JSON.parse(
@@ -214,7 +213,6 @@ const Production = props => {
                         autoClose: true,
                     });
                 }
-                console.log(response.data.message);
             })
             .catch(error => {
                 let errorMessage = JSON.parse(localStorage.getItem('Error'));
@@ -330,24 +328,38 @@ const Production = props => {
     };
 
     //Function to insert all values from the getSubValues API into the table and the table setup
-function addDataToTable(jsonData) {
-    jsonData = JSON.parse(jsonData)
+    function addDataToTable(jsonData) {
+        jsonData = JSON.parse(jsonData);
 
-    let label = ['Batch ID', 'Batch Size', 'Beer Type', 'Production Speed', 'Machine State', 'Produced'];
-    let valueID = ['showId', 'showSize', 'showType', 'showSpeed', 'showState', 'showProduced'];
-    console.log(jsonData);
-    let dataTable = []
-    dataTable.push(jsonData.batchNumberNodeID);
-    dataTable.push(jsonData.batchSizeNodeID);
-    dataTable.push(jsonData.beerTypeNodeID);
-    dataTable.push(jsonData.getCurrentProductionSpeedNodeID);
-    dataTable.push(jsonData.currentStateNodeID);
-    dataTable.push(jsonData.producedNodeID);
+        let label = [
+            'Batch ID',
+            'Batch Size',
+            'Beer Type',
+            'Production Speed',
+            'Machine State',
+            'Produced',
+        ];
+        let valueID = [
+            'showId',
+            'showSize',
+            'showType',
+            'showSpeed',
+            'showState',
+            'showProduced',
+        ];
+        console.log(jsonData);
+        let dataTable = [];
+        dataTable.push(jsonData.batchNumberNodeID);
+        dataTable.push(jsonData.batchSizeNodeID);
+        dataTable.push(jsonData.beerTypeNodeID);
+        dataTable.push(jsonData.getCurrentProductionSpeedNodeID);
+        dataTable.push(jsonData.currentStateNodeID);
+        dataTable.push(jsonData.producedNodeID);
 
-    for (let i = 0; i < valueID.length; i++) {
-        document.getElementById(valueID[i]).value = dataTable[i];
+        for (let i = 0; i < valueID.length; i++) {
+            document.getElementById(valueID[i]).value = dataTable[i];
+        }
     }
-}
 
     return (
         <>
