@@ -1,0 +1,109 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.root {
+    display: flex;
+}
+
+.MuiContainer-root {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+}
+
+.active {
+    background-color: #98ddca !important;
+    color: white !important;
+}
+
+.button {
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 1.2rem;
+    margin-left: 1.2rem;
+    margin-right: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    color: #98ddca;
+    background-color: white;
+    border-style: solid !important;
+}
+
+.button:hover {
+    background-color: #98ddca !important;
+    color: white !important;
+}
+
+.buttons .Mui-selected {
+    background-color: #d5ecc2 !important;
+}
+
+.logo {
+    height: 80px;
+}
+
+.logo-container {
+    align-content: flex-start;
+}
+
+.logout {
+    width: 40px;
+    border-radius: 0;
+}
+
+.logout:hover {
+    background-color: #ffaaa7 !important;
+}
+
+.notification {
+    width: 65px;
+    border: none;
+    border-radius: 0;
+    color: #000000;
+}
+
+.notification:hover {
+    background-color: #ffd3b4 !important;
+}
+
+.notification:hover .Mui-selected {
+    background-color: #d5ecc2 !important;
+}
+
+.action-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+}
+.MuiSvgIcon-root {
+    font-size: 2rem !important;
+}
+
+.MuiButton-label {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.notification-icon {
+    color: #98ddca !important;
+}
+
+.icon-text {
+    font-size: 1rem !important;
+}
+
+.alert-button {
+    padding: 15px;
+}
+
+.logout-button {
+    padding: 15px;
+}
