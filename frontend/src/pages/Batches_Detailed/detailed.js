@@ -60,26 +60,6 @@ const useStyles = makeStyles((theme) => ({
         width:"650px",
         margin:theme.spacing(2),
     },
-    chartCard:{
-        minWidth:"600px",
-        width:"40%",
-        height:"90%",
-        margin:"5% 10%",
-        backgroundColor:"#ffffff",
-        borderRadius:"4px",
-        borderWidth:"2px",
-        borderColor:"#98DDCA",
-        borderStyle:"solid",
-
-    },
-    chartTitle:{
-        textTransform:"uppercase",
-        color:"#8a8a8a",
-    },
-    container:{
-        width:"100%",
-        display:"inline-flex",
-    },
     export:{
         backgroundColor:"#FFD3B4",
         padding:theme.spacing(1.5),
@@ -90,21 +70,6 @@ const useStyles = makeStyles((theme) => ({
         '&:hover':{
             backgroundColor:"#98DDCA"
         }
-    },
-    info:{
-        minWidth:"350px",
-        margin:"5% 5%",
-        width:"25%",
-        height:"80%",
-        backgroundColor:"#ffffff",
-        borderRadius:"4px",
-        borderWidth:"2px",
-        borderColor:"#98DDCA",
-        borderStyle:"solid",
-    },
-    label:{
-        textTransform:"uppercase",
-        color:"#8a8a8a",
     },
     row:{
         margin:theme.spacing(5),
@@ -123,16 +88,7 @@ const useStyles = makeStyles((theme) => ({
         color:"#8a8a8a",
 
     },
-    value:{
-        color:"#8a8a8a",
-    }
 }));
-
-const temp = [
-    {argument:1, value:10},
-    {argument:2, value:20},
-    {argument:3, value:30},
-]
 
 /**
  * Simple function used to simplify the Ctrl+P hotkey for printing the screen
@@ -180,46 +136,46 @@ export default function Batches(){
     }, []);
 
     return(
-        <Box className={classes.container}>
+        <Box className="container">
                 <NavLink to="/batches" className={classes.back}>
                     <LeftArrow className={classes.arrow} align="center"/><Typography className={classes.buttonText} align="center">back</Typography>
                 </NavLink>
-                <Card className={classes.info}>
+                <Card className='info'>
                     <Typography align="center" className={classes.title}>Batch Details</Typography>
                     <Table className={classes.table}>
                         <TableBody>
                             <TableRow className={classes.row}>
-                                <TableCell className={classes.label}>Batch ID</TableCell>
-                                <TableCell className={classes.value}>{data._id}</TableCell>
+                                <TableCell className='label'>Batch ID</TableCell>
+                                <TableCell className='value'>{data._id}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className={classes.label}>Date</TableCell>
-                                <TableCell className={classes.value}>{data.dateProduced}</TableCell>
+                                <TableCell className='label'>Date</TableCell>
+                                <TableCell className='value'>{data.dateProduced}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className={classes.label}>Beer Type</TableCell>
-                                <TableCell className={classes.value}>{data.beerType}</TableCell>
+                                <TableCell className='label'>Beer Type</TableCell>
+                                <TableCell className='value'>{data.beerType}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className={classes.label}>Batch Size</TableCell>
-                                <TableCell className={classes.value}>{data.batchSize}</TableCell>
+                                <TableCell className='label'>Batch Size</TableCell>
+                                <TableCell className='value'>{data.batchSize}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className={classes.label}>Correct Beers</TableCell>
-                                <TableCell className={classes.value}>{data.valid}</TableCell>
+                                <TableCell className='label'>Correct Beers</TableCell>
+                                <TableCell className='value'>{data.valid}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className={classes.label}>Defective Beers</TableCell>
-                                <TableCell className={classes.value}>{data.defects}</TableCell>
+                                <TableCell className='label'>Defective Beers</TableCell>
+                                <TableCell className='value'>{data.defects}</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
                     <Button align="center" className={classes.export} onClick={printScreen}>Export to PDF</Button>
                 </Card>
-                <Card className={classes.chartCard}>
+                <Card className='chartCard'>
                     {isLoading ? <p>Loading...</p> : 
                         <Chart className={classes.chart} data={data.readings}>
-                            <Title className={classes.chartTitle} text={'Detailed value readings during the production'}/>
+                            <Title className='chartTitle' text={'Detailed value readings during the production'}/>
                             <ArgumentAxis />
                             <ValueAxis/>
                             <LineSeries name="Temperature" valueField="temperature" argumentField="time"/>
