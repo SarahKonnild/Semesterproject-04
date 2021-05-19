@@ -170,6 +170,7 @@ export default function Batches(){
 
         axios.get('http://localhost:5000/batches/'+ id).then(
             res => setData(res.data),
+            console.log(data)
         )
     }
 
@@ -219,8 +220,7 @@ export default function Batches(){
                     <Button align="center" className={classes.export} onClick={printScreen}>Export to PDF</Button>
                 </Card>
                 <Card className={classes.chartCard}>
-                    {/* <Chart className={classes.chart} data={data.readings}> */}
-                    <Chart className={classes.chart} data={temp}>
+                    <Chart className={classes.chart} data={data.readings}>
                         <Title className={classes.chartTitle} text={'Detailed value readings during the production'}/>
                         <ArgumentAxis />
                         <ValueAxis/>
@@ -232,6 +232,4 @@ export default function Batches(){
                 </Card>
         </Box>
     )
-        
-    
 }
