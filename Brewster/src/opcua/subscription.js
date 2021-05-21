@@ -1,10 +1,10 @@
-import * as CONSTANTS from './constants.js';
-import pkg from 'node-opcua';
-import * as command from './commands.js';
-import * as error from './errorCodes.js';
-import * as connection from './connection.js';
-import BobTheBuilder from './helperFunctions.js';
-import { NoVariablesFromProduction } from './errorCodes.js';
+import * as CONSTANTS from "./constants.js";
+import pkg from "node-opcua";
+import * as command from "./commands.js";
+import * as error from "./errorCodes.js";
+import * as connection from "./connection.js";
+import BobTheBuilder from "./helperFunctions.js";
+import { NoVariablesFromProduction } from "./errorCodes.js";
 
 const {
     OPCUAClient,
@@ -22,7 +22,10 @@ const {
 } = pkg;
 
 let nodeClass = [];
-
+let allReadings;
+let session;
+let subscriped = false;
+let machineStatus;
 /**
  * This class define a node by holding the adress and the readings.
  * It has a method to add new readings
@@ -46,32 +49,32 @@ class node {
     }
 }
 
-function getReadingValueFromNodes(time, tempObj) {
+function getReadingValueFromNodes(tempObj) {
     nodeClass.forEach(node => {
         //Looping through all the nodes names and adding their value for the given time
-        tempObj[node.name] = node.readings[time];
+        let readings = node.getReadings();
+        tempObj[node.name] = readings[tempObj["time"]];
     });
-
     return tempObj;
 }
 
 function SarahTheBuilder() {
     let jointReadings = { readings: [] };
-    let tempObj = {};
-    if (!nodeClass) {
-        throw NoVariablesFromProduction;
-    }
+
     let node1Readings = nodeClass[0].getReadings();
     let entries = Object.keys(node1Readings);
-
-    entries.forEach(element => {
+    console.log(entries);
+    entries.forEach(entry => {
+        let tempObj = {};
         //Getting the time element and adding that
-        tempObj['time'] = parseInt(element);
+        let time = parseInt(entry);
+        tempObj["time"] = time;
 
         //add the timestamp and its values to the array of readings
-        jointReadings.readings.push(getReadingValueFromNodes(element, tempObj));
+        tempObj = getReadingValueFromNodes(tempObj);
+        jointReadings["readings"].push(tempObj);
     });
-
+    console.log(jointReadings);
     return jointReadings;
 }
 /**
@@ -79,13 +82,7 @@ function SarahTheBuilder() {
  * @returns Json object with 5 objects that each contains an object named readings that have the timestamp and values
  */
 export function getSubscriptionValue() {
-    try {
-        return SarahTheBuilder();
-    } catch (error) {
-        return err instanceof error.CustomError
-            ? err.toJson()
-            : BobTheBuilder(400, 'Unknown error');
-    }
+    return allReadings ? allReadings : BobTheBuilder(400, "Unknown error");
 }
 
 /**
@@ -97,41 +94,42 @@ function sleep(ms) {
 
 export async function startSubscription() {
     nodeClass.length = 0;
+    allReadings = [];
     //Creating some new node objects
-    nodeClass.push(new node(CONSTANTS.getHumidityNodeID, 'humidity'));
-    nodeClass.push(new node(CONSTANTS.getVibrationNodeID, 'vibration'));
-    nodeClass.push(new node(CONSTANTS.getTemperaturNodeID, 'temperatur'));
-
-    let session = null;
+    nodeClass.push(new node(CONSTANTS.getHumidityNodeID, "humidity"));
+    nodeClass.push(new node(CONSTANTS.getVibrationNodeID, "vibration"));
+    nodeClass.push(new node(CONSTANTS.getTemperaturNodeID, "temperatur"));
+    session = null;
     await sleep(1000); // needs to wait a bit for the machine to be ready for connection
     try {
         //Trying to start up a connection to the machine
         session = await connection.startSession();
-
         //Checking to make sure there is an active connection, otherwise throw an error.
         if (session == null) {
             throw new error.NoSessionToMachineError();
         }
-
-        let machineState = await command.getCurrentState(session);
+        subscriped = true;
+        machineStatus = await command.getCurrentState(session);
         // Only run this code while the machine is running
         let startTime = Math.round(+new Date() / 1000);
-        while (machineState == 6) {
-            machineState = await command.getCurrentState(session);
+        while (machineStatus == 6) {
+            machineStatus = await command.getCurrentState(session);
+
             nodeClass.forEach(node => {
                 getValueFromNode(node, session, startTime);
             });
 
-            // Run the code every 5 sec
+            // Run the code every 1 sec
             await sleep(1000);
         }
     } catch (err) {
         return err instanceof error.CustomError
             ? err.toJson()
-            : BobTheBuilder(400, 'Unknown error');
+            : BobTheBuilder(400, "Unknown error");
     } finally {
-        SarahTheBuilder();
+        allReadings = SarahTheBuilder();
         await connection.stopSession(session);
+        subscriped = false;
     }
 }
 
@@ -151,4 +149,11 @@ async function getValueFromNode(node, session, startTime) {
 
     //add timestamp and value to the node object
     node.addNewReading(timeSinceStart, value);
+}
+
+export function getSubscriped() {
+    return subscriped;
+}
+export function getMachineStatus() {
+    return machineStatus;
 }
