@@ -137,7 +137,7 @@ export default function Batches(){
     return(
         <Aux>
             <Navbar/>
-            <Box className="container">
+            <Box className="box">
                 <NavLink to="/batches" className={classes.back}>
                     <LeftArrow className={classes.arrow} align="center"/><Typography className={classes.buttonText} align="center">back</Typography>
                 </NavLink>

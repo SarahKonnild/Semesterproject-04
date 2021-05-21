@@ -25,9 +25,8 @@
     align-content: center;
 }
 
-.MuiBox-root.MuiBox-root.container{
+.MuiBox-root.MuiBox-root.box{
     width: 100%;
-    padding-left: 150px;
     display: inline-flex;
 }
 
