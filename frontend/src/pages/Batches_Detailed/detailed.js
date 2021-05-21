@@ -11,6 +11,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 
 import './detailed.css';
+import Navbar from '../../components/Navigation/navbar';
+import Footer from '../../components/Footer/footer';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
 
 import LeftArrow from '@material-ui/icons/ArrowLeft';
 
@@ -136,7 +139,9 @@ export default function Batches(){
     }, []);
 
     return(
-        <Box className="container">
+        <Aux>
+            <Navbar/>
+            <Box className="container">
                 <NavLink to="/batches" className={classes.back}>
                     <LeftArrow className={classes.arrow} align="center"/><Typography className={classes.buttonText} align="center">back</Typography>
                 </NavLink>
@@ -185,6 +190,9 @@ export default function Batches(){
                         </Chart>
                     }
                 </Card>
-        </Box>
+            </Box>
+            <Footer/>
+        </Aux>
+        
     )
 }

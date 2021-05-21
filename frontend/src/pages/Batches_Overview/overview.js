@@ -19,6 +19,10 @@ import ArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Refresh from '@material-ui/icons/Cached';
 import axios from 'axios'
 
+import Navbar from '../../components/Navigation/navbar';
+import Footer from '../../components/Footer/footer';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
+
 import './overview.css';
 import { Link } from 'react-router-dom';
 
@@ -120,48 +124,53 @@ export default function Batches() {
     }
     
     return (
-        <TableContainer className='table'>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell><IconButton className='refresh' onClick={Reload}><Refresh/></IconButton></TableCell>
-                        <TableCell className='title' align="left">Batch ID</TableCell>
-                        <TableCell className='title' align="left">Date Produced</TableCell>
-                        <TableCell className='title' align="left">Beer Type</TableCell>
-                        <TableCell className='title' align="left">Batch Size</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {/* Figures out how to split the information in the data variable into rows */}
-                    {(rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map(batch =>(
-                        <TableRow className={classes.data} key={batch.batchId}>
-                            <TableCell className="details" align="left"><Link to={"/details/"+batch._id}>Batch Details</Link></TableCell>
-                            <TableCell className='id' align="left">{batch._id}</TableCell>
-                            <TableCell className={classes.date} align="left">{batch.dateProduced}</TableCell>
-                            <TableCell className={classes.type} align="left">{batch.beerType}</TableCell>
-                            <TableCell className={classes.size} align="left">{batch.batchSize}</TableCell>
+        <Aux>
+            <Navbar/>
+            <TableContainer className='table'>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell><IconButton className='refresh' onClick={Reload}><Refresh/></IconButton></TableCell>
+                            <TableCell className='title' align="left">Batch ID</TableCell>
+                            <TableCell className='title' align="left">Date Produced</TableCell>
+                            <TableCell className='title' align="left">Beer Type</TableCell>
+                            <TableCell className='title' align="left">Batch Size</TableCell>
                         </TableRow>
-                    ))}
-                    {emptyRows > 0 && (
-                        <TableRow style={{height:53 * emptyRows}}>
-                            <TableCell colSpan={4}/>
+                    </TableHead>
+                    <TableBody>
+                        {/* Figures out how to split the information in the data variable into rows */}
+                        {(rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map(batch =>(
+                            <TableRow className={classes.data} key={batch.batchId}>
+                                <TableCell className="details" align="left"><Link to={"/details/"+batch._id}>Batch Details</Link></TableCell>
+                                <TableCell className='id' align="left">{batch._id}</TableCell>
+                                <TableCell className={classes.date} align="left">{batch.dateProduced}</TableCell>
+                                <TableCell className={classes.type} align="left">{batch.beerType}</TableCell>
+                                <TableCell className={classes.size} align="left">{batch.batchSize}</TableCell>
+                            </TableRow>
+                        ))}
+                        {emptyRows > 0 && (
+                            <TableRow style={{height:53 * emptyRows}}>
+                                <TableCell colSpan={4}/>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                    <TableFooter className={classes.footer}>
+                        <TableRow>
+                            <TablePagination
+                                rowsPerPageOptions={1}
+                                colSpan={2}
+                                count={data.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onChangePage={handleChangePage}
+                                ActionsComponent={PaginationActions}
+                            />
                         </TableRow>
-                    )}
-                </TableBody>
-                <TableFooter className={classes.footer}>
-                    <TableRow>
-                        <TablePagination
-                            rowsPerPageOptions={1}
-                            colSpan={2}
-                            count={data.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onChangePage={handleChangePage}
-                            ActionsComponent={PaginationActions}
-                        />
-                    </TableRow>
-                </TableFooter>
-            </Table>
-        </TableContainer>
+                    </TableFooter>
+                </Table>
+            </TableContainer>
+            <Footer/>
+        </Aux>
+        
     );
 }
