@@ -2,7 +2,7 @@
 
 .MuiPaper-root.MuiCard-root.chartCard{
     min-width: 650px;
-    width: 40%;
+    max-width: 650px;
     height:550px;
     margin:5% 10%;
     background-color: #ffffff;
