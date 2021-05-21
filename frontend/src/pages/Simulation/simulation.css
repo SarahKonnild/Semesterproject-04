@@ -1,0 +1,42 @@
+.MuiInputBase-root.MuiInput-root.MuiInput-underline.beerType{
+    width: 170px;
+    color: #8a8a8a;
+}
+
+.MuiBox-root.MuiBox-root.buttons{
+    display:flex;
+    align-items: center;
+}
+
+.MuiBox-root.MuiBox-root.container{
+    width:100%;
+    margin-left: 520px;
+}
+
+.MuiPaper-root.MuiCard-root.info{
+    min-width: 350px;
+    max-width:400px;
+    height:550px;
+    background-color: white;
+    border-radius: 4px;
+    border-width: 2px;
+    border-color: #98ddca;
+    border-style: solid;
+}
+
+.MuiTableCell-root.MuiTableCell-body.label{
+    text-transform: uppercase;
+    color: #8a8a8a;
+}
+
+.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.menuItem{
+    color: #8a8a8a;
+}
+
+.MuiButtonBase-root.MuiListItem-root.MuiMenuItem-root.menuItem:hover{
+    background-color: #98ddca;
+}
+
+.MuiTableCell-root.MuiTableCell-body.value{
+    color: #8a8a8a;
+}
