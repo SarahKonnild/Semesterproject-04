@@ -64,7 +64,8 @@ const useStyles = makeStyles(theme => ({
     export: {
         backgroundColor: '#FFD3B4',
         padding: theme.spacing(1.5),
-        margin: theme.spacing(1),
+        marginTop: theme.spacing(3),
+        marginLeft: "130px",
         color: '#8a8a8a',
         '&:hover': {
             backgroundColor: '#98DDCA',
