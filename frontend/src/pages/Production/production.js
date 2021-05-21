@@ -23,6 +23,8 @@ import Navbar from "../../components/Navigation/navbar";
 import Footer from "../../components/Footer/footer";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 
+import '../../pages/Production/production.css';
+
 // THIS PAGE WAS DEVELOPED BY MAHMOD EL-SET and Kasper Svane
 
 const useStyles = makeStyles(theme => ({

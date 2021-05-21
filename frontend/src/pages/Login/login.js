@@ -110,7 +110,7 @@ export default function Login({ history }) {
             type='email'
             required
             id='username'
-            label='Username'
+            label='Email'
             className={classes.input}
             onChange={e => setEmail(e.target.value)}
             value={email}

@@ -50,7 +50,7 @@
 }
 
 .logout {
-    width: 40px;
+    width: 100px;
     border-radius: 0;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .notification {
-    width: 65px;
+    width: 100px;
     border: none;
     border-radius: 0;
     color: #000000;
@@ -93,7 +93,7 @@
 }
 
 .notification-icon {
-    color: #98ddca !important;
+    color: #8a8a8a !important;
 }
 
 .icon-text {

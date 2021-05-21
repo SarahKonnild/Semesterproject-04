@@ -21,3 +21,155 @@ input {
     outline: none;
     border-style: solid;
 }
+
+.mainContent{
+    margin: 3% auto;
+    width: 80%;
+    background: white;
+    display: flex;
+}
+
+.leftProd{
+    float: left;
+    width: 50%;
+    height: auto;
+    background: white;
+    position: relative;
+}
+
+.rightProd{
+    float: left;
+    width: 50%;
+    height: 200px;
+    background: white;
+    position: relative;
+}
+
+.headlines{
+    color:#98ddca;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 26px;
+}
+
+.controls{
+    margin: 3% auto;
+    width: 60%;
+    height: auto;
+    background: white;
+    border-radius: 10px;
+    padding: 5%;
+    box-shadow: 0px 6px 3px 0px rgba(0,0,0,0.16);
+}
+
+.overview{
+    margin: 3% auto;
+    width: 70%;
+    height: auto;
+    background: white;
+    border-radius: 10px;
+    padding:5%;
+}
+
+.row{
+    width: 100%;
+    background: white;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.rowIcons{
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin-top: 15px;
+}
+
+.beerIcon{
+    float: left;
+    width: 15px;
+    height: 40px;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.speedometerIcon{
+    float:left;
+    width:35px;
+    height:25px;
+    margin-top: 15px;
+    margin-left: -5px;
+}
+
+.stopwatchIcon{
+    float:left;
+    width: 25px;
+    height: 30px;
+    margin-top: 15px;
+}
+
+.rowText{
+    float: left;
+    width: 290px;
+    margin-left: 25px;
+    margin-right: 50px;
+    font-size: 18px;
+}
+
+.rowInput{
+    float: left;
+    width: 150px;
+    height: 40px;
+    margin-top: 5px;
+    border-radius: 10px;
+    border-color: #98ddca;
+    border-style: solid;
+    text-align: center;
+    font-size: 18px;
+}
+
+.startBtn{
+    width: 100px;
+    color:white;
+    background-color: #98ddca;
+    margin-right: 4.4%;
+    border-radius: 10px;
+    border: solid 2px white;
+}
+
+.startBtn:hover{
+    background-color: white;
+    color:#98ddca;
+    border: solid 2px #98ddca;
+}
+
+.resetBtn{
+    width: 100px;
+    color:white;
+    background-color: #ffd3b4;
+    margin-right: 4.4%;
+    border-radius: 10px;
+    border: solid 2px white;
+}
+
+.resteBtn:hover{
+    background-color: white;
+    color: #ffd3b4;
+    border: solid 2px #ffd3b4;
+}
+
+.stopBtn{
+    width:100px;
+    color: white;
+    background-color: #ffaaa7;
+    margin-right: 4.4%;
+    border-radius: 10px;
+    border: solid 2px white;
+}
+
+.stopBtn:hover{
+    background-color: white;
+    color: #ffaaa7;
+    border: solid 2px #ffaaa7;
+}
