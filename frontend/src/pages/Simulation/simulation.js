@@ -34,7 +34,9 @@ const useStyles = makeStyles(theme => ({
     reset:{
         backgroundColor:"#FFAAA7",
         padding:theme.spacing(2),
-        margin:"15%",
+        marginLeft:"18%",
+        marginTop:"10%",
+        marginBottom:"15%",
         color:"#8a8a8a",
         '&:hover':{
             backgroundColor:"#98DDCA"
@@ -46,7 +48,9 @@ const useStyles = makeStyles(theme => ({
     simulate:{
         backgroundColor:"#FFD3B4",
         padding:theme.spacing(2),
-        margin:"15%",
+        marginLeft:"17%",
+        marginTop:"10%",
+        marginBottom:"15%",
         color:"#8a8a8a",
         '&:hover':{
             backgroundColor:"#98DDCA"

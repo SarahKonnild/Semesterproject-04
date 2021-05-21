@@ -8,14 +8,15 @@
     align-items: center;
 }
 
-.MuiBox-root.MuiBox-root-8.container{
+.MuiBox-root.MuiBox-root.container{
     width:100%;
-    padding-left: 700px;
+    margin-left: 520px;
 }
 
 .MuiPaper-root.MuiCard-root.info{
     min-width: 350px;
     max-width:400px;
+    height:550px;
     background-color: white;
     border-radius: 4px;
     border-width: 2px;
