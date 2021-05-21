@@ -47,3 +47,27 @@
     text-decoration: none !important;
     color:#cbac3b !important;
 }
+
+.MuiTableCell-root.MuiTableCell-body.id{
+    color:#8a8a8a
+}
+
+.MuiTableCell-root.MuiTableCell-body.date{
+    color:#8a8a8a
+}
+
+.MuiTableCell-root.MuiTableCell-body.details{
+    color:#8a8a8a
+}
+
+.MuiTableCell-root.MuiTableCell-body.type{
+    color:#8a8a8a
+}
+
+.MuiTableCell-root.MuiTableCell-body.size{
+    color:#8a8a8a
+}
+
+.MuiTableCell-root.MuiTableCell-head.title{
+    color:#8a8a8a
+}

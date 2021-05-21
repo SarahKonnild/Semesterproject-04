@@ -143,9 +143,9 @@ export default function Batches() {
                             <TableRow className="data" key={batch.batchId}>
                                 <TableCell className="details" align="left"><Link to={"/details/"+batch._id}>Batch Details</Link></TableCell>
                                 <TableCell className="id" align="left">{batch._id}</TableCell>
-                                <TableCell className={classes.date} align="left">{batch.dateProduced}</TableCell>
-                                <TableCell className={classes.type} align="left">{batch.beerType}</TableCell>
-                                <TableCell className={classes.size} align="left">{batch.batchSize}</TableCell>
+                                <TableCell className="date" align="left">{batch.dateProduced}</TableCell>
+                                <TableCell className="type" align="left">{batch.beerType}</TableCell>
+                                <TableCell className="size" align="left">{batch.batchSize}</TableCell>
                             </TableRow>
                         ))}
                         {emptyRows > 0 && (
