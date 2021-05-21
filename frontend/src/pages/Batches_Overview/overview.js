@@ -22,88 +22,28 @@ import Navbar from '../../components/Navigation/navbar';
 import Footer from '../../components/Footer/footer';
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 
+import Navbar from '../../components/Navigation/navbar';
+import Footer from '../../components/Footer/footer';
+import Aux from '../../hoc/Auxiliary/Auxiliary';
+
 import './overview.css';
 import { Link } from 'react-router-dom';
 
-// THIS PAGE WAS CREATED BY SARAH MANON PRADEL
-// ENJOY! \(^o^)/** */
+
+/**
+ * The primary @author Sarah Manon Pradel
+ * 
+ * This page contains all of the functionality and layout related to the batches Overview page. 
+ * Please feel free to collapse the useStyles constant.
+ * 
+ * All complex functionality in here will be documented.
+ */
 
 const useStyles = makeStyles(theme => ({
-  arrow: {
-    '&:hover': {
-      backgroundColor: '#98DDCA',
+    root:{
+        flexShrink:0,
+        marginLeft:theme.spacing(2.5),
     },
-  },
-  button: {
-    borderRadius: '5px',
-    textDecoration: 'none',
-    color: '#8a8a8a',
-    backgroundColor: '#FFD3B4',
-    textTransform: 'uppercase',
-    padding: theme.spacing(2),
-    marginLeft: theme.spacing(4),
-    border: 'none',
-    '&:hover': {
-      backgroundColor: '#98DDCA !important',
-    },
-  },
-  checkbox: {
-    '.MuiCheckbox-colorSecondary.Mui-checked': {
-      color: '#cbac3b',
-    },
-  },
-  chosen: {},
-  data: {
-    '&:hover': {
-      backgroundColor: '#D5ECC2',
-    },
-    '&:.Mui-selected': {
-      backgroundColor: '#cbac3b',
-    },
-  },
-  date: {
-    color: '#8a8a8a',
-  },
-  footer: {
-    display: 'flex',
-    paddingLeft: '12.5%',
-    paddingRight: '12.5%',
-    paddingTop: '1.5%',
-    maxWidth: '75%',
-  },
-  header: {},
-  id: {
-    color: '#8a8a8a',
-  },
-  refresh: {
-    color: '#8a8a8a',
-    '&:hover': {
-      backgroundColor: '#98DDCA',
-    },
-  },
-  root: {
-    flexShrink: 0,
-    marginLeft: theme.spacing(2.5),
-  },
-  rows: {},
-  size: {
-    color: '#8a8a8a',
-  },
-  table: {
-    paddingLeft: '12.5%',
-    paddingRight: '12.5%',
-    paddingTop: '1.5%',
-    maxWidth: '75%',
-    border: '2px',
-  },
-  title: {
-    textTransform: 'uppercase',
-    color: '#8a8a8a',
-    fontSize: '16px',
-  },
-  type: {
-    color: '#8a8a8a',
-  },
 }));
 
 PaginationActions.propTypes = {
@@ -113,10 +53,17 @@ PaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function PaginationActions(props) {
-  const classes = useStyles();
-  const theme = useTheme();
-  const { count, page, rowsPerPage, onChangePage } = props;
+/**
+ * This function is responsible for the pagination functionality for the table. 
+ * There is a function for each type of button, and the overall function will
+ * @return the div that contains the buttons that the user can interact with to
+ * utilize the functionality.
+ *
+ */
+function PaginationActions(props){
+    const classes = useStyles();
+    const theme = useTheme();
+    const {count, page, rowsPerPage, onChangePage} = props;
 
   const handleFirstPageButtonClick = event => {
     onChangePage(event, 0);
@@ -130,144 +77,99 @@ function PaginationActions(props) {
     onChangePage(event, page + 1);
   };
 
-  const handleLastPageButtonClick = event => {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
-  return (
-    <div className={classes.root}>
-      <IconButton
-        className={classes.arrow}
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-      >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-      </IconButton>
-      <IconButton
-        className={classes.arrow}
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-      >
-        {theme.direction === 'rtl' ? <ArrowRight /> : <ArrowLeft />}
-      </IconButton>
-      <IconButton
-        className={classes.arrow}
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-      >
-        {theme.direction === 'rtl' ? <ArrowLeft /> : <ArrowRight />}
-      </IconButton>
-      <IconButton
-        className={classes.arrow}
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-      >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-      </IconButton>
-    </div>
-  );
+    return(
+        <div className={classes.root}>
+            <IconButton className='arrow' onClick={handleFirstPageButtonClick} disabled={page === 0}>{theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}</IconButton>
+            <IconButton className='arrow' onClick={handleBackButtonClick} disabled={page === 0}>{theme.direction === 'rtl' ? <ArrowRight/> : <ArrowLeft/>}</IconButton>
+            <IconButton className='arrow' onClick={handleNextButtonClick} disabled={page >= Math.ceil(count/rowsPerPage) - 1}>{theme.direction === 'rtl' ? <ArrowLeft/> : <ArrowRight/>}</IconButton>
+            <IconButton className='arrow' onClick={handleLastPageButtonClick} disabled={page >= Math.ceil(count/rowsPerPage) - 1}>{theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}</IconButton>
+        </div>
+    )
 }
 
+/**
+ * 
+ * This is the React function that returns the page. It is called in the App.js file, 
+ * and can always be accessed through the /batches path. 
+ * 
+ * @returns the graphical user interface developed in MaterialUI
+ */
 export default function Batches() {
-  const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage] = React.useState(10);
-  const [data, setData] = useState([]);
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    /**
+     * Set the environment variables
+     */
+    const classes = useStyles();
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage] = React.useState(10);
+    const [data, setData] = useState([]);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
   function Reload() {
     window.location.reload(false);
   }
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/batches/').then(
-      res => setData(res.data),
-      res => console.log(res.data)
+    /**
+     * When the page is (re)loaded, it should pull the information from the database again
+     * and write it to the data React.state
+     */
+    useEffect(() => {
+        axios.get('http://localhost:5000/batches/').then(
+            res => setData(res.data),
+            res => console.log(res.data)
+        )}, []);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    }
+    
+    return (
+        <Aux>
+            <Navbar/>
+            <TableContainer className='table'>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell><IconButton className='refresh' onClick={Reload}><Refresh/></IconButton></TableCell>
+                            <TableCell className='title' align="left">Batch ID</TableCell>
+                            <TableCell className='title' align="left">Date Produced</TableCell>
+                            <TableCell className='title' align="left">Beer Type</TableCell>
+                            <TableCell className='title' align="left">Batch Size</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {/* Figures out how to split the information in the data variable into rows */}
+                        {(rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map(batch =>(
+                            <TableRow className={classes.data} key={batch.batchId}>
+                                <TableCell className="details" align="left"><Link to={"/details/"+batch._id}>Batch Details</Link></TableCell>
+                                <TableCell className='id' align="left">{batch._id}</TableCell>
+                                <TableCell className={classes.date} align="left">{batch.dateProduced}</TableCell>
+                                <TableCell className={classes.type} align="left">{batch.beerType}</TableCell>
+                                <TableCell className={classes.size} align="left">{batch.batchSize}</TableCell>
+                            </TableRow>
+                        ))}
+                        {emptyRows > 0 && (
+                            <TableRow style={{height:53 * emptyRows}}>
+                                <TableCell colSpan={4}/>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                    <TableFooter className={classes.footer}>
+                        <TableRow>
+                            <TablePagination
+                                rowsPerPageOptions={1}
+                                colSpan={2}
+                                count={data.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onChangePage={handleChangePage}
+                                ActionsComponent={PaginationActions}
+                            />
+                        </TableRow>
+                    </TableFooter>
+                </Table>
+            </TableContainer>
+            <Footer/>
+        </Aux>
+        
     );
-  }, []);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleBatchSelected = event => {};
-
-  return (
-    <Aux>
-      <Navbar />
-      <TableContainer className={classes.table}>
-        <Table>
-          <TableHead>
-            <TableRow className={classes.header}>
-              <TableCell>
-                <IconButton className={classes.refresh} onClick={Reload}>
-                  <Refresh />
-                </IconButton>
-              </TableCell>
-              <TableCell className={classes.title} align='left'>
-                Batch ID
-              </TableCell>
-              <TableCell className={classes.title} align='left'>
-                Date Produced
-              </TableCell>
-              <TableCell className={classes.title} align='left'>
-                Beer Type
-              </TableCell>
-              <TableCell className={classes.title} align='left'>
-                Batch Size
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : data
-            ).map(batch => (
-              <TableRow
-                className={classes.data}
-                key={batch.batchId}
-                onClick={handleBatchSelected}
-              >
-                <TableCell className='details' align='left'>
-                  <Link to={'/details/' + batch._id}>Batch Details</Link>
-                </TableCell>
-                <TableCell className={classes.id} align='left'>
-                  {batch.batchId}
-                </TableCell>
-                <TableCell className={classes.date} align='left'>
-                  {batch.dateProduced}
-                </TableCell>
-                <TableCell className={classes.type} align='left'>
-                  {batch.beerType}
-                </TableCell>
-                <TableCell className={classes.size} align='left'>
-                  {batch.batchSize}
-                </TableCell>
-              </TableRow>
-            ))}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={4} />
-              </TableRow>
-            )}
-          </TableBody>
-          <TableFooter className={classes.footer}>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={1}
-                colSpan={2}
-                count={data.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                ActionsComponent={PaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
-      <Footer />
-    </Aux>
-  );
 }

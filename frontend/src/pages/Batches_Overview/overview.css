@@ -1,16 +1,45 @@
+
+/* If you like the CSS, it was made by Sarah. If not, it was made by Simon */
+.table{
+    padding-left: 12.5%;
+    padding-right: 12.5%;
+    padding-top: 1.5%;
+    max-width: 75%;
+    border: 2px;
+}
+
+/* ALL THE MUI THINGS */
+.MuiSvgIcon-root{
+    color: #8a8a8a;
+}
+
+.MuiButtonBase-root.MuiIconButton-root.refresh:hover{
+    background-color: #98DDCA !important;
+}
+
 .MuiCheckbox-colorSecondary.Mui-checked {
     color: #98DDCA !important;
 }
 
-.details a{
-    text-transform:uppercase;
-    text-decoration: none !important;
-    color:#8a8a8a;
-
+.MuiButtonBase-root.MuiIconButton-root.arrow:hover{
+    background-color: #98DDCA;
 }
 
-.details a:hover{
+.MuiTableCell-root.MuiTableCell-head.title{
+    text-transform: uppercase;
+    text-decoration: none;
+    color:#6a6a6a;
+    font-size: 16px;
+}
+
+.MuiTableCell-root.MuiTableCell-body.details a{
+    text-transform:uppercase;
+    text-decoration: none;
+    color:#8a8a8a;
+}
+
+.MuiTableCell-root.MuiTableCell-body.details a:hover{
     text-transform:uppercase;
     text-decoration: none !important;
-    color:#ffbb10;
+    color:#cbac3b !important;
 }
