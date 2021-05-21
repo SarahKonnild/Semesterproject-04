@@ -18,10 +18,12 @@ import Aux from '../../hoc/Auxiliary/Auxiliary';
 import LeftArrow from '@material-ui/icons/ArrowLeft';
 
 import {
-  ArgumentAxis,
-  ValueAxis,
-  Chart,
-  LineSeries,
+    ArgumentAxis,
+    ValueAxis,
+    Chart,
+    LineSeries,
+    Title,
+    Legend,
 } from '@devexpress/dx-react-chart-material-ui';
 import { NavLink } from 'react-router-dom';
 
@@ -33,49 +35,33 @@ import { NavLink } from 'react-router-dom';
  * 
  * All complex functionality in here will be documented.
  */
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     arrow:{
         marginRight:theme.spacing(1),
         marginTop:theme.spacing(1.5),
     },
-  },
-  buttonText: {
-    marginTop: theme.spacing(1.5),
-    marginRight: theme.spacing(1.5),
-    textTransform: 'uppercase',
-  },
-  chart: {
-    width: '500px',
-    margin: theme.spacing(2),
-  },
-  chartCard: {
-    width: '800px',
-    height: '80%',
-    margin: '5%',
-    backgroundColor: '#ffffff',
-    borderRadius: '4px',
-    borderWidth: '2px',
-    borderColor: '#98DDCA',
-    borderStyle: 'solid',
-  },
-  container: {
-    width: '1500px',
-    display: 'inline-flex',
-  },
-  export: {
-    backgroundColor: '#FFD3B4',
-    padding: theme.spacing(1.5),
-    margin: theme.spacing(1),
-    color: '#8a8a8a',
-    '&:hover': {
-      backgroundColor: '#98DDCA',
+    buttonText: {
+        marginTop: theme.spacing(1.5),
+        marginRight: theme.spacing(1.5),
+        textTransform: 'uppercase',
+    },
+    chart: {
+        width: '500px',
+        margin: theme.spacing(2),
+    },
+    export: {
+        backgroundColor: '#FFD3B4',
+        padding: theme.spacing(1.5),
+        margin: theme.spacing(1),
+        color: '#8a8a8a',
+        '&:hover': {
+            backgroundColor: '#98DDCA',
+        },
     },
     buttonText:{
         marginTop:theme.spacing(1.5),
         marginRight:theme.spacing(1.5),
         textTransform:"uppercase",
-
     },
     chart:{
         width:"650px",
@@ -107,7 +93,6 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         textTransform:"uppercase",
         color:"#8a8a8a",
-
     },
 }));
 

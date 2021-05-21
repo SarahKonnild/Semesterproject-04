@@ -18,9 +18,6 @@ import ArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import ArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import Refresh from '@material-ui/icons/Cached';
 import axios from 'axios';
-import Navbar from '../../components/Navigation/navbar';
-import Footer from '../../components/Footer/footer';
-import Aux from '../../hoc/Auxiliary/Auxiliary';
 
 import Navbar from '../../components/Navigation/navbar';
 import Footer from '../../components/Footer/footer';
@@ -47,10 +44,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 PaginationActions.propTypes = {
-  count: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
+    count: PropTypes.number.isRequired,
+    onChangePage: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
+    rowsPerPage: PropTypes.number.isRequired,
 };
 
 /**
@@ -65,17 +62,21 @@ function PaginationActions(props){
     const theme = useTheme();
     const {count, page, rowsPerPage, onChangePage} = props;
 
-  const handleFirstPageButtonClick = event => {
-    onChangePage(event, 0);
-  };
+    const handleFirstPageButtonClick = event => {
+        onChangePage(event, 0);
+    };
 
-  const handleBackButtonClick = event => {
-    onChangePage(event, page - 1);
-  };
+    const handleBackButtonClick = event => {
+        onChangePage(event, page - 1);
+    };
 
-  const handleNextButtonClick = event => {
-    onChangePage(event, page + 1);
-  };
+    const handleNextButtonClick = event => {
+        onChangePage(event, page + 1);
+    };
+
+    const handleLastPageButtonClick = (event) => {
+        onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    };
 
     return(
         <div className={classes.root}>
@@ -104,9 +105,9 @@ export default function Batches() {
     const [data, setData] = useState([]);
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
-  function Reload() {
-    window.location.reload(false);
-  }
+    function Reload() {
+        window.location.reload(false);
+    }
 
     /**
      * When the page is (re)loaded, it should pull the information from the database again
