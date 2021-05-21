@@ -22,7 +22,7 @@ import Aux from '../../hoc/Auxiliary/Auxiliary';
 import axios from 'axios';
 
 /**
- * The primary @author Sarah Manon Pradel
+ * @author Sarah Manon Pradel
  * 
  * This page contains all of the functionality and layout related to the batches details page. 
  * Please feel free to collapse the useStyles constant.
@@ -30,7 +30,7 @@ import axios from 'axios';
  * All complex functionality in here will be documented.
  */
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     reset:{
         backgroundColor:"#FFAAA7",
         padding:theme.spacing(2),
@@ -65,7 +65,6 @@ const useStyles = makeStyles((theme) => ({
         textTransform:"uppercase",
         color:"#8a8a8a",
     },
-    
     value:{
         color:"#8a8a8a",
     }
@@ -111,7 +110,7 @@ export default function Simulation(props){
             time: timeAllotted
         };
 
-        axios.post('http://localhost:5000/optimization/calculateOptimalSpeedUsingValids', sim).then(
+        axios.post("http://localhost:5000/optimization/calculateOptimalSpeedUsingValids", sim).then(
             res => {
                 setOptimalSpeed(res.data.speed);
             }
@@ -121,43 +120,43 @@ export default function Simulation(props){
     return(
         <Aux>
             <Navbar/>
-            <Box  className='container'>
-                <Card className='info'>
+            <Box className="container">
+                <Card className="info">
                     <Typography align="center" className={classes.title}>Optimize Production</Typography>
                     <Table className={classes.table}>
                         <TableBody>
                             <TableRow className={classes.row}>
-                                <TableCell className='label'>Beer Type</TableCell>
+                                <TableCell className="label">Beer Type</TableCell>
                                 <TableCell className={classes.value}>
-                                    <Select className='beerType' labelId="beerType" id="beerType" value={beerType} onChange={handleChange}>
-                                        <MenuItem className='menuItem' value={0}>Pilsner</MenuItem>
-                                        <MenuItem className='menuItem' value={1}>Wheat</MenuItem>
-                                        <MenuItem className='menuItem' value={2}>IPA</MenuItem>
-                                        <MenuItem className='menuItem' value={3}>Stout</MenuItem>
-                                        <MenuItem className='menuItem' value={4}>Ale</MenuItem>
-                                        <MenuItem className='menuItem' value={5}>Alcohol Free</MenuItem>
+                                    <Select className="beerType" labelId="beerType" id="beerType" value={beerType} onChange={handleChange}>
+                                        <MenuItem className="menuItem" value={0}>Pilsner</MenuItem>
+                                        <MenuItem className="menuItem" value={1}>Wheat</MenuItem>
+                                        <MenuItem className="menuItem" value={2}>IPA</MenuItem>
+                                        <MenuItem className="menuItem" value={3}>Stout</MenuItem>
+                                        <MenuItem className="menuItem" value={4}>Ale</MenuItem>
+                                        <MenuItem className="menuItem" value={5}>Alcohol Free</MenuItem>
                                     </Select>
                                 </TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className='label'>Batch Size</TableCell>
-                                <TableCell className='value' id="batchSize" onChange={event => setBatchSize(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
+                                <TableCell className="label">Batch Size</TableCell>
+                                <TableCell className="value" id="batchSize" onChange={event => setBatchSize(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className='label'>Valid Beers</TableCell>
-                                <TableCell className='value' id="validBeers" onChange={event => setValidBeers(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
+                                <TableCell className="label">Valid Beers</TableCell>
+                                <TableCell className="value" id="validBeers" onChange={event => setValidBeers(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className='label'>Time Allotted</TableCell>
-                                <TableCell className='value' id="timeAllotted" onChange={event => setTimeAllotted(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
+                                <TableCell className="label">Time Allotted</TableCell>
+                                <TableCell className="value" id="timeAllotted" onChange={event => setTimeAllotted(event.target.value)}><TextField className={classes.inputFields}></TextField></TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className='label'>Optimal Speed</TableCell>
-                                <TableCell className='value'>{optimalSpeed}</TableCell>
+                                <TableCell className="label">Optimal Speed</TableCell>
+                                <TableCell className="value">{optimalSpeed}</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
-                    <Box className='buttons'>
+                    <Box className="buttons">
                         <Button align="center" className={classes.simulate} id="simButton" onClick={simulate}>Simulate</Button>
                         <Button align="center" className={classes.reset} id="resetButton" onClick={reset}>Reset</Button>
                     </Box>

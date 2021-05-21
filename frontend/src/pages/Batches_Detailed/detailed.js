@@ -28,7 +28,7 @@ import {
 import { NavLink } from 'react-router-dom';
 
 /**
- * The primary @author Sarah Manon Pradel
+ * @author Sarah Manon Pradel
  * 
  * This page contains all of the functionality and layout related to the batches details page. 
  * Please feel free to collapse the useStyles constant.
@@ -145,37 +145,37 @@ export default function Batches(){
                     <Table className={classes.table}>
                         <TableBody>
                             <TableRow className={classes.row}>
-                                <TableCell className='label'>Batch ID</TableCell>
-                                <TableCell className='value'>{data._id}</TableCell>
+                                <TableCell className="label">Batch ID</TableCell>
+                                <TableCell className="value">{data._id}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className='label'>Date</TableCell>
-                                <TableCell className='value'>{data.dateProduced}</TableCell>
+                                <TableCell className="label">Date</TableCell>
+                                <TableCell className="value">{data.dateProduced}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className='label'>Beer Type</TableCell>
-                                <TableCell className='value'>{data.beerType}</TableCell>
+                                <TableCell className="label">Beer Type</TableCell>
+                                <TableCell className="value">{data.beerType}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className='label'>Batch Size</TableCell>
-                                <TableCell className='value'>{data.batchSize}</TableCell>
+                                <TableCell className="label">Batch Size</TableCell>
+                                <TableCell className="value">{data.batchSize}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className='label'>Correct Beers</TableCell>
-                                <TableCell className='value'>{data.valid}</TableCell>
+                                <TableCell className="label">Correct Beers</TableCell>
+                                <TableCell className="value">{data.valid}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className='label'>Defective Beers</TableCell>
-                                <TableCell className='value'>{data.defects}</TableCell>
+                                <TableCell className="label">Defective Beers</TableCell>
+                                <TableCell className="value">{data.defects}</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
                     <Button align="center" className={classes.export} onClick={printScreen}>Export to PDF</Button>
                 </Card>
-                <Card className='chartCard'>
+                <Card className="chartCard">
                     {isLoading ? <p>Loading...</p> : 
                         <Chart className={classes.chart} data={data.readings}>
-                            <Title className='chartTitle' text={'Detailed value readings during the production'}/>
+                            <Title className="chartTitle" text={'Detailed value readings during the production'}/>
                             <ArgumentAxis />
                             <ValueAxis/>
                             <LineSeries name="Temperature" valueField="temperature" argumentField="time"/>
