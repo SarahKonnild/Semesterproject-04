@@ -46,19 +46,19 @@ const useStyles = makeStyles(theme => ({
         color:"#8a8a8a",
         display:"flex",
         borderRadius:"4px",
-        height:"50px",
+        height:"55px",
         margin:theme.spacing(3),
         '&:hover':{
             backgroundColor:"#98DDCA"
         }
     },
     buttonText: {
-        marginTop: theme.spacing(1.5),
+        marginTop: theme.spacing(2),
         marginRight: theme.spacing(1.5),
         textTransform: 'uppercase',
     },
     chart: {
-        width: '500px',
+        width: '600px',
         margin: theme.spacing(2),
     },
     export: {

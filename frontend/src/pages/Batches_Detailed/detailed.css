@@ -1,5 +1,5 @@
 .MuiPaper-root.MuiCard-root.chartCard{
-    min-width: 600px;
+    min-width: 650px;
     width: 40%;
     height:90%;
     margin:5% 10%;
@@ -20,6 +20,7 @@
     border-width: 2px;
     border-color: #98DDCA;
     border-style: solid;
+    align-content: center;
 }
 
 .MuiBox-root.MuiBox-root.container{

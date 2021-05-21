@@ -1,10 +1,10 @@
 
 /* If you like the CSS, it was made by Sarah. If not, it was made by Simon */
 .table{
-    padding-left: 12.5%;
-    padding-right: 12.5%;
+    padding-left: 22%;
+    padding-right: 0%;
     padding-top: 1.5%;
-    max-width: 75%;
+    max-width: 80%;
     border: 2px;
 }
 
@@ -15,6 +15,10 @@
 
 .MuiButtonBase-root.MuiIconButton-root.refresh:hover{
     background-color: #98DDCA !important;
+}
+
+.MuiTableRow-root.data:hover{
+    background-color: #98DDCA;
 }
 
 .MuiCheckbox-colorSecondary.Mui-checked {
