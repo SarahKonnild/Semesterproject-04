@@ -58,26 +58,6 @@ const useStyles = makeStyles(theme => ({
             backgroundColor: '#98DDCA',
         },
     },
-    buttonText:{
-        marginTop:theme.spacing(1.5),
-        marginRight:theme.spacing(1.5),
-        textTransform:"uppercase",
-    },
-    chart:{
-        width:"650px",
-        margin:theme.spacing(2),
-    },
-    export:{
-        backgroundColor:"#FFD3B4",
-        padding:theme.spacing(1.5),
-        marginTop:theme.spacing(5),
-        marginBottom:theme.spacing(6.5),
-        marginLeft:"30%",
-        color:"#8a8a8a",
-        '&:hover':{
-            backgroundColor:"#98DDCA"
-        }
-    },
     row:{
         margin:theme.spacing(5),
     },
