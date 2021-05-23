@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from "react";
 
-import Modal from 'react-bootstrap/Modal';
-import Button from '@material-ui/core/Button';
-import NotificationIcon from '@material-ui/icons/Notifications';
+import Modal from "react-bootstrap/Modal";
+import Button from "@material-ui/core/Button";
+import NotificationIcon from "@material-ui/icons/Notifications";
 
 function Modals() {
     const [show, setShow] = useState(false);
@@ -12,17 +12,17 @@ function Modals() {
     const handleShow = () => setShow(true);
 
     const FetchLogs = () => {
-        setLog(JSON.parse(localStorage.getItem('Error')));
+        setLog(JSON.parse(localStorage.getItem("Error")));
     };
 
     const DeleteLogs = () => {
-        localStorage.removeItem('Error');
+        localStorage.removeItem("Error");
         setLog([]);
     };
 
     const activeContent = () => {
         return log.map(logs => {
-            return <div className='list'>{logs}</div>;
+            return <div className="list">{logs}</div>;
         });
     };
 
@@ -32,24 +32,25 @@ function Modals() {
 
     useEffect(() => {
         FetchLogs();
+        // eslint-disable-next-line
     }, []);
 
     return (
         <>
-            <div className='alert-button'>
+            <div className="alert-button">
                 <Button
-                    value='notification'
-                    aria-label='Notification Menu'
-                    className='notification'
+                    value="notification"
+                    aria-label="Notification Menu"
+                    className="notification"
                 >
                     <NotificationIcon
-                        className='notification-icon'
+                        className="notification-icon"
                         onClick={e => {
                             handleShow();
                             FetchLogs();
                         }}
                     />
-                    <p className='icon-text'>Alerts</p>
+                    <p className="icon-text">Alerts</p>
                 </Button>
             </div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./production.css";
 
@@ -13,7 +13,6 @@ import InfoIcon from "@material-ui/icons/Info";
 import Tooltip from "@material-ui/core/Tooltip";
 import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
 
-import HashtagIcon from "../../assets/img/icon-hashtag.png";
 import BeersIcon from "../../assets/img/icon-beers.png";
 import BeerIcon from "../../assets/img/icon-beer.png";
 import SpeedometerIcon from "../../assets/img/icon-speedometer.png";
@@ -23,7 +22,7 @@ import Navbar from "../../components/Navigation/navbar";
 import Footer from "../../components/Footer/footer";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 
-import '../../pages/Production/production.css';
+import "../../pages/Production/production.css";
 
 // THIS PAGE WAS DEVELOPED BY MAHMOD EL-SET and Kasper Svane
 
@@ -163,72 +162,105 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Production = props => {
+function Production(props) {
     const classes = useStyles();
     const [batchSize, setBatchSize] = useState("");
     const [beerType, setBeerType] = useState({});
     const [productionSpeed, setProductionSpeed] = useState("");
     const [readings, setReadings] = useState([]);
-    const [defects, setDefects] = useState(null);
+    const [defects, setDefects] = useState("");
+    const [valid, setValid] = useState("");
     const [, setSuccesMessage] = useState("");
     const [, setErrorMessage] = useState("");
+    const [estimatedProductionTime, setEstimatedProductionTime] = useState("");
+    const [machineStatus, setMachineStatus] = useState("");
+    let timer;
 
     //START PRODUCTION
+
+    const getMachineStatus = useCallback(() => {
+        axios
+            .get("http://localhost:5000/brewster/getMachineStatus")
+            .then(response => {
+                setMachineStatus(response.data.message);
+
+                if (response.data.message === 17) {
+                    clearTimeout(timer);
+                }
+            });
+    }, [timer]);
+
+    timer = setTimeout(getMachineStatus, 1000); // milliseconds
+
+    useEffect(() => {
+        getMachineStatus();
+    }, [getMachineStatus]);
 
     const setupRefresh = () => {
         axios
             .get("http://localhost:5000/brewster/getMachineStatus")
             .then(response => {
                 if (!response.data.statusCode === 200) {
-                    throw new Error("Something went wrong");
+                    toast.error("Something went wrong");
                 }
 
                 if (response.data.message === 17) {
-                    Readings();
-                    console.log(readings);
+                    getReadings();
+                    getProductionCount();
                     clearTimeout(timer);
+                    setBatchSize(batchSize);
+                    setBeerType(beerType);
+                    setProductionSpeed(productionSpeed);
                     const dataToSave = {
                         beerType: beerType,
                         batchSize: batchSize,
                         productionSpeed: productionSpeed,
                         readings: readings,
-                        valid: batchSize,
+                        valid: valid,
                         defects: defects,
                     };
-                    saveToDatabase(dataToSave);
                     console.log(dataToSave);
+                    saveToDatabase(dataToSave);
                 }
             })
-            .catch(err => {
+            .catch(error => {
                 clearTimeout(timer);
-                console.error(err);
+                toast.error(error.message);
             });
-        let timer = setTimeout(setupRefresh, 1000); // milliseconds
+        timer = setTimeout(setupRefresh, 1000); // milliseconds
+    };
+
+    const getReadings = () => {
+        axios
+            .get("http://localhost:5000/brewster/getSubValues")
+            .then(response => {
+                console.log(response.data.readings);
+                setReadings(response.data.readings);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
+    const getProductionCount = () => {
+        axios
+            .get("http://localhost:5000/brewster/getProductionCount")
+            .then(response => {
+                setValid(response.data.acceptable);
+                setDefects(response.data.defective);
+            });
     };
 
     function saveToDatabase(dataToSave) {
         axios
             .post("http://localhost:5000/batches/add", dataToSave)
             .then(response => {
-                toast.success("Batches saved successfully");
+                toast.success("Batch saved successfully");
             })
             .catch(error => {
-                console.log(error);
+                toast.error("Could not save the batch");
             });
     }
-
-    const Readings = () => {
-        axios
-            .get("http://localhost:5000/brewster/getSubValues")
-            .then(response => {
-                setReadings(response.data.readings);
-                console.log(response.data);
-                console.log(response.data.readings);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
 
     const startProduction = () => {
         const production = {
@@ -239,11 +271,10 @@ const Production = props => {
         axios
             .post("http://localhost:5000/brewster/startProduction", production)
             .then(response => {
-                console.log(production);
                 setBatchSize("");
                 setBeerType("");
                 setProductionSpeed("");
-                if (response.data.statusCode === 200) {
+                if (response.data.statusCode === 201) {
                     setSuccesMessage(response.data.message);
                     toast.success("Production Started");
                 }
@@ -380,39 +411,20 @@ const Production = props => {
             });
     };
 
-    //Function to insert all values from the getSubValues API into the table and the table setup
-    // function addDataToTable(jsonData) {
-    //     jsonData = JSON.parse(jsonData);
-
-    //     let label = [
-    //         'Batch ID',
-    //         'Batch Size',
-    //         'Beer Type',
-    //         'Production Speed',
-    //         'Machine State',
-    //         'Produced',
-    //     ];
-    //     let valueID = [
-    //         'showId',
-    //         'showSize',
-    //         'showType',
-    //         'showSpeed',
-    //         'showState',
-    //         'showProduced',
-    //     ];
-    //     console.log(jsonData);
-    //     let dataTable = [];
-    //     dataTable.push(jsonData.batchNumberNodeID);
-    //     dataTable.push(jsonData.batchSizeNodeID);
-    //     dataTable.push(jsonData.beerTypeNodeID);
-    //     dataTable.push(jsonData.getCurrentProductionSpeedNodeID);
-    //     dataTable.push(jsonData.currentStateNodeID);
-    //     dataTable.push(jsonData.producedNodeID);
-
-    //     for (let i = 0; i < valueID.length; i++) {
-    //         document.getElementById(valueID[i]).value = dataTable[i];
-    //     }
-    // }
+    useEffect(() => {
+        const simulation = {
+            batch: batchSize,
+            speed: productionSpeed,
+        };
+        axios
+            .post(
+                "http://localhost:5000/optimization/calculateEstimatedProductionTime",
+                simulation
+            )
+            .then(response => {
+                setEstimatedProductionTime(response.data.time);
+            });
+    });
 
     return (
         <Aux>
@@ -491,7 +503,11 @@ const Production = props => {
                                     <InfoIcon color="action" fontSize="small" />
                                 </p>
                             </Tooltip>
-                            <input type="text" className={classes.rowInput} />
+                            <input
+                                type="text"
+                                className={classes.rowInput}
+                                value={estimatedProductionTime}
+                            />
                         </div>
 
                         <Button
@@ -527,20 +543,6 @@ const Production = props => {
                     <div className={classes.overview}>
                         <div className={classes.row}>
                             <img
-                                src={HashtagIcon}
-                                className={classes.rowIcons}
-                                alt=""
-                            />
-                            <p className={classes.rowText}>Batch ID</p>
-                            <input
-                                type="text"
-                                className={classes.rowInput}
-                                aria-label="showID"
-                                style={{ border: "0" }}
-                            />
-                        </div>
-                        <div className={classes.row}>
-                            <img
                                 src={BeersIcon}
                                 className={classes.rowIcons}
                                 alt=""
@@ -550,7 +552,7 @@ const Production = props => {
                                 type="text"
                                 aria-label="showSize"
                                 className={classes.rowInput}
-                                // value={batchSize}
+                                value={batchSize}
                                 style={{ border: "0" }}
                             />
                         </div>
@@ -565,7 +567,7 @@ const Production = props => {
                                 type="text"
                                 aria-label="showType"
                                 className={classes.rowInput}
-                                //value={beerType}
+                                value={beerType}
                                 style={{ border: "0" }}
                             />
                         </div>
@@ -580,12 +582,11 @@ const Production = props => {
                                 type="text"
                                 aria-label="showSpeed"
                                 className={classes.rowInput}
-                                //value={speed}
+                                value={productionSpeed}
                                 style={{ border: "0" }}
                             />
                         </div>
                         <div className={classes.row}>
-                            {/* <img src={SpeedometerIcon} className={classes.speedometerIcon}/> */}
                             <AdjustIcon
                                 style={{
                                     color: green[400],
@@ -599,8 +600,8 @@ const Production = props => {
                                 type="text"
                                 aria-label="showState"
                                 className={classes.rowInput}
-                                //value='1234'
                                 style={{ border: "0" }}
+                                value={machineStatus}
                             />
                         </div>
                         <div className={classes.row}>
@@ -617,7 +618,7 @@ const Production = props => {
                                 type="text"
                                 aria-label="showProduced"
                                 className={classes.rowInput}
-                                //value='1234'
+                                value={valid}
                                 style={{ border: "0" }}
                             />
                         </div>
@@ -627,6 +628,6 @@ const Production = props => {
             <Footer />
         </Aux>
     );
-};
+}
 
 export default Production;
