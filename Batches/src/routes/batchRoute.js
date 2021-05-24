@@ -1,7 +1,7 @@
-import express from 'express';
+import express from "express";
 
-import * as batches from '../controller/batchesController.js';
-import { verifyToken } from '../middleware/verifyToken.js';
+import * as batches from "../controller/batchesController.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ const router = express.Router();
  * If can error occurred then a statuscode of 404 "Not Found" in JSON format with the error message will be prompted to the user
  *
  */
-router.get('/', /* verifyToken , */ batches.getAllBatches);
+router.get("/", /* verifyToken , */ batches.getAllBatches);
 
 /**
  * @author Kasper Svane
@@ -29,7 +29,7 @@ router.get('/', /* verifyToken , */ batches.getAllBatches);
  * If can error occurred then a statuscode of 400 "Bad Request" in JSON format with the error message will be prompted to the user
  *
  */
-router.get('/:id', /* verifyToken , */ batches.getBatchById);
+router.get("/:id", /* verifyToken , */ batches.getBatchById);
 
 /**
  * @author Kasper Svane
@@ -46,6 +46,6 @@ router.get('/:id', /* verifyToken , */ batches.getBatchById);
  * If can error occurred then a statuscode of 400 "Bad Request" in JSON format with the error message will be prompted to the user
  *
  */
-router.post('/add', /* verifyToken , */ batches.addBatch);
+router.post("/add", /* verifyToken , */ batches.addBatch);
 
 export { router };

@@ -115,8 +115,7 @@ export default function Batches() {
      */
     useEffect(() => {
         axios.get('http://localhost:5000/batches/').then(
-            res => setData(res.data),
-            res => console.log(res.data)
+            res => setData(res.data)
         )}, []);
 
     const handleChangePage = (event, newPage) => {
