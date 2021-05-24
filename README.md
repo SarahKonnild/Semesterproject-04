@@ -11,3 +11,4 @@ The overall goal of this project was therefore to:
 
 And the project is therefore also very heavily dependent on the documentation/report, in order to understand the full scope of the response to these above points. This report can also be found in this repository.
 
+IMPORTANT! In order to log into the system, use the credentials: email: test@test.com password: 123456
