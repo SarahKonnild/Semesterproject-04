@@ -1,7 +1,7 @@
-import express from 'express';
+import express from "express";
 
-import * as optimization from '../controller/optimizationController.js';
-import { verifyToken } from '../middleware/verifyToken.js';
+import * as optimization from "../controller/optimizationController.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
@@ -15,8 +15,8 @@ const router = express.Router();
  * See "controllers/optimizationController.js" under "calculateErrorSpeed" for a further description
  */
 router.post(
-  '/calculateErrorSpeed',
-  /* verifyToken, */ optimization.calculateErrorSpeed
+    "/calculateErrorSpeed",
+    /* verifyToken, */ optimization.calculateErrorSpeed
 );
 
 /**
@@ -29,8 +29,8 @@ router.post(
  * See "controllers/optimizationController.js" under "calculateErrorMargin" for a further description
  */
 router.post(
-  '/calculateErrorMargin',
-  /* verifyToken, */ optimization.calculateErrorMargin
+    "/calculateErrorMargin",
+    /* verifyToken, */ optimization.calculateErrorMargin
 );
 
 /**
@@ -43,8 +43,8 @@ router.post(
  * See "controllers/optimizationController.js" under "calculateValidMargin" for a further description
  */
 router.post(
-  '/calculateValidMargin',
-  /* verifyToken, */ optimization.calculateValidMargin
+    "/calculateValidMargin",
+    /* verifyToken, */ optimization.calculateValidMargin
 );
 
 /**
@@ -57,8 +57,8 @@ router.post(
  * See "controllers/optimizationController.js" under "calculateValidSpeed" for a further description
  */
 router.post(
-  '/calculateValidSpeed',
-  /* verifyToken, */ optimization.calculateValidSpeed
+    "/calculateValidSpeed",
+    /* verifyToken, */ optimization.calculateValidSpeed
 );
 
 /**
@@ -71,9 +71,9 @@ router.post(
  * See "controllers/optimizationController.js" under "calculatePercentageBeers" for a further description
  */
 router.post(
-  '/calculatePercentageBeers',
-  /* verifyToken, */
-  optimization.calculatePercentageBeers
+    "/calculatePercentageBeers",
+    /* verifyToken, */
+    optimization.calculatePercentageBeers
 );
 
 /**
@@ -86,9 +86,9 @@ router.post(
  * See "controllers/optimizationController.js" under "calculateAmountOfBeers" for a further description
  */
 router.post(
-  '/calculateAmountOfBeers',
-  /* verifyToken, */
-  optimization.calculateAmountOfBeers
+    "/calculateAmountOfBeers",
+    /* verifyToken, */
+    optimization.calculateAmountOfBeers
 );
 
 /**
@@ -101,9 +101,9 @@ router.post(
  * See "controllers/optimizationController.js" under "calculateEstimatedProductionTime" for a further description
  */
 router.post(
-  '/calculateEstimatedProductionTime',
-  /* verifyToken, */
-  optimization.calculateEstimatedProductionTime
+    "/calculateEstimatedProductionTime",
+    /* verifyToken, */
+    optimization.calculateEstimatedProductionTime
 );
 
 /**
@@ -116,9 +116,9 @@ router.post(
  * See "controllers/optimizationController.js" under "calculateOptimalSpeedUsingErrors" for a further description
  */
 router.post(
-  '/calculateOptimalSpeedUsingErrors',
-  /* verifyToken, */
-  optimization.calculateOptimalSpeedUsingErrors
+    "/calculateOptimalSpeedUsingErrors",
+    /* verifyToken, */
+    optimization.calculateOptimalSpeedUsingErrors
 );
 
 /**
@@ -131,9 +131,9 @@ router.post(
  * See "controllers/optimizationController.js" under "calculateOptimalSpeedUsingValids" for a further description
  */
 router.post(
-  '/calculateOptimalSpeedUsingValids',
-  /* verifyToken, */
-  optimization.calculateOptimalSpeedUsingValids
+    "/calculateOptimalSpeedUsingValids",
+    /* verifyToken, */
+    optimization.calculateOptimalSpeedUsingValids
 );
 
 export { router };
