@@ -181,7 +181,6 @@ function Production(props) {
 	const getMachineStatus = useCallback(() => {
 		axios.get("http://localhost:5000/brewster/getMachineStatus").then((response) => {
 			setMachineStatus(response.data.message);
-
 			if (response.data.message === 17) {
 				clearTimeout(timer);
 			}
@@ -217,7 +216,6 @@ function Production(props) {
 						valid: valid,
 						defects: defects
 					};
-					console.log(dataToSave);
 					saveToDatabase(dataToSave);
 				}
 			})
@@ -232,11 +230,10 @@ function Production(props) {
 		axios
 			.get("http://localhost:5000/brewster/getSubValues")
 			.then((response) => {
-				console.log(response.data.readings);
 				setReadings(response.data.readings);
 			})
 			.catch((error) => {
-				console.log(error);
+				toast.error(error.message)
 			});
 	};
 
@@ -279,13 +276,9 @@ function Production(props) {
 					if (errorMessage === null) {
 						errorMessage = [];
 					}
-
 					errorMessage.push(response.data.message);
-
 					localStorage.setItem("Error", JSON.stringify(errorMessage));
-
 					setErrorMessage(errorMessage.message);
-
 					toast.error(response.data.message, {
 						autoClose: true
 					});
@@ -294,17 +287,12 @@ function Production(props) {
 			})
 			.catch((error) => {
 				let errorMessage = JSON.parse(localStorage.getItem("Error"));
-
 				if (errorMessage === null) {
 					errorMessage = [];
 				}
-
 				errorMessage.push(error.message);
-
 				localStorage.setItem("Error", JSON.stringify(errorMessage));
-
 				setErrorMessage(error.message);
-
 				toast.error(error.message, {
 					autoClose: true
 				});
@@ -325,13 +313,9 @@ function Production(props) {
 					if (errorMessage === null) {
 						errorMessage = [];
 					}
-
 					errorMessage.push(response.data.message);
-
 					localStorage.setItem("Error", JSON.stringify(errorMessage));
-
 					setErrorMessage(errorMessage.message);
-
 					toast.error(response.data.message, {
 						autoClose: true
 					});
@@ -339,17 +323,12 @@ function Production(props) {
 			})
 			.catch((error) => {
 				let errorMessage = JSON.parse(localStorage.getItem("Error"));
-
 				if (errorMessage === null) {
 					errorMessage = [];
 				}
-
 				errorMessage.push(error.message);
-
 				localStorage.setItem("Error", JSON.stringify(errorMessage));
-
 				setErrorMessage(error.message);
-
 				toast.error(error.message, {
 					autoClose: true
 				});
@@ -370,13 +349,9 @@ function Production(props) {
 					if (errorMessage === null) {
 						errorMessage = [];
 					}
-
 					errorMessage.push(response.data.message);
-
 					localStorage.setItem("Error", JSON.stringify(errorMessage));
-
 					setErrorMessage(errorMessage.message);
-
 					toast.error(response.data.message, {
 						autoClose: true
 					});
@@ -384,17 +359,12 @@ function Production(props) {
 			})
 			.catch((error) => {
 				let errorMessage = JSON.parse(localStorage.getItem("Error"));
-
 				if (errorMessage === null) {
 					errorMessage = [];
 				}
-
 				errorMessage.push(error.message);
-
 				localStorage.setItem("Error", JSON.stringify(errorMessage));
-
 				setErrorMessage(error.message);
-
 				toast.error(error.message, {
 					autoClose: true
 				});
@@ -422,27 +392,13 @@ function Production(props) {
 						<div className={classes.row}>
 							<img src={BeersIcon} className={classes.rowIcons} alt="" />
 							<p className={classes.rowText}>Batch size</p>
-							<input
-								type="number"
-								className={classes.rowInput}
-								id="batchSize"
-								value={batchSize}
-								onChange={(e) => setBatchSize(e.target.value)}
-							/>
+							<input type="number" className={classes.rowInput} id="batchSize" value={batchSize} onChange={(e) => setBatchSize(e.target.value)}/>
 						</div>
 						<div className={classes.row}>
 							<img src={BeerIcon} className={classes.beerIcon} alt="" />
 							<p className={classes.rowText}>Beer type</p>
-							<select
-								className="dropdownInput"
-								labelId="beerType"
-								id="beerType"
-								value={beerType}
-								onChange={(e) => setBeerType(e.target.value)}
-							>
-								<option value="none" selected hidden>
-									Select an Option
-								</option>
+							<select className="dropdownInput" labelId="beerType" id="beerType" value={beerType} onChange={(e) => setBeerType(e.target.value)}>
+								<option value="none" selected hidden> Select an Option </option>
 								<option value={0}>Pilsner</option>
 								<option value={1}>Wheat</option>
 								<option value={2}>IPA</option>
@@ -454,35 +410,19 @@ function Production(props) {
 						<div className={classes.row}>
 							<img src={SpeedometerIcon} className={classes.speedometerIcon} alt="" />
 							<p className={classes.rowText}>Speed</p>
-							<input
-								type="text"
-								className={classes.rowInput}
-								id="speed"
-								value={productionSpeed}
-								onChange={(e) => setProductionSpeed(e.target.value)}
-							/>
+							<input type="text" className={classes.rowInput} id="speed" value={productionSpeed} onChange={(e) => setProductionSpeed(e.target.value)}/>
 						</div>
 						<div className={classes.row}>
 							<img src={StopwatchIcon} className={classes.stopwatchIcon} alt="" />
 							<Tooltip title="Estimated Production Time (EPT)">
-								<p className={classes.rowText}>
-									EPT
-									<InfoIcon color="action" fontSize="small" />
-								</p>
+								<p className={classes.rowText}> EPT <InfoIcon color="action" fontSize="small" /></p>
 							</Tooltip>
 							<input type="text" className={classes.rowInput} value={estimatedProductionTime} />
 						</div>
 
-						<Button className={classes.startBtn} color="action" type="submit" onClick={startProduction}>
-							<PlayArrowRoundedIcon />
-							Start
-						</Button>
-						<Button className={classes.resetBtn} type="submit" color="action" onClick={resetProduction}>
-							<ReplayOutlinedIcon /> Reset
-						</Button>
-						<Button className={classes.stopBtn} type="submit" color="action" onClick={stopProduction}>
-							<StopRoundedIcon color="action" /> Stop
-						</Button>
+						<Button className={classes.startBtn} color="action" type="submit" onClick={startProduction}><PlayArrowRoundedIcon/>Start</Button>
+						<Button className={classes.resetBtn} type="submit" color="action" onClick={resetProduction}><ReplayOutlinedIcon/>Reset</Button>
+						<Button className={classes.stopBtn} type="submit" color="action" onClick={stopProduction}><StopRoundedIcon color="action"/>Stop</Button>
 					</div>
 				</div>
 
@@ -492,71 +432,27 @@ function Production(props) {
 						<div className={classes.row}>
 							<img src={BeersIcon} className={classes.rowIcons} alt="" />
 							<p className={classes.rowText}>Batch size</p>
-							<input
-								type="text"
-								aria-label="showSize"
-								className={classes.rowInput}
-								value={batchSize}
-								style={{ border: "0" }}
-							/>
+							<input type="text" aria-label="showSize" className={classes.rowInput} value={batchSize} style={{ border: "0" }}/>
 						</div>
 						<div className={classes.row}>
 							<img src={BeerIcon} className={classes.beerIcon} alt="" />
 							<p className={classes.rowText}>Beer type</p>
-							<input
-								type="text"
-								aria-label="showType"
-								className={classes.rowInput}
-								value={beerType}
-								style={{ border: "0" }}
-							/>
+							<input type="text" aria-label="showType" className={classes.rowInput} value={beerType} style={{ border: "0" }}/>
 						</div>
 						<div className={classes.row}>
 							<img src={SpeedometerIcon} className={classes.speedometerIcon} alt="" />
 							<p className={classes.rowText}>Speed</p>
-							<input
-								type="text"
-								aria-label="showSpeed"
-								className={classes.rowInput}
-								value={productionSpeed}
-								style={{ border: "0" }}
-							/>
+							<input type="text" aria-label="showSpeed" className={classes.rowInput} value={productionSpeed} style={{ border: "0" }}/>
 						</div>
 						<div className={classes.row}>
-							<AdjustIcon
-								style={{
-									color: green[400],
-									paddingTop: "10px",
-									marginLeft: "-5px"
-								}}
-								fontSize="large"
-							/>
+							<AdjustIcon style={{color: green[400], paddingTop: "10px", marginLeft: "-5px"}} fontSize="large"/>
 							<p className={classes.rowText}>Machine state</p>
-							<input
-								type="text"
-								aria-label="showState"
-								className={classes.rowInput}
-								style={{ border: "0" }}
-								value={machineStatus}
-							/>
+							<input type="text" aria-label="showState" className={classes.rowInput} style={{ border: "0" }} value={machineStatus}/>
 						</div>
 						<div className={classes.row}>
-							<CheckCircleRoundedIcon
-								style={{
-									color: green[400],
-									paddingTop: "10px",
-									marginLeft: "-5px"
-								}}
-								fontSize="large"
-							/>
+							<CheckCircleRoundedIcon style={{color: green[400], paddingTop: "10px", marginLeft: "-5px"}} fontSize="large"/>
 							<p className={classes.rowText}>Produced</p>
-							<input
-								type="text"
-								aria-label="showProduced"
-								className={classes.rowInput}
-								value={valid}
-								style={{ border: "0" }}
-							/>
+							<input type="text" aria-label="showProduced" className={classes.rowInput} value={valid} style={{ border: "0" }}/>
 						</div>
 					</div>
 				</div>
