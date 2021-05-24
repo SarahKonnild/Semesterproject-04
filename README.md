@@ -15,4 +15,12 @@ IMPORTANT INFORMATION!
 
 In order to log into the system, use the credentials: email: test@test.com password: 123456
 
+In order to have all the required modules and extensions in the application, run "npm install" in the following folders:
+- API Gateway
+- Authentication
+- Batches
+- Brewster
+- frontend
+- Optimization
+
 In order to run the application, run the "npm start" command in the frontend folder, and "npm start" in the API Gateway folder. There is no particular order it has to happen in, but without running "npm start" in the API Gateway folder, the system is not connected to the databases, and therefore it is not possible to log in.
