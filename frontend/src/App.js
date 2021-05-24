@@ -10,26 +10,18 @@ import Details from "./pages/Batches_Detailed/detailed.js";
 import PrivateRoutes from "./components/Auth/PrivateRoutes";
 
 function App() {
-    return (
-        <BrowserRouter style={{ margin: 0 }}>
-            <Switch>
-                <PrivateRoutes
-                    exact
-                    path="/production"
-                    component={Production}
-                />
-                <PrivateRoutes
-                    exact
-                    path="/simulation"
-                    component={Simulation}
-                />
-                <PrivateRoutes exact path="/batches" component={Batches} />
-                <PrivateRoutes path="/details" component={Details} />
-                <Route exact path="/login" component={Login} />
-                <Redirect exact path="/" to="/login" />
-            </Switch>
-        </BrowserRouter>
-    );
+	return (
+		<BrowserRouter style={{ margin: 0 }}>
+			<Switch>
+				<PrivateRoutes exact path="/production" component={Production} />
+				<PrivateRoutes exact path="/simulation" component={Simulation} />
+				<PrivateRoutes exact path="/batches" component={Batches} />
+				<PrivateRoutes path="/details" component={Details} />
+				<Route exact path="/login" component={Login} />
+				<Redirect exact path="/" to="/login" />
+			</Switch>
+		</BrowserRouter>
+	);
 }
 
 export default App;
