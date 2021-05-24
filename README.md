@@ -11,4 +11,8 @@ The overall goal of this project was therefore to:
 
 And the project is therefore also very heavily dependent on the documentation/report, in order to understand the full scope of the response to these above points. This report can also be found in this repository.
 
-IMPORTANT! In order to log into the system, use the credentials: email: test@test.com password: 123456
+IMPORTANT INFORMATION! 
+
+In order to log into the system, use the credentials: email: test@test.com password: 123456
+
+In order to run the application, run the "npm start" command in the frontend folder, and "npm start" in the API Gateway folder. There is no particular order it has to happen in, but without running "npm start" in the API Gateway folder, the system is not connected to the databases, and therefore it is not possible to log in.
