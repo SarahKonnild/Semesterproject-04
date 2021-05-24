@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-notifications-component/dist/theme.css";
+import "react-toastify/dist/ReactToastify.css";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import Simulation from "./pages/Simulation/simulation.js";
+import Production from "./pages/Production/production.js";
+import Batches from "./pages/Batches_Overview/overview.js";
+import Login from "./pages/Login/login.js";
+import Details from "./pages/Batches_Detailed/detailed.js";
+import PrivateRoutes from "./components/Auth/PrivateRoutes";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <BrowserRouter style={{ margin: 0 }}>
+            <Switch>
+                <PrivateRoutes
+                    exact
+                    path="/production"
+                    component={Production}
+                />
+                <PrivateRoutes
+                    exact
+                    path="/simulation"
+                    component={Simulation}
+                />
+                <PrivateRoutes exact path="/batches" component={Batches} />
+                <PrivateRoutes path="/details" component={Details} />
+                <Route exact path="/login" component={Login} />
+                <Redirect exact path="/" to="/login" />
+            </Switch>
+        </BrowserRouter>
+    );
 }
 
 export default App;

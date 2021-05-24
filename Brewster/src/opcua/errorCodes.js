@@ -45,3 +45,9 @@ export class NoProductionOngoingToStopError extends CustomError {
 	}
 }
 
+export class NoVariablesFromProduction extends CustomError {
+	constructor() {
+		let message = "Beer Machine has not produced anything";
+		super(message);
+	}
+}

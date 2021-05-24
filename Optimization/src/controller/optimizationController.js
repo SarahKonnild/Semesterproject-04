@@ -8,15 +8,16 @@
  * @param res this parameter will send back a JSON formatted object: {"speed":value}
  */
 export function calculateErrorSpeed(req, res) {
-  let margin = req.body.margin;
-  if (margin >= 0) {
-    let speed =
-      (6250 * Math.pow((39 * margin) / 3125 + 1212721 / 25000000, 0.5)) / 39 -
-      1645 / 156;
-    res.send({ speed: speed });
-  } else {
-    res.send(400).status('Bad Request');
-  }
+    let margin = req.body.margin;
+    if (margin >= 0) {
+        let speed =
+            (6250 * Math.pow((39 * margin) / 3125 + 1212721 / 25000000, 0.5)) /
+                39 -
+            1645 / 156;
+        res.send({ speed: speed });
+    } else {
+        res.send(400).status("Bad Request");
+    }
 }
 
 /**
@@ -28,14 +29,16 @@ export function calculateErrorSpeed(req, res) {
  * @param res this parameter will send back a JSON formatted object: {"margin":value}
  */
 export function calculateErrorMargin(req, res) {
-  let speed = req.body.speed;
-  if (speed > 0 && speed <= 146.771) {
-    let margin =
-      3.12 * Math.pow(10, -3) * Math.pow(speed, 2) + 0.0658 * speed - 3.54;
-    res.send({ margin: margin });
-  } else {
-    res.send(400).status('Bad Request');
-  }
+    let speed = req.body.speed;
+    if (speed > 0 && speed <= 146.771) {
+        let margin =
+            3.12 * Math.pow(10, -3) * Math.pow(speed, 2) +
+            0.0658 * speed -
+            3.54;
+        res.send({ margin: margin });
+    } else {
+        res.send(400).status("Bad Request");
+    }
 }
 
 /**
@@ -49,14 +52,16 @@ export function calculateErrorMargin(req, res) {
  * @param res this parameter will send back a JSON formatted object: {"speed":value}
  */
 export function calculateValidSpeed(req, res) {
-  let margin = req.body.margin;
-  if (margin >= 0) {
-    let speed =
-      (6250 * -1 * Math.pow(22922721 / 25000000 - (39 * margin) / 3125, 0.5)) /
-        39 +
-      7785 / 52;
-    res.send({ speed: speed });
-  }
+    let margin = req.body.margin;
+    if (margin >= 0) {
+        let speed =
+            (6250 *
+                -1 *
+                Math.pow(22922721 / 25000000 - (39 * margin) / 3125, 0.5)) /
+                39 +
+            7785 / 52;
+        res.send({ speed: speed });
+    }
 }
 
 /**
@@ -68,13 +73,14 @@ export function calculateValidSpeed(req, res) {
  * @param res this parameter will send back a JSON formatted object: {"margin":value}
  */
 export function calculateValidMargin(req, res) {
-  let speed = req.body.speed;
-  if (speed > 0) {
-    let margin = speed - (0.00312 * Math.pow(speed, 2) + 0.0658 * speed - 3.54);
-    res.send({ margin: margin });
-  } else {
-    res.send(400).status('Bad Request');
-  }
+    let speed = req.body.speed;
+    if (speed > 0) {
+        let margin =
+            speed - (0.00312 * Math.pow(speed, 2) + 0.0658 * speed - 3.54);
+        res.send({ margin: margin });
+    } else {
+        res.send(400).status("Bad Request");
+    }
 }
 
 /**
@@ -88,14 +94,14 @@ export function calculateValidMargin(req, res) {
  * @param res this parameter will send back a JSON formatted object: {"percentage":value}
  */
 export function calculatePercentageBeers(req, res) {
-  let margin = req.body.margin;
-  let batch = req.body.batch;
-  if (margin > 0 && batch > 0) {
-    let amount = (margin / batch) * 100;
-    res.send({ percentage: amount });
-  } else {
-    res.send(400).status('Bad Request');
-  }
+    let margin = req.body.margin;
+    let batch = req.body.batch;
+    if (margin > 0 && batch > 0) {
+        let amount = (margin / batch) * 100;
+        res.send({ percentage: amount });
+    } else {
+        res.send(400).status("Bad Request");
+    }
 }
 
 /**
@@ -109,14 +115,14 @@ export function calculatePercentageBeers(req, res) {
  * @param res this parameter will send back a JSON formatted object: {"amount":value}
  */
 export function calculateAmountOfBeers(req, res) {
-  let percentage = req.body.percentage;
-  let batch = req.body.batch;
-  if (percentage > 0 && batch > 0) {
-    let amount = (percentage / 100) * batch;
-    res.send({ amount: amount });
-  } else {
-    res.send(400).status('Bad Request');
-  }
+    let percentage = req.body.percentage;
+    let batch = req.body.batch;
+    if (percentage > 0 && batch > 0) {
+        let amount = (percentage / 100) * batch;
+        res.send({ amount: amount });
+    } else {
+        res.send(400).status("Bad Request");
+    }
 }
 
 /**
@@ -129,15 +135,15 @@ export function calculateAmountOfBeers(req, res) {
  * @param res this parameter will send back a JSON formatted object: {"time":value} which is noted in minutes
  */
 export function calculateEstimatedProductionTime(req, res) {
-  let batch = req.body.batch;
-  let speed = req.body.speed;
+    let batch = req.body.batch;
+    let speed = req.body.speed;
 
-  if (batch > 0 && speed > 0) {
-    let time = batch / speed;
-    res.send({ time: time });
-  } else {
-    res.send(400).status('Bad Request');
-  }
+    if (batch > 0 && speed > 0) {
+        let time = batch / speed;
+        res.send({ time: time });
+    } else {
+        res.sendStatus(400);
+    }
 }
 
 /**
@@ -155,24 +161,24 @@ export function calculateEstimatedProductionTime(req, res) {
  * @param res this parameter will potentially send back a JSON formatted object: {"speed":value}
  */
 export function calculateOptimalSpeedUsingErrors(req, res) {
-  let batch = req.body.batch;
-  let margin = req.body.margin;
-  let time = req.body.time;
-  if (batch > 0 && margin >= 0 && time > 0) {
-    let speed = batch / time;
+    let batch = req.body.batch;
+    let margin = req.body.margin;
+    let time = req.body.time;
+    if (batch > 0 && margin >= 0 && time > 0) {
+        let speed = batch / time;
 
-    let calcErrMarg = 0.00312 * Math.pow(speed, 2) + 0.0658 * speed - 3.54;
+        let calcErrMarg = 0.00312 * Math.pow(speed, 2) + 0.0658 * speed - 3.54;
 
-    if (calcErrMarg > margin) {
-      //IF THE CALCULATED ERROR MARGIN IS BIGGER THAN THE ACCEPTABLE ONE (user-defined), THEN THIS IS A BAD REQUEST; THE SPEED IS NOT ALLOWED FOR THE GIVEN MARGIN
-      res.status(400).send('Bad Request');
-    } else if (calcErrMarg == margin || calcErrMarg < margin) {
-      //IF THE CALCULATED ERROR MARGIN IS THE SAME AS THE SPECIFIED MARGIN, NO PROBLEMS
-      res.send({ speed: speed });
+        if (calcErrMarg > margin) {
+            //IF THE CALCULATED ERROR MARGIN IS BIGGER THAN THE ACCEPTABLE ONE (user-defined), THEN THIS IS A BAD REQUEST; THE SPEED IS NOT ALLOWED FOR THE GIVEN MARGIN
+            res.status(400).send("Bad Request");
+        } else if (calcErrMarg == margin || calcErrMarg < margin) {
+            //IF THE CALCULATED ERROR MARGIN IS THE SAME AS THE SPECIFIED MARGIN, NO PROBLEMS
+            res.send({ speed: speed });
+        }
+    } else {
+        res.send(400).status("Bad Request");
     }
-  } else {
-    res.send(400).status('Bad Request');
-  }
 }
 
 /**
@@ -191,19 +197,19 @@ export function calculateOptimalSpeedUsingErrors(req, res) {
  * @param res this parameter will potentially send back an HTTP status code 400 'Bad Request'
  */
 export function calculateOptimalSpeedUsingValids(req, res) {
-  let batch = req.body.batch;
-  let margin = req.body.margin;
-  let time = req.body.time;
-  if (batch > 0 && margin >= 0 && time > 0) {
-    let speed = batch / time;
-    let amount = margin / time;
+    let batch = req.body.batch;
+    let margin = req.body.margin;
+    let time = req.body.time;
+    if (batch > 0 && margin >= 0 && time > 0) {
+        let speed = batch / time;
+        let amount = margin / time;
 
-    let calcValidMarg =
-      speed - (0.00312 * Math.pow(speed, 2) + 0.0658 * speed - 3.54);
-    if (calcValidMarg >= amount) {
-      res.status(200).send({ speed: parseFloat(speed.toFixed(2)) });
-    } else {
-      res.status(400).send('Bad Request');
+        let calcValidMarg =
+            speed - (0.00312 * Math.pow(speed, 2) + 0.0658 * speed - 3.54);
+        if (calcValidMarg >= amount) {
+            res.status(200).send({ speed: parseFloat(speed.toFixed(2)) });
+        } else {
+            res.status(400).send("Bad Request");
+        }
     }
-  }
 }

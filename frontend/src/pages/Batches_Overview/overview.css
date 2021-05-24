@@ -1,0 +1,73 @@
+/* If you like the CSS, it was made by Sarah. If not, it was made by Simon */
+
+.table{
+    padding-left: 22%;
+    padding-right: 0%;
+    padding-top: 1.5%;
+    max-width: 80%;
+    border: 2px;
+}
+
+/* ALL THE MUI THINGS */
+.MuiSvgIcon-root{
+    color: #8a8a8a;
+}
+
+.MuiButtonBase-root.MuiIconButton-root.refresh:hover{
+    background-color: #98DDCA !important;
+}
+
+.MuiTableRow-root.data:hover{
+    background-color: #98DDCA;
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked {
+    color: #98DDCA !important;
+}
+
+.MuiButtonBase-root.MuiIconButton-root.arrow:hover{
+    background-color: #98DDCA;
+}
+
+.MuiTableCell-root.MuiTableCell-head.title{
+    text-transform: uppercase;
+    text-decoration: none;
+    color:#6a6a6a;
+    font-size: 16px;
+}
+
+.MuiTableCell-root.MuiTableCell-body.details a{
+    text-transform:uppercase;
+    text-decoration: none;
+    color:#8a8a8a;
+}
+
+.MuiTableCell-root.MuiTableCell-body.details a:hover{
+    text-transform:uppercase;
+    text-decoration: none !important;
+    color:#cbac3b !important;
+}
+
+.MuiTableCell-root.MuiTableCell-body.id{
+    color:#8a8a8a
+}
+
+.MuiTableCell-root.MuiTableCell-body.date{
+    color:#8a8a8a
+}
+
+.MuiTableCell-root.MuiTableCell-body.details{
+    color:#8a8a8a
+}
+
+.MuiTableCell-root.MuiTableCell-body.type{
+    color:#8a8a8a
+}
+
+.MuiTableCell-root.MuiTableCell-body.size{
+    color:#8a8a8a
+}
+
+.MuiTableCell-root.MuiTableCell-head.title{
+    color:#8a8a8a
+}

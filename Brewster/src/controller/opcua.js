@@ -8,15 +8,14 @@ import * as nodeOPCUA from "../opcua/controller.js";
  * @param res this parameter will send back a JSON formatted object: {"statusCode":int, "measage":string}
  */
 export async function startProduction(req, res) {
-	//beers, productionSpeed, batchnumber, beerType
-	let someValue = await nodeOPCUA.startProductionController(
-		req.body.beers,
-		req.body.speed,
-		req.body.batchNumber,
-		req.body.beerType
-	);
-	res.send(someValue);
-	res.end;
+    //beers, productionSpeed, batchnumber, beerType
+    let someValue = await nodeOPCUA.startProductionController(
+        req.body.beerType,
+        req.body.batchSize,
+        req.body.productionSpeed
+    );
+    res.send(someValue);
+    res.end;
 }
 /**
  * @author Simon Quvang
@@ -26,9 +25,9 @@ export async function startProduction(req, res) {
  * @param res this parameter will send back a JSON formatted object: {"statusCode":int, "measage":string}
  */
 export async function stopProduction(req, res) {
-	let returnValue = await nodeOPCUA.stopProductionController();
-	res.send(returnValue);
-	res.end;
+    let returnValue = await nodeOPCUA.stopProductionController();
+    res.send(returnValue);
+    res.end;
 }
 /**
  * @author Simon Quvang
@@ -38,9 +37,9 @@ export async function stopProduction(req, res) {
  * @param res this parameter will send back a JSON formatted object: {"statusCode":int, "measage":string}
  */
 export async function resetProduction(req, res) {
-	let returnValue = await nodeOPCUA.resetProductionController();
-	res.send(returnValue);
-	res.end;
+    let returnValue = await nodeOPCUA.resetProductionController();
+    res.send(returnValue);
+    res.end;
 }
 
 /**
@@ -51,13 +50,18 @@ export async function resetProduction(req, res) {
  * @param res this parameter will send back a JSON formatted object: {"statusCode":int, "measage":string}
  */
 export async function getProductionCount(req, res) {
-	let returnValue = await nodeOPCUA.getProductionResultsController();
-	res.send(returnValue);
-	res.end;
+    let returnValue = await nodeOPCUA.getProductionResultsController();
+    res.send(returnValue);
+    res.end;
 }
 
 export function getSubscriptionValues(req, res) {
-	let returnValue = nodeOPCUA.getSubscriptionValueController();
-	res.send(returnValue);
-	res.end;
+    let returnValue = nodeOPCUA.getSubscriptionValueController();
+    res.send(returnValue);
+    res.end;
+}
+export async function getMachineStatus(req, res) {
+    let returnValue = await nodeOPCUA.getMachineStatusController();
+    res.send(returnValue);
+    res.end;
 }

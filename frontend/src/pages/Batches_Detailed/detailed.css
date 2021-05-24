@@ -1,0 +1,50 @@
+/* If you like the CSS, it was made by Sarah. If not, it was made by Simon */
+
+.MuiPaper-root.MuiCard-root.chartCard{
+    min-width: 650px;
+    max-width: 650px;
+    height:550px;
+    margin:5% 10%;
+    background-color: #ffffff;
+    border-radius: 4px;
+    border-width: 2px;
+    border-color: #98DDCA;
+    border-style: solid;
+}
+
+.MuiPaper-root.MuiCard-root.info{
+    min-width: 400px;
+    margin: 5% 5%;
+    width: 25%;
+    height: 550px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    border-width: 2px;
+    border-color: #98DDCA;
+    border-style: solid;
+    align-content: center;
+}
+
+.MuiBox-root.MuiBox-root.box{
+    width: 100%;
+    display: inline-flex;
+}
+
+.MuiTableCell-root.MuiTableCell-body.label{
+    text-transform: uppercase;
+    color: #8a8a8a;
+}
+
+.MuiTableCell-root.MuiTableCell-body.value{
+    color:#8a8a8a;
+}
+
+.MuiTypography-root{
+    color:#8a8a8a;
+    text-transform: uppercase;
+}
+
+.MuiTypography-root.MuiListItemText-primary{
+    text-transform: initial !important;
+    font-size: 14px;
+}
