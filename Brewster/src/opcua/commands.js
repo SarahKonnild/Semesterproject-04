@@ -33,9 +33,10 @@ export async function changeToState(session, command) {
 
 	//writes the payload to the machine
 	await session.write(stateToWrite);
+	await changeStateToTrue(session);
 }
 
-export async function changeStateToTrue(session) {
+async function changeStateToTrue(session) {
 	//Send request to change state
 	let changeStateRequest = true;
 

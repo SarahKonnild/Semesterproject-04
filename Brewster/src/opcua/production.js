@@ -84,7 +84,7 @@ export async function startProduction(beerType, batchSize, productionSpeed) {
 		await command.changeToState(session, CONSTANTS.startProductionCommand);
 
 		//Send command to change the state
-		await command.changeStateToTrue(session);
+		
 
 		// The return value in JSON gets passed to the API controller that sends it back to the frontend
 		return BobTheBuilder(201, "Starting production");
@@ -120,7 +120,7 @@ export async function stopProduction() {
 			await command.changeToState(session, CONSTANTS.stopProductionCommand);
 
 			//Send request to change state
-			await command.changeStateToTrue(session);
+			
 
 			return BobTheBuilder(200, "Production stopped");
 		} else {
@@ -153,7 +153,9 @@ export async function resetProduction() {
 			await command.changeToState(session, CONSTANTS.resetProductionCommand);
 
 			//Send request to change state
-			await command.changeStateToTrue(session);
+			
+
+
 			await sleep(1000);
 			newMachineState = await command.getCurrentState(session);
 
