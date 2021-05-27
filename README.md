@@ -1,6 +1,6 @@
 # Semesterproject-04
 
-This product is the result of the 4th semester project period of the BEng degree in Software Technology at University of Southern Denmark. 
+This product is the result of the 4th semester project period of the BEng degree in Software Technology at University of Southern Denmark, belonging to group ST04 consisting of Sarah Manon Pradel, Simon Quvang Kristiansen, Kasper Svane and Mahmoud Adil El-Set.
 
 This product was developed in the period of (DD.MM.YYYY) 01.02.2021 to 30.05.2021. The goal was to create a Manufacturing Execution System (MES) for a fictional beer brewery, which should allow them to handle their daily production business in a more easy and intuitive way. This version of the project requested a re-structuring of the project from the 3rd semester, where the goal was to do the same thing, but with a different set of requirements.
 
